@@ -3,10 +3,10 @@ title: "{{ replace .Name "-" " " | title }}"
 date: {{ .Date }}
 
 categories:
-  - #Blog
+  - #Dev
 
 tags:
-  - #hugo
+  - #swift
 
 image: #the-creative-exchange-d2zvqp3fpro-unsplash.jpg
 ---
