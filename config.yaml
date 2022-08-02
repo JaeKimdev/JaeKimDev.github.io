@@ -233,3 +233,11 @@ markup:
     lineNos: true
     lineNumbersInTable: true
     tabWidth: 4
+
+# 로봇 검색 허용
+enableRobotsTXT: true
+
+# 사이트맵 작성
+sitemap:
+changefreq: "daily"
+filename: "sitemap.xml"
