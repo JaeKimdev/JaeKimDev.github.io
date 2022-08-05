@@ -3,12 +3,14 @@ title: "{{ replace .Name "-" " " | title }}"
 date: {{ .Date }}
 
 categories:
-  - #Dev
+  - Dev
+  - #Review
 
 tags:
-  - #swift
+  - swift
+  - #book
 
-image: #the-creative-exchange-d2zvqp3fpro-unsplash.jpg
+image: https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png #the-creative-exchange-d2zvqp3fpro-unsplash.jpg
 ---
 
 ## Reference
