@@ -149,7 +149,7 @@ params:
           limit: 10
       - type: tag-cloud
         params:
-          limit: 10
+          limit: 100
     page:
       - type: toc
 
@@ -180,11 +180,11 @@ params:
     content:
       enabled: true
 
-### Custom menu
-### See https://docs.stack.jimmycai.com/configuration/custom-menu.html
-### To remove about, archive and search page menu item, remove `menu` field from their FrontMatter
-menu:
-  main: []
+  ### Custom menu
+  ### See https://docs.stack.jimmycai.com/configuration/custom-menu.html
+  ### To remove about, archive and search page menu item, remove `menu` field from their FrontMatter
+  menu:
+    main: []
 
   social:
     - identifier: github
