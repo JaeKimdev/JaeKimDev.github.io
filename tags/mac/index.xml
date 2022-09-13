@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>mac on Jae&#39;s Devlog</title>
+        <link>https://JaeKimdev.github.io/tags/mac/</link>
+        <description>Recent content in mac on Jae&#39;s Devlog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Thu, 11 Aug 2022 22:21:57 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/tags/mac/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>맥에서 ₩ 키 대신 Backtick(`)을 입력하는 방법</title>
+        <link>https://JaeKimdev.github.io/p/%EB%A7%A5%EC%97%90%EC%84%9C-%ED%82%A4-%EB%8C%80%EC%8B%A0-backtick%EC%9D%84-%EC%9E%85%EB%A0%A5%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95/</link>
+        <pubDate>Thu, 11 Aug 2022 22:21:57 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/%EB%A7%A5%EC%97%90%EC%84%9C-%ED%82%A4-%EB%8C%80%EC%8B%A0-backtick%EC%9D%84-%EC%9E%85%EB%A0%A5%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95/</guid>
+        <description>&lt;img src="https://JaeKimdev.github.io/post/tech/220811-1.webp" alt="Featured image of post 맥에서 ₩ 키 대신 Backtick(`)을 입력하는 방법" /&gt;&lt;h2 id=&#34;개요&#34;&gt;개요&lt;/h2&gt;
+&lt;p&gt;Mac OS Sierra 이후 버전에서는 한글 키보드인 경우 숫자키 1번 왼쪽의 백틱 (`) 키를 눌렀을 때 원화 표시(₩)가 입력된다.&lt;br&gt;
+깃허브 README나 기술블로그에서 마크다운 문법을 많이 사용하는 사람에게는 매번 한/영 전환을 해야 하니 여간 불편한 일이 아닐 수 없다.&lt;/p&gt;
+&lt;h3 id=&#34;해결방법-1---option-키-함께-사용&#34;&gt;해결방법 1 - Option 키 함께 사용&lt;/h3&gt;
+&lt;p&gt;한글자판일 때 &lt;code&gt;Option&lt;/code&gt; 과 백틱 키를 함께 누르면 ₩ 대신 `키를 입력할 수 있다.&lt;/p&gt;
+&lt;h3 id=&#34;해결방법-2---라이브러리-파일-추가&#34;&gt;해결방법 2 - 라이브러리 파일 추가&lt;/h3&gt;
+&lt;p&gt;~/Library 폴더로 이동한 후, KeyBindings 폴더로 이동한다. 혹시 없다면 KeyBindings 폴더를 생성한다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/tech/220811-3.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+&lt;code&gt;Option&lt;/code&gt;키를 누른 상태에서 Finder-이동 메뉴로 이동하면 &amp;ldquo;라이브러리&amp;quot;가 보이고 클릭 시 라이브러리 폴더로 이동할 수 있다.&lt;/p&gt;
+&lt;p&gt;~/Library/KeyBindings 폴더 내부에 DefaultkeyBinding.dict 파일을 생성한다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$ touch DefaultkeyBinding.dict&lt;/code&gt; ➡️ 이미 파일이 있는 사람은 생략&lt;/p&gt;
+&lt;p&gt;DefaultkeyBinding.dict 파일을 텍스트 편집기로 열어 아래 내용을 추가하고 저장한다.&lt;/p&gt;
+&lt;p&gt;이렇게 하면 한글 상태일 때도 `이 바로 입력되고, ₩ 키를 사용하고 싶다면 Option키를 누르면 ₩도 사용할 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;₩&amp;#34; = (&amp;#34;insertText:&amp;#34;, &amp;#34;`&amp;#34;);
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;~₩&amp;#34; = (&amp;#34;insertText:&amp;#34;, &amp;#34;₩&amp;#34;);
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;해결방법-3---쉘-스크립트-사용&#34;&gt;해결방법 3 - 쉘 스크립트 사용&lt;/h3&gt;
+&lt;p&gt;터미널을 열고 아래 코드를 복사해서 붙여넣고 엔터를 치면 바로 설정이 저장된다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;curl -sSL https://gist.githubusercontent.com/JaeKimdev/c4bce47b5282d81ca9b5f29544361825/raw/4015ea66f49ed749b58b9cd2a1514d49326fcfc5/wontobacktick.sh | sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/tech/220811-2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;적용--해제&#34;&gt;적용 / 해제&lt;/h2&gt;
+&lt;p&gt;저장한 후 맥을 재부팅하면 적용된다.&lt;/p&gt;
+&lt;p&gt;다시 되돌리고 싶을 때는 DefaultkeyBinding.dict 을 삭제해 주면 된다.&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

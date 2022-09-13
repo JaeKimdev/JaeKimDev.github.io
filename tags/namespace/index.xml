@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>nameSpace on Jae&#39;s Devlog</title>
+        <link>https://JaeKimdev.github.io/tags/namespace/</link>
+        <description>Recent content in nameSpace on Jae&#39;s Devlog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Sat, 27 Aug 2022 15:01:23 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/tags/namespace/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Swift에서의 nameSpace</title>
+        <link>https://JaeKimdev.github.io/p/swift%EC%97%90%EC%84%9C%EC%9D%98-namespace/</link>
+        <pubDate>Sat, 27 Aug 2022 15:01:23 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/swift%EC%97%90%EC%84%9C%EC%9D%98-namespace/</guid>
+        <description>&lt;img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" alt="Featured image of post Swift에서의 nameSpace" /&gt;&lt;h2 id=&#34;namespace란&#34;&gt;&lt;code&gt;NameSpace&lt;/code&gt;란?&lt;/h2&gt;
+&lt;p&gt;관련 있는 값들을 묶어 놓은 공간을 nameSpace 라고 하는데, swift에서는 namespace를 아직 지원하지 않고 있다. (SwiftUI에서는 nameSpace를 지원하고 있는 듯 하다)&lt;/p&gt;
+&lt;p&gt;프로젝트 파일 안에서 사용되고 있는 메시지들을 묶어서 한곳에서 관리하면 나중에 메세지를 변경해야 할 일이 있을 때 일일이 고쳐주지 않고 nameSpace를 수정하고 프로그램 상에서 호출하여 사용하면 유지보수 측면에서 좋을 것 같아 찾아보았다.&lt;/p&gt;
+&lt;p&gt;일반적으로 사용되는 방식은 &lt;code&gt;Struct&lt;/code&gt;를 사용하거나 &lt;code&gt;Enum&lt;/code&gt;을 활용하는 방법으로 해결할 수 있다.&lt;/p&gt;
+&lt;h3 id=&#34;struct-구조체를-이용하는-방법&#34;&gt;struct 구조체를 이용하는 방법&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;GameMessages&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;kd&#34;&gt;private&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;init&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;inputWrong&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;잘못된 입력입니다. 다시 시도해주세요.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;endGame&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;게임종료&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;victory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;의 승리!&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;프로그램 안에서 사용되는 텍스트를 묶어서 &lt;code&gt;GameMessages&lt;/code&gt;라는 구조체를 만들어 주고 &lt;code&gt;static&lt;/code&gt; 키워드를 이용하여 &lt;code&gt;타입 프로퍼티&lt;/code&gt;로 생성해 주었다.&lt;/p&gt;
+&lt;p&gt;사용할 때에는&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;wrongInput&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;GameMessages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;inputwrong&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;gameFinish&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;GameMessages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;endGame&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;으로 선언하여 사용한다.&lt;/p&gt;
+&lt;p&gt;struct로 nameSpace를 사용할 때의 문제점은 다른 개발자가 실수로 인스턴스를 생성할 수 있다는 점이다.
+인스턴스 생성을 막기 위해 &lt;code&gt;private init() {}&lt;/code&gt;을 써주어서 인스턴스화 할 수 없도록 만들어준다.&lt;/p&gt;
+&lt;h3 id=&#34;enum-열거형을-이용하는-방법&#34;&gt;enum 열거형을 이용하는 방법&lt;/h3&gt;
+&lt;p&gt;다른 방법으로는 enum을 이용하여 nameSpace를 설정해주는 방법이다.&lt;br&gt;
+case를 설정하지 않고 enum을 만들 수 있나요? 네! 방법이 있습니다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;enum&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;GameMessages&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;inputWrong&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;잘못된 입력입니다. 다시 시도해주세요.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;endGame&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;게임종료&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;static&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;victory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;의 승리!&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;case가 없는 열거형을 사용하면 실수로 인스턴스화를 할 수 없고 nameSpace의 역할을 할 수 있도록 설정가능하다.&lt;/p&gt;
+&lt;p&gt;유지보수의 측면에서는 한 곳에서 여러개의 리터럴을 관리하고 수정할 수 있어서 nameSpace를 사용하는 편이 좋겠지만, 메모리 측면에서는 프로그램이 실행되면 모든 static 상수가 메모리에 탑재되므로 메모리 관리 측면에서는 좋은 방법이 아닐 수도 있다는 생각이 들었다.&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;nameSpace&lt;/strong&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://cocoacasts.com/namespaces-in-swift&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cocoacasts.com/namespaces-in-swift&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://onelife2live.tistory.com/15&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://onelife2live.tistory.com/15&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://sujinnaljin.medium.com/namespace-%EC%A7%80%EC%A0%95%ED%95%98%EA%B8%B0-struct-vs-enum-ce86d5717d95&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://sujinnaljin.medium.com/namespace-%EC%A7%80%EC%A0%95%ED%95%98%EA%B8%B0-struct-vs-enum-ce86d5717d95&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zeddios.tistory.com/353&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zeddios.tistory.com/353&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Type property(static)&lt;/strong&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://varyeun.tistory.com/entry/%EC%8A%A4%EC%9C%84%ED%94%84%ED%8A%B8%EC%97%90%EC%84%9C-static-%ED%82%A4%EC%9B%8C%EB%93%9C%EB%9E%80-static-in-swift&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://varyeun.tistory.com/entry/%EC%8A%A4%EC%9C%84%ED%94%84%ED%8A%B8%EC%97%90%EC%84%9C-static-%ED%82%A4%EC%9B%8C%EB%93%9C%EB%9E%80-static-in-swift&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

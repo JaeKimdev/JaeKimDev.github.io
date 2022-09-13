@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Protocols A protocol defines a blueprint of methods, properties, and other requirements that suit a particular task or piece of functionality. The protocol can then be adopted by a class, structure, or enumeration to provide an actual implementation of those requirements.
+특정 작업이나 기능에 적합한 메소드, 프로퍼티의 청사진
+구조체, 클래스, 열거형에서 프로토콜을 채택(Adopted)하여 사용가능
+추가 기능을 구현하기 위한 protocol extension도 사용할 수 있다.
+Protocol Sysntax 1 2 3 protocol ProtocolName { // protocol definition goes here } 여러개의 프로토콜을 채택할 수도 있다.'><title>Protocols</title>
+
+<link rel='canonical' href='https://JaeKimdev.github.io/p/protocols/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='Protocols'>
+<meta property='og:description' content='Protocols A protocol defines a blueprint of methods, properties, and other requirements that suit a particular task or piece of functionality. The protocol can then be adopted by a class, structure, or enumeration to provide an actual implementation of those requirements.
+특정 작업이나 기능에 적합한 메소드, 프로퍼티의 청사진
+구조체, 클래스, 열거형에서 프로토콜을 채택(Adopted)하여 사용가능
+추가 기능을 구현하기 위한 protocol extension도 사용할 수 있다.
+Protocol Sysntax 1 2 3 protocol ProtocolName { // protocol definition goes here } 여러개의 프로토콜을 채택할 수도 있다.'>
+<meta property='og:url' content='https://JaeKimdev.github.io/p/protocols/'>
+<meta property='og:site_name' content='Jae&#39;s Devlog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='swift' /><meta property='article:tag' content='Protocol' /><meta property='article:published_time' content='2022-09-12T18:11:48&#43;08:00'/><meta property='article:modified_time' content='2022-09-12T18:11:48&#43;08:00'/><meta property='og:image' content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<meta name="twitter:title" content="Protocols">
+<meta name="twitter:description" content="Protocols A protocol defines a blueprint of methods, properties, and other requirements that suit a particular task or piece of functionality. The protocol can then be adopted by a class, structure, or enumeration to provide an actual implementation of those requirements.
+특정 작업이나 기능에 적합한 메소드, 프로퍼티의 청사진
+구조체, 클래스, 열거형에서 프로토콜을 채택(Adopted)하여 사용가능
+추가 기능을 구현하기 위한 protocol extension도 사용할 수 있다.
+Protocol Sysntax 1 2 3 protocol ProtocolName { // protocol definition goes here } 여러개의 프로토콜을 채택할 수도 있다."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-198007055-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_huda2458f72ce188392d75c5d51cd8e24e_373_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">📱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Jae&#39;s Devlog</a></h1>
+            <h2 class="site-description">iOS, Swift, Etc</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/protocols/">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" alt="Featured image of post Protocols" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/dev/" >
+                Dev
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/protocols/">Protocols</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">12 Sep, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    5 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="protocols">Protocols</h2>
+<blockquote>
+<p>A protocol defines a blueprint of methods, properties, and other requirements that suit a particular task or piece of functionality. The protocol can then be adopted by a class, structure, or enumeration to provide an actual implementation of those requirements.</p>
+</blockquote>
+<p>특정 작업이나 기능에 적합한 메소드, 프로퍼티의 청사진<br>
+구조체, 클래스, 열거형에서 프로토콜을 채택(Adopted)하여 사용가능<br>
+추가 기능을 구현하기 위한 protocol extension도 사용할 수 있다.</p>
+<h2 id="protocol-sysntax">Protocol Sysntax</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">protocol</span> <span class="nc">ProtocolName</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// protocol definition goes here</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>여러개의 프로토콜을 채택할 수도 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">struct</span> <span class="nc">SomeStructure</span><span class="p">:</span> <span class="n">ProtocolName</span><span class="p">,</span> <span class="n">AnotherProtocol</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// protocol definition goes here</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>클래스가 다른 클래스를 상속하는 경우에는 부모 클래스를 먼저 적고, 그 다음에 프로토콜을 적는다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">SomeClass</span><span class="p">:</span> <span class="n">Superclass</span><span class="p">,</span> <span class="n">FirstProtocol</span><span class="p">,</span> <span class="n">AnotherProtocol</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// class definition goes here</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="property-requirements">Property Requirements</h2>
+<p>프로토콜에서는 프로퍼티가 저장 프로퍼티인지 연산 프로퍼티인지 명시하지 않고 이름과 타입 그리고 gettable, settable한지 명시한다.</p>
+<p>프로퍼티는 항상 <code>var</code>로 선언해주어야 한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">protocol</span> <span class="nc">SomeProtocol</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">mustBeSettable</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">{</span> <span class="kr">get</span> <span class="kr">set</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">doesNotNeedToBeSettable</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>static</code>접두사를 붙여서 타입 프로퍼티로 선언할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">protocol</span> <span class="nc">AnotherProtocol</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">var</span> <span class="nv">someTypeProperty</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">{</span> <span class="kr">get</span> <span class="kr">set</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="단일-인스턴스-property-예제">단일 인스턴스 Property 예제</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="c1">// name이라는 프로퍼티를 가지고 있는 프로토콜 구현, 읽기만 가능해도 상관없음(읽기, 쓰기 가능해도 됨)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">protocol</span> <span class="nc">FullyNamed</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">fullName</span><span class="p">:</span> <span class="nb">String</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Person 구조체는 FullyNamed 프로토콜을 채택</span>
+</span></span><span class="line"><span class="cl"><span class="kd">struct</span> <span class="nc">Person</span><span class="p">:</span> <span class="n">FullyNamed</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">fullName</span><span class="p">:</span> <span class="nb">String</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">john</span> <span class="p">=</span> <span class="n">Person</span><span class="p">(</span><span class="n">fullName</span><span class="p">:</span> <span class="s">&#34;John Appleseed&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// john.fullName is &#34;John Appleseed&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// FullyNamed 프로토콜을 채택한 조금 더 복잡한 Starship 클래스</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Starship</span><span class="p">:</span> <span class="n">FullyNamed</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">prefix</span><span class="p">:</span> <span class="nb">String</span><span class="p">?</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">name</span><span class="p">:</span> <span class="nb">String</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">init</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="kr">prefix</span><span class="p">:</span> <span class="nb">String</span><span class="p">?</span> <span class="p">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kc">self</span><span class="p">.</span><span class="n">name</span> <span class="p">=</span> <span class="n">name</span>
+</span></span><span class="line"><span class="cl">        <span class="kc">self</span><span class="p">.</span><span class="kr">prefix</span> <span class="p">=</span> <span class="kr">prefix</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">fullName</span><span class="p">:</span> <span class="nb">String</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">(</span><span class="kr">prefix</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">?</span> <span class="kr">prefix</span><span class="p">!</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="p">:</span> <span class="s">&#34;&#34;</span><span class="p">)</span> <span class="o">+</span> <span class="n">name</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">ncc1701</span> <span class="p">=</span> <span class="n">Starship</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="s">&#34;Enterprise&#34;</span><span class="p">,</span> <span class="kr">prefix</span><span class="p">:</span> <span class="s">&#34;USS&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// ncc1701.fullName is &#34;USS Enterprise&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="method-requirements">Method Requirements</h2>
+<p>프로토콜을 준수하기 위해 특정 메소드 혹은 타입 메소드를 요구할 수 있다.<br>
+프로토콜은 구현을 하지 않는 <code>요구사항</code>이므로 <code>{ }</code> 코드 클로저를 사용하지 않고 함수 이름과 매개변수, 반환 타입만 명시한다.<br>
+타입 메소드의 경우 <code>static</code> 접두사를 붙여서 명시한다.</p>
+<h3 id="syntax">Syntax</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">protocol</span> <span class="nc">SomeProtocol</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">func</span> <span class="nf">someTypeMethod</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="c1">// RandomNumberGenerator 프로토콜 구현</span>
+</span></span><span class="line"><span class="cl"><span class="kd">protocol</span> <span class="nc">RandomNumberGenerator</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">func</span> <span class="nf">random</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="nb">Double</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// LinearCongruentialGenerator 구조체는 RandomNumberGenerator 프로토콜을 채택</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 내부에 DOuble을 반환하는 random() 메소드를 구현해주면 된다</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">LinearCongruentialGenerator</span><span class="p">:</span> <span class="n">RandomNumberGenerator</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">lastRandom</span> <span class="p">=</span> <span class="mf">42.0</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">m</span> <span class="p">=</span> <span class="mf">139968.0</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">a</span> <span class="p">=</span> <span class="mf">3877.0</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">c</span> <span class="p">=</span> <span class="mf">29573.0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">func</span> <span class="nf">random</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="nb">Double</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lastRandom</span> <span class="p">=</span> <span class="p">((</span><span class="n">lastRandom</span> <span class="o">*</span> <span class="n">a</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="n">truncatingRemainder</span><span class="p">(</span><span class="n">dividingBy</span><span class="p">:</span><span class="n">m</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">lastRandom</span> <span class="o">/</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">generator</span> <span class="p">=</span> <span class="n">LinearCongruentialGenerator</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="bp">print</span><span class="p">(</span><span class="s">&#34;Here&#39;s a random number: </span><span class="si">\(</span><span class="n">generator</span><span class="p">.</span><span class="n">random</span><span class="si">())</span><span class="s">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Prints &#34;Here&#39;s a random number: 0.3746499199817101&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="bp">print</span><span class="p">(</span><span class="s">&#34;And another one: </span><span class="si">\(</span><span class="n">generator</span><span class="p">.</span><span class="n">random</span><span class="si">())</span><span class="s">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Prints &#34;And another one: 0.729023776863283&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="mutating-method-requirements">Mutating Method Requirements</h3>
+<p>값 타입(구조체, 열거형)에서 메소드를 구현할 때는 메소드 앞에 <code>mutating</code> 키워드를 사용해야 한다.</p>
+<h2 id="initializer-requirements">Initializer Requirements</h2>
+<p>프로토콜 구현 시, 특정 이니셜라이저를 요구할 수 있다.<br>
+메소드와 마찬가지로 <code>구현부는 작성하지 않는다</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">protocol</span> <span class="nc">SomeProtocol</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">init</span><span class="p">(</span><span class="n">someParameter</span><span class="p">:</span> <span class="nb">Int</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="class-implementations-of-protocol-initializer-requirements-프로토콜을-채택한-class의-이니셜라이저-구현">Class Implementations of Protocol Initializer Requirements 프로토콜을 채택한 Class의 이니셜라이저 구현</h3>
+<p>클래스에서 프로토콜을 채택한 경우, 이니셜라이저를 구현할 때는 <code>required</code> 키워드를 사용해야 한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="n">lass</span> <span class="n">SomeClass</span><span class="p">:</span> <span class="n">SomeProtocol</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">required</span> <span class="kd">init</span><span class="p">(</span><span class="n">someParameter</span><span class="p">:</span> <span class="nb">Int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// initializer implementation goes here</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>SomeClass</code>를 상속받는 클래스에서도 해당 프로토콜을 준수해야 하기 때문이다.
+따라서 SomeClass가 상속받을 곳이 없는 최종 클래스라면 <code>required</code> 키워드를 사용하지 않아도 된다.</p>
+<p>자식 클래스가 부모 클래스의 지정된 초기화를 재정의하고 프로토콜의 이니셜라이저도 구현해야하는 경우 <code>required override init</code>을 사용한다. 😅</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">protocol</span> <span class="nc">SomeProtocol</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">init</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">SomeSuperClass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">init</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// initializer implementation goes here</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">SomeSubClass</span><span class="p">:</span> <span class="n">SomeSuperClass</span><span class="p">,</span> <span class="n">SomeProtocol</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// &#34;required&#34; from SomeProtocol conformance; &#34;override&#34; from SomeSuperClass</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">required</span> <span class="kr">override</span> <span class="kd">init</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// initializer implementation goes here</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="failable-initializer-requirements-실패할-수-있는-초기화-요구">Failable Initializer Requirements 실패할 수 있는 초기화 요구</h3>
+<p>프로토콜에서도 <code>init?</code>을 사용하여 Failable Initializer를 구현할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">protocol</span> <span class="nc">SomeProtocol</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">init</span><span class="p">?()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 프로토콜이 failable initializer를 요구해도 init()으로 구현해도 된다</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Some</span><span class="p">:</span> <span class="n">SomeClass</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">init</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//하지만 프로토콜이 init()을 요구하면 init?()으로 구현할 수 없다</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="protocols-as-types">Protocols as Types</h2>
+<p>프로토콜은 실제 기능을 구현하지는 않지만 하나의 독립적인 타입으로 사용할 수 있는 일급시민이다.</p>
+<p>따라서 아래의 3가지가 가능하다</p>
+<ul>
+<li>함수 또는 이니셜라이저의 매개변수 Type or Return Type</li>
+<li>상수, 변수 프로퍼티의 Type</li>
+<li>Array, Dictionary 또는 기타 컨테이너 항목 Type</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Dice</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">sides</span><span class="p">:</span> <span class="nb">Int</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// RandomNumberGenerator 프로토콜을 타입으로 사용</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nv">generator</span><span class="p">:</span> <span class="n">RandomNumberGenerator</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">init</span><span class="p">(</span><span class="n">sides</span><span class="p">:</span> <span class="nb">Int</span><span class="p">,</span> <span class="n">generator</span><span class="p">:</span> <span class="n">RandomNumberGenerator</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kc">self</span><span class="p">.</span><span class="n">sides</span> <span class="p">=</span> <span class="n">sides</span>
+</span></span><span class="line"><span class="cl">        <span class="kc">self</span><span class="p">.</span><span class="n">generator</span> <span class="p">=</span> <span class="n">generator</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">func</span> <span class="nf">roll</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="nb">Int</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">Int</span><span class="p">(</span><span class="n">generator</span><span class="p">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="nb">Double</span><span class="p">(</span><span class="n">sides</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">d6</span> <span class="p">=</span> <span class="n">Dice</span><span class="p">(</span><span class="n">sides</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="n">generator</span><span class="p">:</span> <span class="n">LinearCongruentialGenerator</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="kc">_</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">..</span><span class="mi">5</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;Random dice roll is </span><span class="si">\(</span><span class="n">d6</span><span class="p">.</span><span class="n">roll</span><span class="si">())</span><span class="s">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Random dice roll is 3</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Random dice roll is 5</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Random dice roll is 4</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Random dice roll is 5</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Random dice roll is 4</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="reference">Reference</h2>
+<p><a class="link" href="https://docs.swift.org/swift-book/LanguageGuide/Protocols.html"  target="_blank" rel="noopener"
+    >Apple Docs - Protocols</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/swift/">Swift</a>
+        
+            <a href="/tags/protocol/">Protocol</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/auto-layout1/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Auto Layout(1)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/instantiateviewcontroller-/-performsegue-%ED%99%94%EB%A9%B4-%EC%A0%84%ED%99%98-%EB%B0%A9%EB%B2%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">instantiateViewController / performSegue 화면 전환 방법</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/uiviewcontroller-%EC%83%9D%EB%AA%85%EC%A3%BC%EA%B8%B0lifecycle-methods-view-state-method/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">UIViewController 생명주기(lifecycle methods - View State Method)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/alert-actionsheet/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Alert, ActionSheet</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/notification-notificationcenter/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Notification, NotificationCenter</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="JaeKimdev/blog-comments"
+        issue-term="title"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2022 Jae&#39;s Devlog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#protocols">Protocols</a></li>
+    <li><a href="#protocol-sysntax">Protocol Sysntax</a></li>
+    <li><a href="#property-requirements">Property Requirements</a>
+      <ol>
+        <li><a href="#단일-인스턴스-property-예제">단일 인스턴스 Property 예제</a></li>
+      </ol>
+    </li>
+    <li><a href="#method-requirements">Method Requirements</a>
+      <ol>
+        <li><a href="#syntax">Syntax</a></li>
+        <li><a href="#mutating-method-requirements">Mutating Method Requirements</a></li>
+      </ol>
+    </li>
+    <li><a href="#initializer-requirements">Initializer Requirements</a>
+      <ol>
+        <li><a href="#class-implementations-of-protocol-initializer-requirements-프로토콜을-채택한-class의-이니셜라이저-구현">Class Implementations of Protocol Initializer Requirements 프로토콜을 채택한 Class의 이니셜라이저 구현</a></li>
+        <li><a href="#failable-initializer-requirements-실패할-수-있는-초기화-요구">Failable Initializer Requirements 실패할 수 있는 초기화 요구</a></li>
+      </ol>
+    </li>
+    <li><a href="#protocols-as-types">Protocols as Types</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Understanding Auto Layout Auto Layout dynamically calculates the size and position of all the views in your view hierarchy, based on constraints placed on those views.
+오토 레이아웃은 뷰에 배치된 제약조건(constraints)에 따라 뷰의 크기와 위치를 동적으로 계산해 준다.
+External Changes 외부 조건의 변화 사용자가 윈도우 사이즈 조절(Mac OS X) iPad의 스플릿 뷰(Split View)를 나가거나 들어오는 경우(iOS) iOS 기기 로테이트➡️스크린 뱡향 변경(iOS) active call / recording bar가 나타나거나 사라지는 경우(iOS) Internal Changes 내부적 요인의 변화 앱 내부에서 콘텐츠 뷰 사이즈 변경 앱이 Dynamic Type 지원하는 경우 Anatomy of a Constraint 빨간뷰의 머리(Leading)은 파란뷰의 오른쪽 끝(Trailing) &#43; 8 포인트만큼에 위치한다.'><title>Auto Layout(1)</title>
+
+<link rel='canonical' href='https://JaeKimdev.github.io/p/auto-layout1/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='Auto Layout(1)'>
+<meta property='og:description' content='Understanding Auto Layout Auto Layout dynamically calculates the size and position of all the views in your view hierarchy, based on constraints placed on those views.
+오토 레이아웃은 뷰에 배치된 제약조건(constraints)에 따라 뷰의 크기와 위치를 동적으로 계산해 준다.
+External Changes 외부 조건의 변화 사용자가 윈도우 사이즈 조절(Mac OS X) iPad의 스플릿 뷰(Split View)를 나가거나 들어오는 경우(iOS) iOS 기기 로테이트➡️스크린 뱡향 변경(iOS) active call / recording bar가 나타나거나 사라지는 경우(iOS) Internal Changes 내부적 요인의 변화 앱 내부에서 콘텐츠 뷰 사이즈 변경 앱이 Dynamic Type 지원하는 경우 Anatomy of a Constraint 빨간뷰의 머리(Leading)은 파란뷰의 오른쪽 끝(Trailing) &#43; 8 포인트만큼에 위치한다.'>
+<meta property='og:url' content='https://JaeKimdev.github.io/p/auto-layout1/'>
+<meta property='og:site_name' content='Jae&#39;s Devlog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='swift' /><meta property='article:tag' content='Auto Layout' /><meta property='article:published_time' content='2022-09-10T22:15:06&#43;08:00'/><meta property='article:modified_time' content='2022-09-10T22:15:06&#43;08:00'/><meta property='og:image' content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<meta name="twitter:title" content="Auto Layout(1)">
+<meta name="twitter:description" content="Understanding Auto Layout Auto Layout dynamically calculates the size and position of all the views in your view hierarchy, based on constraints placed on those views.
+오토 레이아웃은 뷰에 배치된 제약조건(constraints)에 따라 뷰의 크기와 위치를 동적으로 계산해 준다.
+External Changes 외부 조건의 변화 사용자가 윈도우 사이즈 조절(Mac OS X) iPad의 스플릿 뷰(Split View)를 나가거나 들어오는 경우(iOS) iOS 기기 로테이트➡️스크린 뱡향 변경(iOS) active call / recording bar가 나타나거나 사라지는 경우(iOS) Internal Changes 내부적 요인의 변화 앱 내부에서 콘텐츠 뷰 사이즈 변경 앱이 Dynamic Type 지원하는 경우 Anatomy of a Constraint 빨간뷰의 머리(Leading)은 파란뷰의 오른쪽 끝(Trailing) &#43; 8 포인트만큼에 위치한다."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-198007055-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_huda2458f72ce188392d75c5d51cd8e24e_373_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">📱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Jae&#39;s Devlog</a></h1>
+            <h2 class="site-description">iOS, Swift, Etc</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/auto-layout1/">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" alt="Featured image of post Auto Layout(1)" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/dev/" >
+                Dev
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/auto-layout1/">Auto Layout(1)</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">10 Sep, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    3 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="understanding-auto-layout">Understanding Auto Layout</h2>
+<blockquote>
+<p>Auto Layout dynamically calculates the size and position of all the views in your view hierarchy, based on constraints placed on those views.</p>
+</blockquote>
+<p>오토 레이아웃은 뷰에 배치된 <strong>제약조건(constraints)에 따라</strong> 뷰의 크기와 위치를 <strong>동적으로</strong> 계산해 준다.</p>
+<h3 id="external-changes-외부-조건의-변화">External Changes 외부 조건의 변화</h3>
+<ul>
+<li>사용자가 윈도우 사이즈 조절(Mac OS X)</li>
+<li>iPad의 스플릿 뷰(Split View)를 나가거나 들어오는 경우(iOS)</li>
+<li>iOS 기기 로테이트➡️스크린 뱡향 변경(iOS)</li>
+<li>active call / recording bar가 나타나거나 사라지는 경우(iOS)</li>
+</ul>
+<h3 id="internal-changes-내부적-요인의-변화">Internal Changes 내부적 요인의 변화</h3>
+<ul>
+<li>앱 내부에서 콘텐츠 뷰 사이즈 변경</li>
+<li>앱이 Dynamic Type 지원하는 경우</li>
+</ul>
+<h2 id="anatomy-of-a-constraint">Anatomy of a Constraint</h2>
+<p><img src="/post/swift/220911-1.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+>
+빨간뷰의 머리(Leading)은 파란뷰의 오른쪽 끝(Trailing) + 8 포인트만큼에 위치한다.</p>
+<h3 id="attribute">Attribute</h3>
+<p><img src="/post/swift/220911-2.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<ul>
+<li>
+<p>크기 Attribute: Width, Height</p>
+</li>
+<li>
+<p>위치 Attribure: Top, Bottom, Leading(Left), Trailing(Right), Center X/Y, Baseline(글자의 밑바닥)</p>
+</li>
+<li>
+<p>Not An Attribue</p>
+<p>❗️ Attribute 사용 Rule:</p>
+<ul>
+<li>크기 attribue와 위치 attribute를 섞어서 사용 불가능</li>
+<li>위치 attribute에 상수 할당 불가(기준이 없기 때문에)</li>
+</ul>
+</li>
+</ul>
+<h3 id="creating-nonambigouos-statisfiable-layout-모호하지-않은-레이아웃-생성---명확하게-지시하기">Creating Nonambigouos, Statisfiable Layout (모호하지 않은 레이아웃 생성 - 명확하게 지시하기)</h3>
+<p><img src="/post/swift/220911-3.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>x축에 한해 1,2,3 모두 계산 가능
+<code>superView</code>에서 얼마만큼 떨어져 있는지, 너비를 알려주면 된다.</p>
+<h4 id="가로-세로화면에서-반씩-차지하는-두개의-view-구성해-보기">가로, 세로화면에서 반씩 차지하는 두개의 view 구성해 보기</h4>
+<p><img src="/post/swift/220911-5.gif"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<ol>
+<li>두개의 뷰 생성 후 위, 아래 20 포인트씩 제약을 설정한다</li>
+<li>좌, 우 20 포인트씩 제약을 설정한다</li>
+<li>storyboard에서 에러가 발생하는데 왜지? (좌우 여백을 주었어도 컴퓨터는 사이즈를 알 수 없다)</li>
+<li>두개의 뷰를 동시에 선택하고 <code>Equal Width</code>를 선택한다</li>
+</ol>
+<p><img src="/post/swift/220911-4.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>다른 방법으로는</p>
+<ol>
+<li>빨간색 뷰를 사방으로 20 포인트씩 제약을 설정한다</li>
+<li>파른 뷰도 오른쪽으로 20 포인트 제약을 주고, 두개의 뷰를 동시에 선택한 후 <code>Equal Width</code>를 선택한다</li>
+<li>두개의 뷰를 동시에 선택하고 <code>Align</code> 버튼을 클릭하여 <code>Top Edges</code> / <code>Bottom Edges</code>를 선택하고 add constraints해 준다</li>
+</ol>
+<h2 id="constraint-priorities">Constraint Priorities</h2>
+<p><code>&lt;=</code> or <code>&gt;=</code> 연산자를 사용하여 최소 최대 크기를 지정할 수 있다.<br>
+ex&gt; 40 &lt;= width &gt;= 280</p>
+<p>다른 뷰가 먼저 자리잡고 난 이후에 최소값과 최대값 사이의 크기로 자리잡는다.</p>
+<p>제약의 우선도(priority)가 달라질 수 있다. 우선도는 제약이 뷰에 가해지는 힘이라고 볼 수 있는데, 여러개의 제약이 존재하는 경우 우선도가 낮은 제약은 무시될 수 있다.</p>
+<p>1~1000까지의 우선도가 있고 높을수록 우선시된다. (기본값은 1000)</p>
+<h2 id="instrinsic-content-size-고유-컨텐츠-사이즈">Instrinsic Content Size (고유 컨텐츠 사이즈)</h2>
+<p>컨텐츠의 사이즈를 기반으로 뷰의 사이즈를 정할 수 있다.(텍스트 길이에 따라 버튼의 사이즈가 정해진다)</p>
+<p><img src="/post/swift/220911-6.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>❗️ <code>Slider</code>의 설명 Defines only the width (iOS)는 오류 - Defines only *<strong>*height</strong></p>
+<p><code>text view</code>의 경우 스크롤이 활성화 되어있으면 컨텐츠 사이즈가 정해지지 않고, 스크롤이 비활성화 되어있으면 텍스트 길이에 따라 컨텐츠 사이즈가 정해진다.</p>
+<p>Veiw에 Instrinsic size가 없는 경우 코드를 이용해 사이즈를 정해줄 수 있다.
+아래의 코드를 작성하고 view의 identity inspector에서 class명을 <code>myView</code>로 설정해주면 50 x 50의 사이즈를 갖게 설정할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kr">@IBDesignable</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">myView</span><span class="p">:</span> <span class="n">UIView</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">override</span> <span class="kd">var</span> <span class="nv">intrinsicContentSize</span><span class="p">:</span> <span class="n">CGSize</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">CGSize</span><span class="p">(</span><span class="n">width</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="mi">50</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="chcr-content-hugging-equations-and-compression-resistance">CHCR (Content-Hugging equations and Compression-Resistance)</h2>
+<ul>
+<li>
+<p>Compression-Resistance:</p>
+<ul>
+<li>외부에서 뷰에 압력이 있을때 줄어들지 않으려고 컨텐츠가 버티려는 힘(가로, 세로)</li>
+</ul>
+</li>
+<li>
+<p>Content-Hugging:</p>
+<ul>
+<li>컨텐츠 사이즈에 맞게 fit하게 맞도록 줄어드는 힘(늘어나지 않으려고하는 힘)</li>
+</ul>
+</li>
+<li>
+<p>기준이 되는 것은 <code>Instrinsic Content Size</code>이며 CR과 CH 는 priority(우선순위)를 가지고 적용된다.</p>
+</li>
+</ul>
+<p><img src="/post/swift/220911-7.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>3개의 레이블을 만들고 각각 20씩 왼쪽과 오른쪽에 constraint를 설정해 주었다.
+레이블의 사이즈가 변해야 하는 경우 <code>Content-Hugging</code>을 1000으로 설정한 첫번째 레이블은 늘어나지 않고, 750으로 설정한 두번째 레이블도 변함이 없고 priority 기본값인 251을 가지고 있는 세번째 레이블이 늘어나서 사이즈를 맞춰주게 된다.</p>
+<p><img src="/post/swift/220911-8.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>이번에는 3개의 레이블에 <code>Content Compression-Resistance</code>를 왼쪽부터 250, 750, 1000으로 설정해 주었다.</p>
+<p><img src="/post/swift/220911-9.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<ol>
+<li>CR250으로 설정한 레이블이 극단적으로 늘어나도, 우선순위가 낮기 때문에 750과 1000의 영역으로 컨텐츠를 밀어낼 수 없다.</li>
+</ol>
+<p><img src="/post/swift/220911-10.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<ol start="2">
+<li>하지만, CR750으로 설정한 두번째 레이블이 늘어난다면 우선순위가 낮은 첫번째 레이블은 밀려나서 사라지게 되고 CR750 레이블이 덮어버리게 된다.</li>
+</ol>
+<p><img src="/post/swift/220911-11.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<ol start="3">
+<li>CR1000 레이블이 늘어난다면 길이에 따라 첫번째, 두번째 레이블이 다 가려지게 된다.</li>
+</ol>
+<blockquote>
+<p>늘어나야 하는 경우 <code>Hugging priority</code>가 낮은 녀석이 늘어나고, 줄어들어야 할 경우 <code>Compression-Resistance priority</code>가 낮은 녀석이 줄어들게 된다.</p>
+</blockquote>
+<h2 id="reference">Reference</h2>
+<p><a class="link" href="https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/index.html"  target="_blank" rel="noopener"
+    >Apple - Auto Layout Guide</a></p>
+<p><a class="link" href="https://yagom.net/courses/autolayout/"  target="_blank" rel="noopener"
+    >야곰닷넷-오토레이아웃 정복하기</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/swift/">Swift</a>
+        
+            <a href="/tags/auto-layout/">Auto Layout</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/instantiateviewcontroller-/-performsegue-%ED%99%94%EB%A9%B4-%EC%A0%84%ED%99%98-%EB%B0%A9%EB%B2%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">instantiateViewController / performSegue 화면 전환 방법</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/uiviewcontroller-%EC%83%9D%EB%AA%85%EC%A3%BC%EA%B8%B0lifecycle-methods-view-state-method/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">UIViewController 생명주기(lifecycle methods - View State Method)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/alert-actionsheet/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Alert, ActionSheet</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/notification-notificationcenter/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Notification, NotificationCenter</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/kvokey-value-observing/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">KVO(Key-value observing)</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="JaeKimdev/blog-comments"
+        issue-term="title"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2022 Jae&#39;s Devlog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.13.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#understanding-auto-layout">Understanding Auto Layout</a>
+      <ol>
+        <li><a href="#external-changes-외부-조건의-변화">External Changes 외부 조건의 변화</a></li>
+        <li><a href="#internal-changes-내부적-요인의-변화">Internal Changes 내부적 요인의 변화</a></li>
+      </ol>
+    </li>
+    <li><a href="#anatomy-of-a-constraint">Anatomy of a Constraint</a>
+      <ol>
+        <li><a href="#attribute">Attribute</a></li>
+        <li><a href="#creating-nonambigouos-statisfiable-layout-모호하지-않은-레이아웃-생성---명확하게-지시하기">Creating Nonambigouos, Statisfiable Layout (모호하지 않은 레이아웃 생성 - 명확하게 지시하기)</a>
+          <ol>
+            <li><a href="#가로-세로화면에서-반씩-차지하는-두개의-view-구성해-보기">가로, 세로화면에서 반씩 차지하는 두개의 view 구성해 보기</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#constraint-priorities">Constraint Priorities</a></li>
+    <li><a href="#instrinsic-content-size-고유-컨텐츠-사이즈">Instrinsic Content Size (고유 컨텐츠 사이즈)</a></li>
+    <li><a href="#chcr-content-hugging-equations-and-compression-resistance">CHCR (Content-Hugging equations and Compression-Resistance)</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

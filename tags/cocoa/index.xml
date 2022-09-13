@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Cocoa on Jae&#39;s Devlog</title>
+        <link>https://JaeKimdev.github.io/tags/cocoa/</link>
+        <description>Recent content in Cocoa on Jae&#39;s Devlog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 28 Aug 2022 16:49:28 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/tags/cocoa/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Cocoa Touch Framework</title>
+        <link>https://JaeKimdev.github.io/p/cocoa-touch-framework/</link>
+        <pubDate>Sun, 28 Aug 2022 16:49:28 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/cocoa-touch-framework/</guid>
+        <description>&lt;img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" alt="Featured image of post Cocoa Touch Framework" /&gt;&lt;h2 id=&#34;cocoa-touch-framework&#34;&gt;Cocoa Touch Framework&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;싱글턴 디자인 패턴&lt;/code&gt;을 공부하던 중, 함께 공부해야 하는 키워드에 &lt;code&gt;Cocoa Touch Framework&lt;/code&gt;이 있었다.&lt;/p&gt;
+&lt;p&gt;❓ 나는 코코아터치도 모르고 싱글턴도 모르는데;;&lt;/p&gt;
+&lt;p&gt;오늘은 프레임워크와 코코아 / 코코아터치 프레임워크에 대해 전반적으로 알아보자.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Cocoa and Cocoa Touch are the application development environments for OS X and iOS, respectively. Both Cocoa and Cocoa Touch include the Objective-C runtime and two core frameworks:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;Cocoa&lt;/code&gt;, which includes the Foundation and AppKit frameworks, is used for developing applications that run on OS X.&lt;br&gt;
+&lt;code&gt;Cocoa Touch&lt;/code&gt;, which includes Foundation and UIKit frameworks, is used for developing applications that run on iOS.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;아카이브 된 애플 문서를 보면&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cocoa&lt;/strong&gt;는 &lt;code&gt;Foundation&lt;/code&gt;과 &lt;code&gt;AppKit&lt;/code&gt; 프레임워크를 포함하고 있고, &lt;strong&gt;맥 OS X&lt;/strong&gt;에서 실행되는 어플리케이션 개발에 사용되고&lt;br&gt;
+&lt;strong&gt;Cocoa Touch&lt;/strong&gt;는 &lt;code&gt;Foundation&lt;/code&gt;과 &lt;code&gt;UIKit&lt;/code&gt; 프레임워크를 포함하고 있고, &lt;strong&gt;iOS&lt;/strong&gt;에서 실행되는 어플리케이션 개발에 사용된다고 정의되어 있다.&lt;/p&gt;
+&lt;h3 id=&#34;framework&#34;&gt;Framework&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;A framework is a hierarchical directory that encapsulates shared resources, such as a dynamic shared library, nib files, image files, localized strings, header files, and reference documentation in a single package.&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;일단 &lt;code&gt;프레임워크&lt;/code&gt;가 무엇인지 찾아보면, nib 파일, 이미지 파일, localized strings, 헤더 파일, 레퍼런스 문서와 같은 공유 리소스들을 하나의 패키지로 묶어놓은 계층적인 폴더라고 애플 문서에는 정의되어 있다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;라이브러리&lt;/code&gt;는 활용가능한 도구들의 집합을 말하는데, 개발자는 라이브러리의 도구를 개발에 이용한다.&lt;br&gt;
+Alamofire나 RxSwift, SwiftyJSON 등도 라이브러리라고 할 수 있겠다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;프레임워크와 라이브러리의 차이점&lt;/strong&gt;은 제어의 흐름에 대한 주도권이 누구에게 있는지로 확인할 수 있다.
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220828-4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+라이브러리는 개발자가 라이브러리를 호출하여 사용할 수 있는데 반해, 프레임워크는 전체적인 흐름의 주도권을 가지고 있어서 프레임워크가 사용자의 코드를 호출한다고 할 수 있다.&lt;br&gt;
+이것을 &lt;code&gt;제어의 역전(Inversion Of Control)&lt;/code&gt;이라고 한다. 🧐 좀더 공부해보자!&lt;/p&gt;
+&lt;h3 id=&#34;ios-아키텍쳐&#34;&gt;iOS 아키텍쳐&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220828-3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h5 id=&#34;이미지-출처-httpswwwdotnettrickscomlearnxamarinunderstanding-xamarin-ios-build-native-ios-app&#34;&gt;이미지 출처: &lt;a class=&#34;link&#34; href=&#34;https://www.dotnettricks.com/learn/xamarin/understanding-xamarin-ios-build-native-ios-app&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://www.dotnettricks.com/learn/xamarin/understanding-xamarin-ios-build-native-ios-app&lt;/a&gt;&lt;/h5&gt;
+&lt;p&gt;iOS 아키텍쳐에서 가장 상위 레벨의 &lt;code&gt;Cocoa Touch&lt;/code&gt; 프레임워크를 사용하여 개발을 구현하게 된다.
+우리가 가장 많이 사용하는 &lt;code&gt;Foundation&lt;/code&gt;, &lt;code&gt;UIKit&lt;/code&gt; 프레임워크도 코코아 터치 프레임워크에 속해있다.&lt;/p&gt;
+&lt;h3 id=&#34;cocoa-touch&#34;&gt;Cocoa Touch&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;Foundation&lt;/code&gt; 프레임워크는 데이터 저장 및 지속성, 텍스트 처리, 날짜 및 시간 계산, 정렬 및 필터링, 네트워킹을 포함하여 앱 및 프레임워크를 위한 기본 기능 계층을 제공한다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;UIKit&lt;/code&gt; 프레임워크는 iOS 인터페이스 그래픽을 구성하는 도구를 포함하고 이벤트를 처리하는 프레임워크이다.&lt;br&gt;
+인터페이스를 구현하기 위한 창 및 보기 아키텍처, Multi-Touch 및 기타 유형의 입력을 앱에 제공하기 위한 이벤트 처리 인프라, 사용자, 시스템 및 앱 간의 상호 작용을 관리하는 데 필요한 기본 실행 루프를 제공한다.&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/WhatAreFrameworks.html#//apple_ref/doc/uid/20002303-BBCEIJFI&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple - What are Frameworks?&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/library/archive/documentation/General/Conceptual/DevPedia-CocoaCore/Cocoa.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple - Cocoa&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/foundation/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple - Foundation&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple - UIKit&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/148747/what-is-the-difference-between-a-framework-and-a-library&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;stackoverflow - What is the difference between a framework and a library?&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://blog.naver.com/PostView.naver?blogId=soojin_2604&amp;amp;logNo=222422221117&amp;amp;parentCategoryNo=&amp;amp;categoryNo=&amp;amp;viewDate=&amp;amp;isShowPopularPosts=false&amp;amp;from=postView&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Framework vs Library&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://babbab2.tistory.com/51&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;소들이 블로그- Cocoa / Cocoa Touch&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Collection Type을 돌릴 때 사용하는 for in과 고차함수 .forEach에 대해 알아보자.
+for-in ❓ forEach for - in You use the for-in loop to iterate over a sequence, such as items in an array, ranges of numbers, or characters in a string.
+스위프트 문서에서는 for - in loop를 사용해서 배열의 아이템, 숫자 범위, 문자열에서의 문자와 같은 시퀀스를 반복할 수 있다고 기술되어 있다.
+forEach(_:) Calls the given closure on each element in the sequence in the same order as a for-in loop.'><title>for - in / forEach 비교</title>
+
+<link rel='canonical' href='https://JaeKimdev.github.io/p/for-in-/-foreach-%EB%B9%84%EA%B5%90/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='for - in / forEach 비교'>
+<meta property='og:description' content='Collection Type을 돌릴 때 사용하는 for in과 고차함수 .forEach에 대해 알아보자.
+for-in ❓ forEach for - in You use the for-in loop to iterate over a sequence, such as items in an array, ranges of numbers, or characters in a string.
+스위프트 문서에서는 for - in loop를 사용해서 배열의 아이템, 숫자 범위, 문자열에서의 문자와 같은 시퀀스를 반복할 수 있다고 기술되어 있다.
+forEach(_:) Calls the given closure on each element in the sequence in the same order as a for-in loop.'>
+<meta property='og:url' content='https://JaeKimdev.github.io/p/for-in-/-foreach-%EB%B9%84%EA%B5%90/'>
+<meta property='og:site_name' content='Jae&#39;s Devlog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='swift' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2022-08-10T11:17:56&#43;08:00'/><meta property='article:modified_time' content='2022-08-10T11:17:56&#43;08:00'/><meta property='og:image' content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<meta name="twitter:title" content="for - in / forEach 비교">
+<meta name="twitter:description" content="Collection Type을 돌릴 때 사용하는 for in과 고차함수 .forEach에 대해 알아보자.
+for-in ❓ forEach for - in You use the for-in loop to iterate over a sequence, such as items in an array, ranges of numbers, or characters in a string.
+스위프트 문서에서는 for - in loop를 사용해서 배열의 아이템, 숫자 범위, 문자열에서의 문자와 같은 시퀀스를 반복할 수 있다고 기술되어 있다.
+forEach(_:) Calls the given closure on each element in the sequence in the same order as a for-in loop."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-198007055-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_huda2458f72ce188392d75c5d51cd8e24e_373_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">📱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Jae&#39;s Devlog</a></h1>
+            <h2 class="site-description">iOS, Swift, Etc</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/for-in-/-foreach-%EB%B9%84%EA%B5%90/">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" alt="Featured image of post for - in / forEach 비교" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/dev/" >
+                Dev
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/for-in-/-foreach-%EB%B9%84%EA%B5%90/">for - in / forEach 비교</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">10 Aug, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    3 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>Collection Type을 돌릴 때 사용하는 <code>for in</code>과 고차함수 <code>.forEach</code>에 대해 알아보자.</p>
+<h2 id="for-in--foreach">for-in ❓ forEach</h2>
+<h3 id="for---in"><code>for - in</code></h3>
+<blockquote>
+<p>You use the for-in loop to iterate over a sequence, such as items in an array, ranges of numbers, or characters in a string.</p>
+</blockquote>
+<p>스위프트 문서에서는 for - in loop를 사용해서 배열의 아이템, 숫자 범위, 문자열에서의 문자와 같은 시퀀스를 반복할 수 있다고 기술되어 있다.</p>
+<h3 id="foreach_"><code>forEach(_:)</code></h3>
+<blockquote>
+<p>Calls the given closure on each element in the sequence in the same order as a for-in loop.</p>
+</blockquote>
+<p>for in loop와 동일한 순서로 시퀀스의 각 요소에 주어진 클로저를 호출한다고 기술되어 있다.</p>
+<h2 id="각각의-예제">각각의 예제</h2>
+<h3 id="예제-1---각각의-요소-출력">예제 1 - 각각의 요소 출력</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">number</span> <span class="k">in</span> <span class="n">numbers</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="c1">// 1 2 3 4 5</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="n">forEach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="c1">// 1 2 3 4 5</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="예제-2---인덱스와-값-동시-출력">예제 2 - 인덱스와 값 동시 출력</h3>
+<ul>
+<li><code>for-in</code> loop 사용</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// enumerated 사용</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span> <span class="k">in</span> <span class="n">numbers</span><span class="p">.</span><span class="n">enumerated</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;index: </span><span class="si">\(</span><span class="n">index</span><span class="si">)</span><span class="s"> number: </span><span class="si">\(</span><span class="n">number</span><span class="si">)</span><span class="s">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// indices 사용</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="n">numbers</span><span class="p">.</span><span class="bp">indices</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;index: </span><span class="si">\(</span><span class="n">index</span><span class="si">)</span><span class="s"> number: </span><span class="si">\(</span><span class="n">numbers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="si">)</span><span class="s">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 반복횟수 지정</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.&lt;</span><span class="n">numbers</span><span class="p">.</span><span class="bp">count</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;index: </span><span class="si">\(</span><span class="n">index</span><span class="si">)</span><span class="s"> number: </span><span class="si">\(</span><span class="n">numbers</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="si">)</span><span class="s">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>3가지 방법 모두 같은 결과를 출력한다.
+<img src="/post/swift/220810-1.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<ul>
+<li><code>forEach</code> 사용</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="n">enumerated</span><span class="p">().</span><span class="n">forEach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;(index: </span><span class="si">\(</span><span class="nv">$0</span><span class="si">)</span><span class="s"> num: </span><span class="si">\(</span><span class="nv">$1</span><span class="si">)</span><span class="s">)&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="bp">indices</span><span class="p">.</span><span class="n">forEach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;(index: </span><span class="si">\(</span><span class="nv">$0</span><span class="si">)</span><span class="s"> num: </span><span class="si">\(</span><span class="n">numbers</span><span class="p">[</span><span class="nv">$0</span><span class="p">]</span><span class="si">)</span><span class="s">)&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>for-in과 마찬가지로 <code>enumerated</code>, <code>indices</code>을 사용하면 된다.
+<img src="/post/swift/220810-1.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>❗️ for-in 의 경우 반복횟수를 지정하여 사용할 수 있었지만, forEach의 경우 각 요소에 주어진 클로저를 호출하는 것이기 때문에 따로 반복횟수를 지정할 수 없고 <strong>요소의 개수만큼만</strong> 반복할 수 있다.</p>
+<h3 id="예제-3---break--continue-사용">예제 3 - break / continue 사용</h3>
+<ul>
+<li><code>for-in</code> loop 사용</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">number</span> <span class="k">in</span> <span class="n">numbers</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">number</span> <span class="p">==</span> <span class="mi">3</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 1</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 2</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>forEach</code> 사용</li>
+</ul>
+<p><img src="/post/swift/220810-2.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+>
+break와 continue는 loop와 switch안에서만 사용 가능하다는 오류메세지가 보여짐</p>
+<p>forEach에서는 사용 불가</p>
+<h3 id="예제-4---return">예제 4 - return</h3>
+<ul>
+<li><code>for-in</code> loop 사용</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">printForIn</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">number</span> <span class="k">in</span> <span class="n">numbers</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">printForIn</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>반복문을 돌다가 <code>return</code>을 만나면 함수가 종료됨.</p>
+<ul>
+<li><code>forEach</code> 사용</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">printForIn</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">numbers</span><span class="p">.</span><span class="n">forEach</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">print</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">printForIn</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 1</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 2</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>forEach는 클로저를 요소 갯수만큼 실행하기 때문에 return을 만나도 전달했던 클로저를 종료하고 다음 요소의 클로저 호출에는 영향을 주지 않는다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"></code></pre></td></tr></table>
+</div>
+</div><h2 id="reference">Reference</h2>
+<p><a class="link" href="https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html"  target="_blank" rel="noopener"
+    >https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html</a></p>
+<p><a class="link" href="https://developer.apple.com/documentation/swift/array/foreach%28_:%29"  target="_blank" rel="noopener"
+    >https://developer.apple.com/documentation/swift/array/foreach(_:)</a></p>
+<p><a class="link" href="https://babbab2.tistory.com/95?category=828998"  target="_blank" rel="noopener"
+    >https://babbab2.tistory.com/95?category=828998</a></p>
+<p><a class="link" href="https://velog.io/@un1945/Swift-for-in-forEach-%EC%B0%A8%EC%9D%B4%EC%A0%90"  target="_blank" rel="noopener"
+    >https://velog.io/@un1945/Swift-for-in-forEach-%EC%B0%A8%EC%9D%B4%EC%A0%90</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/swift/">Swift</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/singleton-pattern/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Singleton Pattern</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/swift%EC%97%90%EC%84%9C%EC%9D%98-namespace/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Swift에서의 nameSpace</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/attributes-discardableresult%EB%9E%80/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Attributes - @discardableResult란?</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/auto-layout1/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Auto Layout(1)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/instantiateviewcontroller-/-performsegue-%ED%99%94%EB%A9%B4-%EC%A0%84%ED%99%98-%EB%B0%A9%EB%B2%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">instantiateViewController / performSegue 화면 전환 방법</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="JaeKimdev/blog-comments"
+        issue-term="title"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2022 Jae&#39;s Devlog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.13.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#for-in--foreach">for-in ❓ forEach</a>
+      <ol>
+        <li><a href="#for---in"><code>for - in</code></a></li>
+        <li><a href="#foreach_"><code>forEach(_:)</code></a></li>
+      </ol>
+    </li>
+    <li><a href="#각각의-예제">각각의 예제</a>
+      <ol>
+        <li><a href="#예제-1---각각의-요소-출력">예제 1 - 각각의 요소 출력</a></li>
+        <li><a href="#예제-2---인덱스와-값-동시-출력">예제 2 - 인덱스와 값 동시 출력</a></li>
+        <li><a href="#예제-3---break--continue-사용">예제 3 - break / continue 사용</a></li>
+        <li><a href="#예제-4---return">예제 4 - return</a></li>
+      </ol>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

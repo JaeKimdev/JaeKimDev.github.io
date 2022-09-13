@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Tech on Jae&#39;s Devlog</title>
+        <link>https://JaeKimdev.github.io/categories/tech/</link>
+        <description>Recent content in Tech on Jae&#39;s Devlog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Mon, 08 Aug 2022 22:17:43 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/categories/tech/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>git 정리</title>
+        <link>https://JaeKimdev.github.io/p/git-%EC%A0%95%EB%A6%AC/</link>
+        <pubDate>Mon, 08 Aug 2022 22:17:43 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/git-%EC%A0%95%EB%A6%AC/</guid>
+        <description>&lt;img src="https://res.cloudinary.com/dwrejmale/image/upload/v1659968513/github_tdiagh.jpg" alt="Featured image of post git 정리" /&gt;&lt;h2 id=&#34;-intro&#34;&gt;📖 intro&lt;/h2&gt;
+&lt;p&gt;github에 공부한 것을 계속 올리고는 있지만, 협업으로서 git을 사용해 본 적은 아직 없고,
+yagom Swift Code Start Camp에서도 &lt;code&gt;git&lt;/code&gt;을 잘 사용하지 않고 XCode에서 &lt;code&gt;commit&lt;/code&gt;, &lt;code&gt;push&lt;/code&gt;를 하여 프로젝트를 진행했었다.&lt;/p&gt;
+&lt;p&gt;Career Starter Camp 사전 과제할 때 처음부터 끝까지 git으로 진행을 했었지만 확실하게 개념을 알고 있다는 생각이 들진 않아서 git을 공부해보기로 했다.&lt;/p&gt;
+&lt;p&gt;이전에 결제해 놓은 드림코더 엘리님의 git 강의와 북마크 해놓았던 알잘딱깔센(?) - 알아서 잘 딱 깔끔하고 센스있게 정리하는 GitHub 핵심 개념 페이지를 활용하기로 했다.&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://s3.us-west-2.amazonaws.com/secure.notion-static.com/b7bb318d-f15b-4881-bb2e-e7eb7201cc0b/20220324_%EC%95%8C%EC%9E%98%EB%94%B1%EA%B9%94%EC%84%BCGitHub_%EB%B0%B0%ED%8F%AC%EC%9A%A9.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;amp;X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220808%2Fus-west-2%2Fs3%2Faws4_request&amp;amp;X-Amz-Date=20220808T050255Z&amp;amp;X-Amz-Expires=86400&amp;amp;X-Amz-Signature=9292bb8a69b66eacf3f6ae32f86caf144d9ffb74a890aa0b9117befbb291910c&amp;amp;X-Amz-SignedHeaders=host&amp;amp;response-content-disposition=filename%20%3D%2220220324_%25EC%2595%258C%25EC%259E%2598%25EB%2594%25B1%25EA%25B9%2594%25EC%2584%25BCGitHub_%25EB%25B0%25B0%25ED%258F%25AC%25EC%259A%25A9.pdf%22&amp;amp;x-id=GetObject&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;이곳&lt;/a&gt;에서 pdf 강의 자료도 다운받을 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/tech/220808-2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;div class=&#34;video-wrapper&#34;&gt;
+    &lt;iframe loading=&#34;lazy&#34; 
+            src=&#34;https://www.youtube.com/embed/ePN-u7EpYHo&#34; 
+            allowfullscreen 
+            title=&#34;YouTube Video&#34;
+    &gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;-자주-쓰는-git-명령어&#34;&gt;📚 자주 쓰는 git 명령어&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/tech/220808-1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;강의 자료에서 이 그림이 제일 신선하고 재미있었다~ :D&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git pull&lt;/code&gt;로 땡겨와서 &lt;code&gt;git add .&lt;/code&gt;명령으로 stage에 올리고 &lt;code&gt;commit&lt;/code&gt;한 후에 &lt;code&gt;push&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;어때요? 참 쉽죠?
+&lt;img src=&#34;https://media4.giphy.com/media/IAnFwq468t5kY/giphy.gif?cid=ecf05e47671cdmoyj5eqt49lzbsb4400ots7ii6ck1kwib1o&amp;amp;rid=giphy.gif&amp;amp;ct=g&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://learngitbranching.js.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://learngitbranching.js.org/&lt;/a&gt; 여기에서 연습해보는 것도 좋다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/tech/220808-3.jpeg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://paullabworkspace.notion.site/GitHub-435ec8074bcf4353afb947f601a030df&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;알잘딱깔센 Github - 강의자료&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.notion.so/Git-Cheat-Sheet-5e6d3c66f4ac426c826f5ff5f14fcc63&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Git Cheat Sheet&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

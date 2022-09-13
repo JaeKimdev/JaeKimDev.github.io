@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Auto Layout on Jae&#39;s Devlog</title>
+        <link>https://JaeKimdev.github.io/tags/auto-layout/</link>
+        <description>Recent content in Auto Layout on Jae&#39;s Devlog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Sat, 10 Sep 2022 22:15:06 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/tags/auto-layout/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Auto Layout(1)</title>
+        <link>https://JaeKimdev.github.io/p/auto-layout1/</link>
+        <pubDate>Sat, 10 Sep 2022 22:15:06 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/auto-layout1/</guid>
+        <description>&lt;img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" alt="Featured image of post Auto Layout(1)" /&gt;&lt;h2 id=&#34;understanding-auto-layout&#34;&gt;Understanding Auto Layout&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Auto Layout dynamically calculates the size and position of all the views in your view hierarchy, based on constraints placed on those views.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;오토 레이아웃은 뷰에 배치된 &lt;strong&gt;제약조건(constraints)에 따라&lt;/strong&gt; 뷰의 크기와 위치를 &lt;strong&gt;동적으로&lt;/strong&gt; 계산해 준다.&lt;/p&gt;
+&lt;h3 id=&#34;external-changes-외부-조건의-변화&#34;&gt;External Changes 외부 조건의 변화&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;사용자가 윈도우 사이즈 조절(Mac OS X)&lt;/li&gt;
+&lt;li&gt;iPad의 스플릿 뷰(Split View)를 나가거나 들어오는 경우(iOS)&lt;/li&gt;
+&lt;li&gt;iOS 기기 로테이트➡️스크린 뱡향 변경(iOS)&lt;/li&gt;
+&lt;li&gt;active call / recording bar가 나타나거나 사라지는 경우(iOS)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;internal-changes-내부적-요인의-변화&#34;&gt;Internal Changes 내부적 요인의 변화&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;앱 내부에서 콘텐츠 뷰 사이즈 변경&lt;/li&gt;
+&lt;li&gt;앱이 Dynamic Type 지원하는 경우&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;anatomy-of-a-constraint&#34;&gt;Anatomy of a Constraint&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220911-1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+빨간뷰의 머리(Leading)은 파란뷰의 오른쪽 끝(Trailing) + 8 포인트만큼에 위치한다.&lt;/p&gt;
+&lt;h3 id=&#34;attribute&#34;&gt;Attribute&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220911-2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;크기 Attribute: Width, Height&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;위치 Attribure: Top, Bottom, Leading(Left), Trailing(Right), Center X/Y, Baseline(글자의 밑바닥)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Not An Attribue&lt;/p&gt;
+&lt;p&gt;❗️ Attribute 사용 Rule:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;크기 attribue와 위치 attribute를 섞어서 사용 불가능&lt;/li&gt;
+&lt;li&gt;위치 attribute에 상수 할당 불가(기준이 없기 때문에)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;creating-nonambigouos-statisfiable-layout-모호하지-않은-레이아웃-생성---명확하게-지시하기&#34;&gt;Creating Nonambigouos, Statisfiable Layout (모호하지 않은 레이아웃 생성 - 명확하게 지시하기)&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220911-3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;x축에 한해 1,2,3 모두 계산 가능
+&lt;code&gt;superView&lt;/code&gt;에서 얼마만큼 떨어져 있는지, 너비를 알려주면 된다.&lt;/p&gt;
+&lt;h4 id=&#34;가로-세로화면에서-반씩-차지하는-두개의-view-구성해-보기&#34;&gt;가로, 세로화면에서 반씩 차지하는 두개의 view 구성해 보기&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220911-5.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;두개의 뷰 생성 후 위, 아래 20 포인트씩 제약을 설정한다&lt;/li&gt;
+&lt;li&gt;좌, 우 20 포인트씩 제약을 설정한다&lt;/li&gt;
+&lt;li&gt;storyboard에서 에러가 발생하는데 왜지? (좌우 여백을 주었어도 컴퓨터는 사이즈를 알 수 없다)&lt;/li&gt;
+&lt;li&gt;두개의 뷰를 동시에 선택하고 &lt;code&gt;Equal Width&lt;/code&gt;를 선택한다&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220911-4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;다른 방법으로는&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;빨간색 뷰를 사방으로 20 포인트씩 제약을 설정한다&lt;/li&gt;
+&lt;li&gt;파른 뷰도 오른쪽으로 20 포인트 제약을 주고, 두개의 뷰를 동시에 선택한 후 &lt;code&gt;Equal Width&lt;/code&gt;를 선택한다&lt;/li&gt;
+&lt;li&gt;두개의 뷰를 동시에 선택하고 &lt;code&gt;Align&lt;/code&gt; 버튼을 클릭하여 &lt;code&gt;Top Edges&lt;/code&gt; / &lt;code&gt;Bottom Edges&lt;/code&gt;를 선택하고 add constraints해 준다&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;constraint-priorities&#34;&gt;Constraint Priorities&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;=&lt;/code&gt; or &lt;code&gt;&amp;gt;=&lt;/code&gt; 연산자를 사용하여 최소 최대 크기를 지정할 수 있다.&lt;br&gt;
+ex&amp;gt; 40 &amp;lt;= width &amp;gt;= 280&lt;/p&gt;
+&lt;p&gt;다른 뷰가 먼저 자리잡고 난 이후에 최소값과 최대값 사이의 크기로 자리잡는다.&lt;/p&gt;
+&lt;p&gt;제약의 우선도(priority)가 달라질 수 있다. 우선도는 제약이 뷰에 가해지는 힘이라고 볼 수 있는데, 여러개의 제약이 존재하는 경우 우선도가 낮은 제약은 무시될 수 있다.&lt;/p&gt;
+&lt;p&gt;1~1000까지의 우선도가 있고 높을수록 우선시된다. (기본값은 1000)&lt;/p&gt;
+&lt;h2 id=&#34;instrinsic-content-size-고유-컨텐츠-사이즈&#34;&gt;Instrinsic Content Size (고유 컨텐츠 사이즈)&lt;/h2&gt;
+&lt;p&gt;컨텐츠의 사이즈를 기반으로 뷰의 사이즈를 정할 수 있다.(텍스트 길이에 따라 버튼의 사이즈가 정해진다)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220911-6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;❗️ &lt;code&gt;Slider&lt;/code&gt;의 설명 Defines only the width (iOS)는 오류 - Defines only *&lt;strong&gt;*height&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;text view&lt;/code&gt;의 경우 스크롤이 활성화 되어있으면 컨텐츠 사이즈가 정해지지 않고, 스크롤이 비활성화 되어있으면 텍스트 길이에 따라 컨텐츠 사이즈가 정해진다.&lt;/p&gt;
+&lt;p&gt;Veiw에 Instrinsic size가 없는 경우 코드를 이용해 사이즈를 정해줄 수 있다.
+아래의 코드를 작성하고 view의 identity inspector에서 class명을 &lt;code&gt;myView&lt;/code&gt;로 설정해주면 50 x 50의 사이즈를 갖게 설정할 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kr&#34;&gt;@IBDesignable&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;myView&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UIView&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kr&#34;&gt;override&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;intrinsicContentSize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CGSize&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CGSize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;width&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;height&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;chcr-content-hugging-equations-and-compression-resistance&#34;&gt;CHCR (Content-Hugging equations and Compression-Resistance)&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Compression-Resistance:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;외부에서 뷰에 압력이 있을때 줄어들지 않으려고 컨텐츠가 버티려는 힘(가로, 세로)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Content-Hugging:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;컨텐츠 사이즈에 맞게 fit하게 맞도록 줄어드는 힘(늘어나지 않으려고하는 힘)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;기준이 되는 것은 &lt;code&gt;Instrinsic Content Size&lt;/code&gt;이며 CR과 CH 는 priority(우선순위)를 가지고 적용된다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220911-7.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;3개의 레이블을 만들고 각각 20씩 왼쪽과 오른쪽에 constraint를 설정해 주었다.
+레이블의 사이즈가 변해야 하는 경우 &lt;code&gt;Content-Hugging&lt;/code&gt;을 1000으로 설정한 첫번째 레이블은 늘어나지 않고, 750으로 설정한 두번째 레이블도 변함이 없고 priority 기본값인 251을 가지고 있는 세번째 레이블이 늘어나서 사이즈를 맞춰주게 된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220911-8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;이번에는 3개의 레이블에 &lt;code&gt;Content Compression-Resistance&lt;/code&gt;를 왼쪽부터 250, 750, 1000으로 설정해 주었다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220911-9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;CR250으로 설정한 레이블이 극단적으로 늘어나도, 우선순위가 낮기 때문에 750과 1000의 영역으로 컨텐츠를 밀어낼 수 없다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220911-10.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;하지만, CR750으로 설정한 두번째 레이블이 늘어난다면 우선순위가 낮은 첫번째 레이블은 밀려나서 사라지게 되고 CR750 레이블이 덮어버리게 된다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220911-11.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;CR1000 레이블이 늘어난다면 길이에 따라 첫번째, 두번째 레이블이 다 가려지게 된다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;늘어나야 하는 경우 &lt;code&gt;Hugging priority&lt;/code&gt;가 낮은 녀석이 늘어나고, 줄어들어야 할 경우 &lt;code&gt;Compression-Resistance priority&lt;/code&gt;가 낮은 녀석이 줄어들게 된다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/index.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple - Auto Layout Guide&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://yagom.net/courses/autolayout/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;야곰닷넷-오토레이아웃 정복하기&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

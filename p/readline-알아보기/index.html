@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='오늘은 스위프트에서 유저인풋을 받을 때 사용하는 readLine()에 대해 알아보자.
+현재의 라인 혹은 EOF(End Of File) 까지의 표준입력을 받아 Optional String타입으로 반환하는 함수이다. 엔터가 입력될때까지 라고 이해하면 되겠다.
+공백 단위로 입력받기 split 1 func split(separator: Character, maxSplits: Int = Int.max, omittingEmptySubsequences: Bool = true) -&amp;gt; [Substring] 공백을 제거하고 입력받기 위해서는 split()함수를 이용하면 된다. [SubString] 타입으로 반환된다.
+separator ➡️ 쪼개려는 문자 단위 &amp;quot; &amp;ldquo;(공백), &amp;ldquo;/&amp;rdquo;, etc maxSplits ➡️ 지정한 문자 단위로 몇번까지 쪼갤지를 설정할 수 있다.'><title>readLine() 알아보기</title>
+
+<link rel='canonical' href='https://JaeKimdev.github.io/p/readline-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='readLine() 알아보기'>
+<meta property='og:description' content='오늘은 스위프트에서 유저인풋을 받을 때 사용하는 readLine()에 대해 알아보자.
+현재의 라인 혹은 EOF(End Of File) 까지의 표준입력을 받아 Optional String타입으로 반환하는 함수이다. 엔터가 입력될때까지 라고 이해하면 되겠다.
+공백 단위로 입력받기 split 1 func split(separator: Character, maxSplits: Int = Int.max, omittingEmptySubsequences: Bool = true) -&amp;gt; [Substring] 공백을 제거하고 입력받기 위해서는 split()함수를 이용하면 된다. [SubString] 타입으로 반환된다.
+separator ➡️ 쪼개려는 문자 단위 &amp;quot; &amp;ldquo;(공백), &amp;ldquo;/&amp;rdquo;, etc maxSplits ➡️ 지정한 문자 단위로 몇번까지 쪼갤지를 설정할 수 있다.'>
+<meta property='og:url' content='https://JaeKimdev.github.io/p/readline-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0/'>
+<meta property='og:site_name' content='Jae&#39;s Devlog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='swift' /><meta property='article:tag' content='readLine' /><meta property='article:published_time' content='2022-08-20T21:02:43&#43;08:00'/><meta property='article:modified_time' content='2022-08-20T21:02:43&#43;08:00'/><meta property='og:image' content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<meta name="twitter:title" content="readLine() 알아보기">
+<meta name="twitter:description" content="오늘은 스위프트에서 유저인풋을 받을 때 사용하는 readLine()에 대해 알아보자.
+현재의 라인 혹은 EOF(End Of File) 까지의 표준입력을 받아 Optional String타입으로 반환하는 함수이다. 엔터가 입력될때까지 라고 이해하면 되겠다.
+공백 단위로 입력받기 split 1 func split(separator: Character, maxSplits: Int = Int.max, omittingEmptySubsequences: Bool = true) -&amp;gt; [Substring] 공백을 제거하고 입력받기 위해서는 split()함수를 이용하면 된다. [SubString] 타입으로 반환된다.
+separator ➡️ 쪼개려는 문자 단위 &amp;quot; &amp;ldquo;(공백), &amp;ldquo;/&amp;rdquo;, etc maxSplits ➡️ 지정한 문자 단위로 몇번까지 쪼갤지를 설정할 수 있다."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-198007055-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_huda2458f72ce188392d75c5d51cd8e24e_373_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">📱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Jae&#39;s Devlog</a></h1>
+            <h2 class="site-description">iOS, Swift, Etc</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/readline-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0/">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" alt="Featured image of post readLine() 알아보기" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/dev/" >
+                Dev
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/readline-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0/">readLine() 알아보기</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">20 Aug, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    2 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>오늘은 스위프트에서 유저인풋을 받을 때 사용하는 <code>readLine()</code>에 대해 알아보자.</p>
+<p><img src="/post/swift/220821-1.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>현재의 라인 혹은 <code>EOF(End Of File)</code> 까지의 표준입력을 받아 <code>Optional String</code>타입으로 반환하는 함수이다. 엔터가 입력될때까지 라고 이해하면 되겠다.</p>
+<h2 id="공백-단위로-입력받기">공백 단위로 입력받기</h2>
+<h3 id="split">split</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">split</span><span class="p">(</span><span class="n">separator</span><span class="p">:</span> <span class="nb">Character</span><span class="p">,</span> <span class="n">maxSplits</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">=</span> <span class="nb">Int</span><span class="p">.</span><span class="bp">max</span><span class="p">,</span> <span class="n">omittingEmptySubsequences</span><span class="p">:</span> <span class="nb">Bool</span> <span class="p">=</span> <span class="kc">true</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="n">Substring</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>공백을 제거하고 입력받기 위해서는 <code>split()</code>함수를 이용하면 된다.
+<code>[SubString]</code> 타입으로 반환된다.</p>
+<ul>
+<li><code>separator</code> ➡️ 쪼개려는 문자 단위 &quot; &ldquo;(공백), &ldquo;/&rdquo;, etc</li>
+<li><code>maxSplits</code> ➡️ 지정한 문자 단위로 몇번까지 쪼갤지를 설정할 수 있다.</li>
+<li><code>omittingEmptySubsequences</code> ➡️ 비어있는 시퀀스 포함 유무 설정</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="k">if</span> <span class="kd">let</span> <span class="nv">input</span> <span class="p">=</span> <span class="n">readLine</span><span class="p">()?.</span><span class="bp">split</span><span class="p">(</span><span class="n">seperator</span><span class="p">:</span> <span class="s">&#34; &#34;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="bp">print</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// &#34;a b c&#34; 입력 시 &#34; &#34;(공백)기준으로 잘라서 배열로 저장한다.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// [&#34;a&#34; &#34;b&#34; &#34;c&#34;]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="components">components</h3>
+<p><code>components(separatedBy: )</code>를 사용할 수도 있다.</p>
+<p>split과의 차이점은 Foundation 프레임워크가 정의되어 있어야 사용이 가능하고, 리턴값은 [String]</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="k">if</span> <span class="kd">let</span> <span class="nv">input</span> <span class="p">=</span> <span class="n">readLine</span><span class="p">()?.</span><span class="n">components</span><span class="p">(</span><span class="n">separatedBy</span><span class="p">:</span> <span class="s">&#34; &#34;</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="bp">print</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// &#34;a b c&#34; 입력 시 &#34; &#34;(공백)기준으로 잘라서 배열로 저장한다.</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="s">&#34;a&#34;</span> <span class="s">&#34;b&#34;</span> <span class="s">&#34;c&#34;</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="두줄-입력-한꺼번에-받기">두줄 입력 한꺼번에 받기</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="bp">print</span><span class="p">(</span><span class="s">&#34;please input your firstName : &#34;</span><span class="p">,</span> <span class="n">terminator</span><span class="p">:</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="kd">let</span> <span class="nv">firstName</span> <span class="p">=</span> <span class="n">readLine</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="s">&#34;please input your lastName : &#34;</span><span class="p">,</span> <span class="n">terminator</span><span class="p">:</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="kd">let</span> <span class="nv">lastName</span> <span class="p">=</span> <span class="n">readLine</span><span class="p">()</span>  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">print</span><span class="p">(</span><span class="n">firstName</span><span class="p">,</span> <span class="n">lastName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// please input your firstName : Jae</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// please input your lastName : Kim</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Jae Kim</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="reference">Reference</h2>
+<p><a class="link" href="https://developer.apple.com/documentation/swift/readline%28strippingnewline:%29/"  target="_blank" rel="noopener"
+    >Swift Doc - readLine</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/swift/">Swift</a>
+        
+            <a href="/tags/readline/">readLine</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/auto-layout1/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Auto Layout(1)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/instantiateviewcontroller-/-performsegue-%ED%99%94%EB%A9%B4-%EC%A0%84%ED%99%98-%EB%B0%A9%EB%B2%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">instantiateViewController / performSegue 화면 전환 방법</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/uiviewcontroller-%EC%83%9D%EB%AA%85%EC%A3%BC%EA%B8%B0lifecycle-methods-view-state-method/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">UIViewController 생명주기(lifecycle methods - View State Method)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/alert-actionsheet/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Alert, ActionSheet</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/notification-notificationcenter/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Notification, NotificationCenter</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="JaeKimdev/blog-comments"
+        issue-term="title"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2022 Jae&#39;s Devlog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.13.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#공백-단위로-입력받기">공백 단위로 입력받기</a>
+      <ol>
+        <li><a href="#split">split</a></li>
+        <li><a href="#components">components</a></li>
+      </ol>
+    </li>
+    <li><a href="#두줄-입력-한꺼번에-받기">두줄 입력 한꺼번에 받기</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

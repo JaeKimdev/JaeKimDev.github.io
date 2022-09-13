@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='KVO (Key-value observing) Key와 Value의 쌍으로 옵저빙하는 것
+Key-value observing is a Cocoa programming pattern you use to notify objects about changes to properties of other objects. It’s useful for communicating changes between logically separated parts of your app—such as between models and views. You can only use key-value observing with classes that inherit from NSObject.
+다른 객체의 프로퍼티 변경사항을 객체에게 알려주는 코코아 프로그래밍 패턴
+Model과 View와 같이 논리적으로 분리된 파트사이에서 변경사항을 전달하는 데 유용하다.'><title>KVO(Key-value observing)</title>
+
+<link rel='canonical' href='https://JaeKimdev.github.io/p/kvokey-value-observing/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='KVO(Key-value observing)'>
+<meta property='og:description' content='KVO (Key-value observing) Key와 Value의 쌍으로 옵저빙하는 것
+Key-value observing is a Cocoa programming pattern you use to notify objects about changes to properties of other objects. It’s useful for communicating changes between logically separated parts of your app—such as between models and views. You can only use key-value observing with classes that inherit from NSObject.
+다른 객체의 프로퍼티 변경사항을 객체에게 알려주는 코코아 프로그래밍 패턴
+Model과 View와 같이 논리적으로 분리된 파트사이에서 변경사항을 전달하는 데 유용하다.'>
+<meta property='og:url' content='https://JaeKimdev.github.io/p/kvokey-value-observing/'>
+<meta property='og:site_name' content='Jae&#39;s Devlog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='swift' /><meta property='article:tag' content='KVO' /><meta property='article:published_time' content='2022-09-03T19:04:50&#43;08:00'/><meta property='article:modified_time' content='2022-09-03T19:04:50&#43;08:00'/><meta property='og:image' content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<meta name="twitter:title" content="KVO(Key-value observing)">
+<meta name="twitter:description" content="KVO (Key-value observing) Key와 Value의 쌍으로 옵저빙하는 것
+Key-value observing is a Cocoa programming pattern you use to notify objects about changes to properties of other objects. It’s useful for communicating changes between logically separated parts of your app—such as between models and views. You can only use key-value observing with classes that inherit from NSObject.
+다른 객체의 프로퍼티 변경사항을 객체에게 알려주는 코코아 프로그래밍 패턴
+Model과 View와 같이 논리적으로 분리된 파트사이에서 변경사항을 전달하는 데 유용하다."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-198007055-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_huda2458f72ce188392d75c5d51cd8e24e_373_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">📱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Jae&#39;s Devlog</a></h1>
+            <h2 class="site-description">iOS, Swift, Etc</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/kvokey-value-observing/">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" alt="Featured image of post KVO(Key-value observing)" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/dev/" >
+                Dev
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/kvokey-value-observing/">KVO(Key-value observing)</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">03 Sep, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    3 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="kvo-key-value-observing">KVO (Key-value observing)</h2>
+<p><code>Key</code>와 <code>Value</code>의 쌍으로 옵저빙하는 것</p>
+<blockquote>
+<p>Key-value observing is a Cocoa programming pattern you use to notify objects about changes to properties of other objects. It’s useful for communicating changes between logically separated parts of your app—such as between models and views. You can only use key-value observing with classes that inherit from NSObject.</p>
+</blockquote>
+<p>다른 객체의 프로퍼티 변경사항을 객체에게 알려주는 코코아 프로그래밍 패턴<br>
+<code>Model</code>과 <code>View</code>와 같이 논리적으로 분리된 파트사이에서 변경사항을 전달하는 데 유용하다.<br>
+<code>objective-c</code>에서 사용하던 방식이라고 생각하면 된다.<br>
+<code>NSObject</code>를 상속하는 클래스만 key-value observing을 사용할 수 있다.</p>
+<h2 id="observig을-하기-위한-초기-설정annotate-a-property-for-key-value-observing">Observig을 하기 위한 초기 설정(Annotate a Property for Key-Value Observing)</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Person</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">name</span><span class="p">:</span> <span class="nb">String</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">age</span><span class="p">:</span> <span class="nb">Int</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">init</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">Int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kc">self</span><span class="p">.</span><span class="n">name</span> <span class="p">=</span> <span class="n">name</span>
+</span></span><span class="line"><span class="cl">        <span class="kc">self</span><span class="p">.</span><span class="n">age</span> <span class="p">=</span> <span class="n">age</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>이름과 나이를 프로퍼티로 가지는 <code>Person</code>이라는 클라스가 있다고 했을 때, KVO를 적용하기 위해서는 무엇을 해야 할까?</p>
+<ol>
+<li><code>NSObject</code>를 상속하는 클래스를 정의한다. 상속을 받아야 하기 때문에 <code>class</code>에서만 가능하다.</li>
+<li>observe 하려는 프로퍼티에 <code>@objc</code> attribute와 <code>dynamic</code> modifier를 붙여준다.</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">Person</span><span class="p">:</span> <span class="n">NSObject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nv">name</span><span class="p">:</span> <span class="nb">String</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">@objc</span> <span class="kr">dynamic</span> <span class="kd">var</span> <span class="nv">age</span><span class="p">:</span> <span class="nb">Int</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">init</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="nb">Int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kc">self</span><span class="p">.</span><span class="n">name</span> <span class="p">=</span> <span class="n">name</span>
+</span></span><span class="line"><span class="cl">        <span class="kc">self</span><span class="p">.</span><span class="n">age</span> <span class="p">=</span> <span class="n">age</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="obsever-정의define-an-observer">Obsever 정의(Define an Observer)</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">jae</span><span class="p">:</span> <span class="n">Person</span> <span class="p">=</span> <span class="n">Person</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="s">&#34;Jae&#34;</span><span class="p">,</span> <span class="n">age</span><span class="p">:</span> <span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">gundy</span><span class="p">:</span> <span class="n">NSKeyValueObservation</span><span class="p">?</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">gundy</span> <span class="p">=</span> <span class="n">jae</span><span class="p">.</span><span class="n">observe</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="err">\</span><span class="n">Person</span><span class="p">.</span><span class="n">age</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">options</span><span class="p">:</span> <span class="p">[.</span><span class="n">old</span><span class="p">,</span> <span class="p">.</span><span class="n">new</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span> <span class="p">{</span> <span class="n">object</span><span class="p">,</span> <span class="n">change</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">print</span><span class="p">(</span><span class="s">&#34;</span><span class="si">\(</span><span class="n">object</span><span class="p">.</span><span class="n">name</span><span class="si">)</span><span class="s">의 나이는 </span><span class="si">\(</span><span class="n">change</span><span class="p">.</span><span class="n">oldValue</span><span class="p">!</span><span class="si">)</span><span class="s">에서 </span><span class="si">\(</span><span class="n">change</span><span class="p">.</span><span class="n">newValue</span><span class="p">!</span><span class="si">)</span><span class="s">으로 변경되었다.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">jae</span><span class="p">.</span><span class="n">age</span> <span class="p">=</span> <span class="mi">21</span> <span class="c1">// Jae의 나이는 20에서 21으로 변경되었다.</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li><code>jae</code>라는 이름의 Person 인스턴스를 생성하고 20살로 설정하였다.</li>
+<li><code>gundy</code>라는 이름의 변수(예제가 <code>Person</code> 타입이라 사람으로 지정했고 애플 사이트에서는 <code>observation</code>으로 되어 있다)에 <code>jae</code>의 <code>age</code> 프로퍼티에 대한 옵저버 <code>NSKeyValueObservation</code>을 저장한다.</li>
+<li>이제부터는 <code>jae</code>의 <code>age</code> 값이 변경될 때마다, <code>gundy</code>에게 알려주게 된다.<br>
+<code>Observing</code>이라는 네이밍이 다른 객체가 <code>jae</code>를 들여다보고 있는 것 같지만, 실제로는 <code>jae</code> 자신이 들여다보고 있다가 값이 변경되면 <code>gundy</code>에게 Optional 값으로 알려주는 형태이다.<br>
+<code>gundy</code>는 <code>jae</code>가 보내준 노티를 받으면 <code>{ }</code>안의 코드(여기서는 값이 바뀜을 출력)를 실행한다.</li>
+</ol>
+<blockquote>
+<p>If you don’t need to know how a property has changed, omit the options parameter. Omitting the options parameter forgoes storing the new and old property values, which causes the oldValue and newValue properties to be nil.</p>
+</blockquote>
+<p>애플 문서에서는 속성이 어떻게 변경되었는지 알 필요가 없는 경우 옵션 매개변수 <code>options: [.old, .new]</code>를 생략할 수 있고, 이 경우에는 <code>oldValue</code>와 <code>newValue</code> 프로퍼티가 <code>nil</code>이 된다. ➡️ 그럼 KVO를 왜 쓰는거지❓</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="n">gundy</span> <span class="p">=</span> <span class="n">jae</span><span class="p">.</span><span class="n">observe</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="err">\</span><span class="n">Person</span><span class="p">.</span><span class="n">age</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span> <span class="p">{</span> <span class="n">object</span><span class="p">,</span> <span class="n">change</span> <span class="k">in</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">print</span><span class="p">(</span><span class="s">&#34;</span><span class="si">\(</span><span class="n">object</span><span class="p">.</span><span class="n">name</span><span class="si">)</span><span class="s">의 나이는 </span><span class="si">\(</span><span class="n">change</span><span class="p">.</span><span class="n">oldValue</span><span class="si">)</span><span class="s">에서 </span><span class="si">\(</span><span class="n">change</span><span class="p">.</span><span class="n">newValue</span><span class="si">)</span><span class="s">으로 변경되었다.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">jae</span><span class="p">.</span><span class="n">age</span> <span class="p">=</span> <span class="mi">21</span> <span class="c1">// Jae의 나이는 nil에서 nil으로 변경되었다.</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="kvo-장단점">KVO 장단점</h2>
+<h3 id="장점">장점</h3>
+<ul>
+<li>두 객체 사이의 동기화가 용이하다.</li>
+<li>관찰된 프로퍼티의 oldValue와 newValue를 얻을 수 있다.</li>
+<li><strong>KeyPath</strong>를 가져오기 때문에(<code>\Person.age</code>) Nested object를 관찰할 수 있다.</li>
+</ul>
+<h3 id="단점">단점</h3>
+<ul>
+<li>
+<p><code>NSobject</code>를 상속받는 객체에서만 사용이 가능하다.</p>
+</li>
+<li>
+<p>여러값을 관찰할 때는 복잡한 <code>if</code>문을 사용해야 한다.</p>
+</li>
+</ul>
+<h2 id="reference">Reference</h2>
+<p><a class="link" href="https://developer.apple.com/documentation/swift/using-key-value-observing-in-swift"  target="_blank" rel="noopener"
+    >Using Key-Value Observing in Swift</a><br>
+<a class="link" href="https://developer.apple.com/documentation/foundation/nskeyvalueobservingoptions"  target="_blank" rel="noopener"
+    >NSKeyValueObservingOptions
+</a><br>
+<a class="link" href="https://zeddios.tistory.com/1220"  target="_blank" rel="noopener"
+    >Zedd - Key-Value Observing(KVO) in Swift</a><br>
+<a class="link" href="https://zeddios.tistory.com/1218"  target="_blank" rel="noopener"
+    >Key-Value Coding(KVC) / KeyPath in Swift</a><br>
+<a class="link" href="https://leeari95.tistory.com/50?category=961652"  target="_blank" rel="noopener"
+    >leeari95 - KVO(Key-value observing)</a><br>
+<a class="link" href="https://topic.alibabacloud.com/a/delegate-notificationkvo-pros-and-cons_8_8_31286426.html"  target="_blank" rel="noopener"
+    >Delegate, NOTIFICATION,KVO pros and cons</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/swift/">Swift</a>
+        
+            <a href="/tags/kvo/">KVO</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/auto-layout1/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Auto Layout(1)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/instantiateviewcontroller-/-performsegue-%ED%99%94%EB%A9%B4-%EC%A0%84%ED%99%98-%EB%B0%A9%EB%B2%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">instantiateViewController / performSegue 화면 전환 방법</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/uiviewcontroller-%EC%83%9D%EB%AA%85%EC%A3%BC%EA%B8%B0lifecycle-methods-view-state-method/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">UIViewController 생명주기(lifecycle methods - View State Method)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/alert-actionsheet/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Alert, ActionSheet</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/notification-notificationcenter/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Notification, NotificationCenter</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="JaeKimdev/blog-comments"
+        issue-term="title"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2022 Jae&#39;s Devlog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.13.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#kvo-key-value-observing">KVO (Key-value observing)</a></li>
+    <li><a href="#observig을-하기-위한-초기-설정annotate-a-property-for-key-value-observing">Observig을 하기 위한 초기 설정(Annotate a Property for Key-Value Observing)</a></li>
+    <li><a href="#obsever-정의define-an-observer">Obsever 정의(Define an Observer)</a></li>
+    <li><a href="#kvo-장단점">KVO 장단점</a>
+      <ol>
+        <li><a href="#장점">장점</a></li>
+        <li><a href="#단점">단점</a></li>
+      </ol>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

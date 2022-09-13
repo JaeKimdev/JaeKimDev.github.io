@@ -3,30 +3,192 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://JaeKimdev.github.io/</loc>
-    <lastmod>2022-07-29T11:19:36+08:00</lastmod>
+    <lastmod>2022-09-10T22:15:06+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/auto-layout/</loc>
+    <lastmod>2022-09-10T22:15:06+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/auto-layout1/</loc>
+    <lastmod>2022-09-10T22:15:06+08:00</lastmod>
   </url><url>
     <loc>https://JaeKimdev.github.io/categories/</loc>
-    <lastmod>2022-07-29T11:19:36+08:00</lastmod>
-  </url><url>
-    <loc>https://JaeKimdev.github.io/tags/curious/</loc>
-    <lastmod>2022-07-29T11:19:36+08:00</lastmod>
+    <lastmod>2022-09-10T22:15:06+08:00</lastmod>
   </url><url>
     <loc>https://JaeKimdev.github.io/categories/dev/</loc>
-    <lastmod>2022-07-29T11:19:36+08:00</lastmod>
+    <lastmod>2022-09-10T22:15:06+08:00</lastmod>
   </url><url>
     <loc>https://JaeKimdev.github.io/post/</loc>
+    <lastmod>2022-09-10T22:15:06+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/swift/</loc>
+    <lastmod>2022-09-10T22:15:06+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/</loc>
+    <lastmod>2022-09-10T22:15:06+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/instantiateviewcontroller/</loc>
+    <lastmod>2022-09-10T19:56:46+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/instantiateviewcontroller-/-performsegue-%ED%99%94%EB%A9%B4-%EC%A0%84%ED%99%98-%EB%B0%A9%EB%B2%95/</loc>
+    <lastmod>2022-09-10T19:56:46+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/performsegue/</loc>
+    <lastmod>2022-09-10T19:56:46+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/uiviewcontroller/</loc>
+    <lastmod>2022-09-07T09:32:29+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/uiviewcontroller-%EC%83%9D%EB%AA%85%EC%A3%BC%EA%B8%B0lifecycle-methods-view-state-method/</loc>
+    <lastmod>2022-09-07T09:32:29+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/actionsheet/</loc>
+    <lastmod>2022-09-04T16:02:57+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/alert/</loc>
+    <lastmod>2022-09-04T16:02:57+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/alert-actionsheet/</loc>
+    <lastmod>2022-09-04T16:02:57+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/uikit/</loc>
+    <lastmod>2022-09-04T16:02:57+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/notification/</loc>
+    <lastmod>2022-09-03T23:16:23+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/notification-notificationcenter/</loc>
+    <lastmod>2022-09-03T23:16:23+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/notificationcenter/</loc>
+    <lastmod>2022-09-03T23:16:23+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/kvo/</loc>
+    <lastmod>2022-09-03T19:04:50+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/kvokey-value-observing/</loc>
+    <lastmod>2022-09-03T19:04:50+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/cocoa/</loc>
+    <lastmod>2022-08-28T16:49:28+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/cocoa-touch-framework/</loc>
+    <lastmod>2022-08-28T16:49:28+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/cocoatouch/</loc>
+    <lastmod>2022-08-28T16:49:28+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/framework/</loc>
+    <lastmod>2022-08-28T16:49:28+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/singleton/</loc>
+    <lastmod>2022-08-28T14:34:00+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/singleton-pattern/</loc>
+    <lastmod>2022-08-28T14:34:00+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/namespace/</loc>
+    <lastmod>2022-08-27T15:01:23+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/swift%EC%97%90%EC%84%9C%EC%9D%98-namespace/</loc>
+    <lastmod>2022-08-27T15:01:23+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/attributes-discardableresult%EB%9E%80/</loc>
+    <lastmod>2022-08-26T14:29:32+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/discardableresult/</loc>
+    <lastmod>2022-08-26T14:29:32+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/~/</loc>
+    <lastmod>2022-08-24T07:44:00+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/%EB%B2%94%EC%9C%84-%EC%97%B0%EC%82%B0%EC%9E%90/</loc>
+    <lastmod>2022-08-24T07:44:00+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/%EB%B2%94%EC%9C%84-%EC%97%B0%EC%82%B0%EC%9E%90/</loc>
+    <lastmod>2022-08-24T07:44:00+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/readline/</loc>
+    <lastmod>2022-08-20T21:02:43+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/readline-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0/</loc>
+    <lastmod>2022-08-20T21:02:43+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/equal-to-operator/</loc>
+    <lastmod>2022-08-20T20:05:22+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/equalto/</loc>
+    <lastmod>2022-08-20T20:05:22+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/backtick/</loc>
+    <lastmod>2022-08-11T22:21:57+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/mac/</loc>
+    <lastmod>2022-08-11T22:21:57+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/%EB%A7%A5%EC%97%90%EC%84%9C-%ED%82%A4-%EB%8C%80%EC%8B%A0-backtick%EC%9D%84-%EC%9E%85%EB%A0%A5%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95/</loc>
+    <lastmod>2022-08-11T22:21:57+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/for-in-/-foreach-%EB%B9%84%EA%B5%90/</loc>
+    <lastmod>2022-08-10T11:17:56+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/array/</loc>
+    <lastmod>2022-08-09T21:01:24+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/array%EC%99%80-%EC%9E%90%EC%A3%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C/</loc>
+    <lastmod>2022-08-09T21:01:24+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/git/</loc>
+    <lastmod>2022-08-08T22:17:43+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/git-%EC%A0%95%EB%A6%AC/</loc>
+    <lastmod>2022-08-08T22:17:43+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/categories/tech/</loc>
+    <lastmod>2022-08-08T22:17:43+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/cow/</loc>
+    <lastmod>2022-08-07T17:06:10+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/cowcopy-on-write/</loc>
+    <lastmod>2022-08-07T17:06:10+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/tuple/</loc>
+    <lastmod>2022-08-05T11:15:27+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/tuple-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0/</loc>
+    <lastmod>2022-08-05T11:15:27+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/assert-%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0/</loc>
+    <lastmod>2022-08-03T10:05:27+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/categories/blog/</loc>
+    <lastmod>2022-08-02T09:25:10+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/github.io/</loc>
+    <lastmod>2022-08-02T09:25:10+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/hugo/</loc>
+    <lastmod>2022-08-02T09:25:10+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/hugo-%ED%85%8C%EB%A7%88-stack%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%98%EA%B8%B0/</loc>
+    <lastmod>2022-08-02T09:25:10+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/stack-theme/</loc>
+    <lastmod>2022-08-02T09:25:10+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/enum/</loc>
+    <lastmod>2022-08-01T08:19:48+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/p/enum-%EC%97%B4%EA%B1%B0%ED%98%95/</loc>
+    <lastmod>2022-08-01T08:19:48+08:00</lastmod>
+  </url><url>
+    <loc>https://JaeKimdev.github.io/tags/curious/</loc>
     <lastmod>2022-07-29T11:19:36+08:00</lastmod>
   </url><url>
     <loc>https://JaeKimdev.github.io/tags/string-literals/</loc>
     <lastmod>2022-07-29T11:19:36+08:00</lastmod>
   </url><url>
     <loc>https://JaeKimdev.github.io/p/string-literals/</loc>
-    <lastmod>2022-07-29T11:19:36+08:00</lastmod>
-  </url><url>
-    <loc>https://JaeKimdev.github.io/tags/swift/</loc>
-    <lastmod>2022-07-29T11:19:36+08:00</lastmod>
-  </url><url>
-    <loc>https://JaeKimdev.github.io/tags/</loc>
     <lastmod>2022-07-29T11:19:36+08:00</lastmod>
   </url><url>
     <loc>https://JaeKimdev.github.io/tags/optional/</loc>
@@ -68,16 +230,7 @@
     <loc>https://JaeKimdev.github.io/tags/%ED%95%99%EC%9B%90/</loc>
     <lastmod>2022-07-27T10:46:27+08:00</lastmod>
   </url><url>
-    <loc>https://JaeKimdev.github.io/categories/blog/</loc>
-    <lastmod>2022-07-27T09:23:57+08:00</lastmod>
-  </url><url>
     <loc>https://JaeKimdev.github.io/tags/devlog/</loc>
-    <lastmod>2022-07-27T09:23:57+08:00</lastmod>
-  </url><url>
-    <loc>https://JaeKimdev.github.io/tags/github.io/</loc>
-    <lastmod>2022-07-27T09:23:57+08:00</lastmod>
-  </url><url>
-    <loc>https://JaeKimdev.github.io/tags/hugo/</loc>
     <lastmod>2022-07-27T09:23:57+08:00</lastmod>
   </url><url>
     <loc>https://JaeKimdev.github.io/p/hugo%EB%A1%9C-github.io-%EA%B8%B0%EC%88%A0-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B02/</loc>

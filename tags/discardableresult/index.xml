@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>discardableResult on Jae&#39;s Devlog</title>
+        <link>https://JaeKimdev.github.io/tags/discardableresult/</link>
+        <description>Recent content in discardableResult on Jae&#39;s Devlog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Fri, 26 Aug 2022 14:29:32 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/tags/discardableresult/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Attributes - @discardableResult란?</title>
+        <link>https://JaeKimdev.github.io/p/attributes-discardableresult%EB%9E%80/</link>
+        <pubDate>Fri, 26 Aug 2022 14:29:32 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/attributes-discardableresult%EB%9E%80/</guid>
+        <description>&lt;img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" alt="Featured image of post Attributes - @discardableResult란?" /&gt;&lt;p&gt;다른 조원 분의 프로젝트를 보다가 &lt;code&gt;@discardableResult&lt;/code&gt;를 사용한 부분을 보게되었다.&lt;/p&gt;
+&lt;p&gt;오늘은 &lt;code&gt;@discardableResult&lt;/code&gt;에 대해서 알아보자.&lt;br&gt;
+&lt;code&gt;버릴 수 있는 결과&lt;/code&gt; 정도로 해석할 수 있는 &lt;code&gt;@discardableResult&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220826-1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+공식문에서는 이렇게 정의하고 있다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;결과를 사용하지 않고 값을 반환하는 함수 또는 메서드가 호출될 때 컴파일러 경고를 표시하지 않으려면 이 특성을 함수 또는 메서드 선언에 적용합니다.&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Attributes 페이지 상단에 있는 예제를 살펴보면&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;the discardableResult attribute on a function declaration indicates that, although the function returns a value, the compiler shouldn’t generate a warning if the return value is unused.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;discardableResult함수 선언의 속성은 함수가 값을 반환하더라도 반환 값이 사용되지 않는 경우 컴파일러에서 경고를 생성하지 않아야 함을 나타냅니다.&lt;/p&gt;
+&lt;p&gt;예제를 살펴보면&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220826-2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+2개의 Int를 받아 합계를 리턴하는 함수 &lt;code&gt;sum&lt;/code&gt;을 만들고 호출해보면 Xcode에서 &lt;code&gt;Result of call to &#39;sum(a: b:)&#39; is unused&lt;/code&gt;라는 경고를 보여준다. 리턴되는 값을 사용하지 않아 경고를 보여주는 것인데,&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220826-3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+이럴 때 &lt;code&gt;@discardableResult&lt;/code&gt;를 앞에 붙여주면 경고를 무시하고 사용할 수 있다.&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.swift.org/swift-book/ReferenceManual/Attributes.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Swift Docs - Attributes&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

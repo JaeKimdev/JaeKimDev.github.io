@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='NameSpace란? 관련 있는 값들을 묶어 놓은 공간을 nameSpace 라고 하는데, swift에서는 namespace를 아직 지원하지 않고 있다. (SwiftUI에서는 nameSpace를 지원하고 있는 듯 하다)
+프로젝트 파일 안에서 사용되고 있는 메시지들을 묶어서 한곳에서 관리하면 나중에 메세지를 변경해야 할 일이 있을 때 일일이 고쳐주지 않고 nameSpace를 수정하고 프로그램 상에서 호출하여 사용하면 유지보수 측면에서 좋을 것 같아 찾아보았다.
+일반적으로 사용되는 방식은 Struct를 사용하거나 Enum을 활용하는 방법으로 해결할 수 있다.
+struct 구조체를 이용하는 방법 1 2 3 4 5 6 struct GameMessages { private init() {} static let inputWrong: String = &amp;#34;잘못된 입력입니다.'><title>Swift에서의 nameSpace</title>
+
+<link rel='canonical' href='https://JaeKimdev.github.io/p/swift%EC%97%90%EC%84%9C%EC%9D%98-namespace/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='Swift에서의 nameSpace'>
+<meta property='og:description' content='NameSpace란? 관련 있는 값들을 묶어 놓은 공간을 nameSpace 라고 하는데, swift에서는 namespace를 아직 지원하지 않고 있다. (SwiftUI에서는 nameSpace를 지원하고 있는 듯 하다)
+프로젝트 파일 안에서 사용되고 있는 메시지들을 묶어서 한곳에서 관리하면 나중에 메세지를 변경해야 할 일이 있을 때 일일이 고쳐주지 않고 nameSpace를 수정하고 프로그램 상에서 호출하여 사용하면 유지보수 측면에서 좋을 것 같아 찾아보았다.
+일반적으로 사용되는 방식은 Struct를 사용하거나 Enum을 활용하는 방법으로 해결할 수 있다.
+struct 구조체를 이용하는 방법 1 2 3 4 5 6 struct GameMessages { private init() {} static let inputWrong: String = &amp;#34;잘못된 입력입니다.'>
+<meta property='og:url' content='https://JaeKimdev.github.io/p/swift%EC%97%90%EC%84%9C%EC%9D%98-namespace/'>
+<meta property='og:site_name' content='Jae&#39;s Devlog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='swift' /><meta property='article:tag' content='nameSpace' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2022-08-27T15:01:23&#43;08:00'/><meta property='article:modified_time' content='2022-08-27T15:01:23&#43;08:00'/><meta property='og:image' content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<meta name="twitter:title" content="Swift에서의 nameSpace">
+<meta name="twitter:description" content="NameSpace란? 관련 있는 값들을 묶어 놓은 공간을 nameSpace 라고 하는데, swift에서는 namespace를 아직 지원하지 않고 있다. (SwiftUI에서는 nameSpace를 지원하고 있는 듯 하다)
+프로젝트 파일 안에서 사용되고 있는 메시지들을 묶어서 한곳에서 관리하면 나중에 메세지를 변경해야 할 일이 있을 때 일일이 고쳐주지 않고 nameSpace를 수정하고 프로그램 상에서 호출하여 사용하면 유지보수 측면에서 좋을 것 같아 찾아보았다.
+일반적으로 사용되는 방식은 Struct를 사용하거나 Enum을 활용하는 방법으로 해결할 수 있다.
+struct 구조체를 이용하는 방법 1 2 3 4 5 6 struct GameMessages { private init() {} static let inputWrong: String = &amp;#34;잘못된 입력입니다."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-198007055-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_huda2458f72ce188392d75c5d51cd8e24e_373_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">📱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Jae&#39;s Devlog</a></h1>
+            <h2 class="site-description">iOS, Swift, Etc</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/swift%EC%97%90%EC%84%9C%EC%9D%98-namespace/">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" alt="Featured image of post Swift에서의 nameSpace" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/dev/" >
+                Dev
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/swift%EC%97%90%EC%84%9C%EC%9D%98-namespace/">Swift에서의 nameSpace</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">27 Aug, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    2 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="namespace란"><code>NameSpace</code>란?</h2>
+<p>관련 있는 값들을 묶어 놓은 공간을 nameSpace 라고 하는데, swift에서는 namespace를 아직 지원하지 않고 있다. (SwiftUI에서는 nameSpace를 지원하고 있는 듯 하다)</p>
+<p>프로젝트 파일 안에서 사용되고 있는 메시지들을 묶어서 한곳에서 관리하면 나중에 메세지를 변경해야 할 일이 있을 때 일일이 고쳐주지 않고 nameSpace를 수정하고 프로그램 상에서 호출하여 사용하면 유지보수 측면에서 좋을 것 같아 찾아보았다.</p>
+<p>일반적으로 사용되는 방식은 <code>Struct</code>를 사용하거나 <code>Enum</code>을 활용하는 방법으로 해결할 수 있다.</p>
+<h3 id="struct-구조체를-이용하는-방법">struct 구조체를 이용하는 방법</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">struct</span> <span class="nc">GameMessages</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">init</span><span class="p">()</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">static</span> <span class="kd">let</span> <span class="nv">inputWrong</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;잘못된 입력입니다. 다시 시도해주세요.&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">static</span> <span class="kd">let</span> <span class="nv">endGame</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;게임종료&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">static</span> <span class="kd">let</span> <span class="nv">victory</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;의 승리!&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>프로그램 안에서 사용되는 텍스트를 묶어서 <code>GameMessages</code>라는 구조체를 만들어 주고 <code>static</code> 키워드를 이용하여 <code>타입 프로퍼티</code>로 생성해 주었다.</p>
+<p>사용할 때에는</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">wrongInput</span> <span class="p">=</span> <span class="n">GameMessages</span><span class="p">.</span><span class="n">inputwrong</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">gameFinish</span> <span class="p">=</span> <span class="n">GameMessages</span><span class="p">.</span><span class="n">endGame</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>으로 선언하여 사용한다.</p>
+<p>struct로 nameSpace를 사용할 때의 문제점은 다른 개발자가 실수로 인스턴스를 생성할 수 있다는 점이다.
+인스턴스 생성을 막기 위해 <code>private init() {}</code>을 써주어서 인스턴스화 할 수 없도록 만들어준다.</p>
+<h3 id="enum-열거형을-이용하는-방법">enum 열거형을 이용하는 방법</h3>
+<p>다른 방법으로는 enum을 이용하여 nameSpace를 설정해주는 방법이다.<br>
+case를 설정하지 않고 enum을 만들 수 있나요? 네! 방법이 있습니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">enum</span> <span class="nc">GameMessages</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">inputWrong</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;잘못된 입력입니다. 다시 시도해주세요.&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">endGame</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;게임종료&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">victory</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;의 승리!&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>case가 없는 열거형을 사용하면 실수로 인스턴스화를 할 수 없고 nameSpace의 역할을 할 수 있도록 설정가능하다.</p>
+<p>유지보수의 측면에서는 한 곳에서 여러개의 리터럴을 관리하고 수정할 수 있어서 nameSpace를 사용하는 편이 좋겠지만, 메모리 측면에서는 프로그램이 실행되면 모든 static 상수가 메모리에 탑재되므로 메모리 관리 측면에서는 좋은 방법이 아닐 수도 있다는 생각이 들었다.</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li>
+<p><strong>nameSpace</strong><br>
+<a class="link" href="https://cocoacasts.com/namespaces-in-swift"  target="_blank" rel="noopener"
+    >https://cocoacasts.com/namespaces-in-swift</a><br>
+<a class="link" href="https://onelife2live.tistory.com/15"  target="_blank" rel="noopener"
+    >https://onelife2live.tistory.com/15</a><br>
+<a class="link" href="https://sujinnaljin.medium.com/namespace-%EC%A7%80%EC%A0%95%ED%95%98%EA%B8%B0-struct-vs-enum-ce86d5717d95"  target="_blank" rel="noopener"
+    >https://sujinnaljin.medium.com/namespace-%EC%A7%80%EC%A0%95%ED%95%98%EA%B8%B0-struct-vs-enum-ce86d5717d95</a><br>
+<a class="link" href="https://zeddios.tistory.com/353"  target="_blank" rel="noopener"
+    >https://zeddios.tistory.com/353</a></p>
+</li>
+<li>
+<p><strong>Type property(static)</strong><br>
+<a class="link" href="https://varyeun.tistory.com/entry/%EC%8A%A4%EC%9C%84%ED%94%84%ED%8A%B8%EC%97%90%EC%84%9C-static-%ED%82%A4%EC%9B%8C%EB%93%9C%EB%9E%80-static-in-swift"  target="_blank" rel="noopener"
+    >https://varyeun.tistory.com/entry/%EC%8A%A4%EC%9C%84%ED%94%84%ED%8A%B8%EC%97%90%EC%84%9C-static-%ED%82%A4%EC%9B%8C%EB%93%9C%EB%9E%80-static-in-swift</a></p>
+</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/swift/">Swift</a>
+        
+            <a href="/tags/namespace/">nameSpace</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/singleton-pattern/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Singleton Pattern</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/attributes-discardableresult%EB%9E%80/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Attributes - @discardableResult란?</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/for-in-/-foreach-%EB%B9%84%EA%B5%90/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">for - in / forEach 비교</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/auto-layout1/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Auto Layout(1)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/instantiateviewcontroller-/-performsegue-%ED%99%94%EB%A9%B4-%EC%A0%84%ED%99%98-%EB%B0%A9%EB%B2%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">instantiateViewController / performSegue 화면 전환 방법</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="JaeKimdev/blog-comments"
+        issue-term="title"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2022 Jae&#39;s Devlog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.13.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#namespace란"><code>NameSpace</code>란?</a>
+      <ol>
+        <li><a href="#struct-구조체를-이용하는-방법">struct 구조체를 이용하는 방법</a></li>
+        <li><a href="#enum-열거형을-이용하는-방법">enum 열거형을 이용하는 방법</a></li>
+      </ol>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

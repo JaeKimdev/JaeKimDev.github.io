@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='새로운 글 작성하기 신규 포스트는 터미널에 다음과 같이 입력하면 된다.
+파일명 정하기가 어려울 것 같아 날짜로 입력하기로 했다.
+1 2 3 # hugo new post/&amp;lt;폴더명&amp;gt;/파일 이름.md (폴더명 생략가능) $ hugo new post/tech/220727-1.md Content &amp;#34;/Users/smfc/Dev/blog/content/post/tech/220727-1.md&amp;#34; created blog/content/post 하단에 md 파일이 생성되고 그것을 수정해서 저장하면 된다.
+터미널에서 로컬서버를 실행하면 바로 확인이 가능하다
+1 2 3 # 로컬 서버 실행 $ hugo server -D # http://localhost:1313 접속하여 확인 작성을 다 마치고 로컬서버에서 확인 후 배포를 하면 된다.'><title>Hugo로 github.io 기술 블로그 만들기(2)</title>
+
+<link rel='canonical' href='https://JaeKimdev.github.io/p/hugo%EB%A1%9C-github.io-%EA%B8%B0%EC%88%A0-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B02/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='Hugo로 github.io 기술 블로그 만들기(2)'>
+<meta property='og:description' content='새로운 글 작성하기 신규 포스트는 터미널에 다음과 같이 입력하면 된다.
+파일명 정하기가 어려울 것 같아 날짜로 입력하기로 했다.
+1 2 3 # hugo new post/&amp;lt;폴더명&amp;gt;/파일 이름.md (폴더명 생략가능) $ hugo new post/tech/220727-1.md Content &amp;#34;/Users/smfc/Dev/blog/content/post/tech/220727-1.md&amp;#34; created blog/content/post 하단에 md 파일이 생성되고 그것을 수정해서 저장하면 된다.
+터미널에서 로컬서버를 실행하면 바로 확인이 가능하다
+1 2 3 # 로컬 서버 실행 $ hugo server -D # http://localhost:1313 접속하여 확인 작성을 다 마치고 로컬서버에서 확인 후 배포를 하면 된다.'>
+<meta property='og:url' content='https://JaeKimdev.github.io/p/hugo%EB%A1%9C-github.io-%EA%B8%B0%EC%88%A0-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B02/'>
+<meta property='og:site_name' content='Jae&#39;s Devlog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='hugo' /><meta property='article:tag' content='devlog' /><meta property='article:tag' content='github.io' /><meta property='article:published_time' content='2022-07-27T09:23:57&#43;08:00'/><meta property='article:modified_time' content='2022-07-27T09:23:57&#43;08:00'/><meta property='og:image' content='https://raw.githubusercontent.com/JaeKimdev/TIL/main/etc/images/blog/blog-1.avif' />
+<meta name="twitter:title" content="Hugo로 github.io 기술 블로그 만들기(2)">
+<meta name="twitter:description" content="새로운 글 작성하기 신규 포스트는 터미널에 다음과 같이 입력하면 된다.
+파일명 정하기가 어려울 것 같아 날짜로 입력하기로 했다.
+1 2 3 # hugo new post/&amp;lt;폴더명&amp;gt;/파일 이름.md (폴더명 생략가능) $ hugo new post/tech/220727-1.md Content &amp;#34;/Users/smfc/Dev/blog/content/post/tech/220727-1.md&amp;#34; created blog/content/post 하단에 md 파일이 생성되고 그것을 수정해서 저장하면 된다.
+터미널에서 로컬서버를 실행하면 바로 확인이 가능하다
+1 2 3 # 로컬 서버 실행 $ hugo server -D # http://localhost:1313 접속하여 확인 작성을 다 마치고 로컬서버에서 확인 후 배포를 하면 된다."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://raw.githubusercontent.com/JaeKimdev/TIL/main/etc/images/blog/blog-1.avif' />
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-198007055-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_huda2458f72ce188392d75c5d51cd8e24e_373_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">📱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Jae&#39;s Devlog</a></h1>
+            <h2 class="site-description">iOS, Swift, Etc</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/hugo%EB%A1%9C-github.io-%EA%B8%B0%EC%88%A0-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B02/">
+                
+                    <img src="https://raw.githubusercontent.com/JaeKimdev/TIL/main/etc/images/blog/blog-1.avif" loading="lazy" alt="Featured image of post Hugo로 github.io 기술 블로그 만들기(2)" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/blog/" >
+                Blog
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/hugo%EB%A1%9C-github.io-%EA%B8%B0%EC%88%A0-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B02/">Hugo로 github.io 기술 블로그 만들기(2)</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">27 Jul, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    2 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="새로운-글-작성하기">새로운 글 작성하기</h2>
+<p>신규 포스트는 터미널에 다음과 같이 입력하면 된다.<br>
+파일명 정하기가 어려울 것 같아 날짜로 입력하기로 했다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># hugo new post/&lt;폴더명&gt;/파일 이름.md (폴더명 생략가능)
+</span></span><span class="line"><span class="cl">$ hugo new post/tech/220727-1.md
+</span></span><span class="line"><span class="cl">Content &#34;/Users/smfc/Dev/blog/content/post/tech/220727-1.md&#34; created
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>blog/content/post 하단에 md 파일이 생성되고 그것을 수정해서 저장하면 된다.<br>
+터미널에서 로컬서버를 실행하면 바로 확인이 가능하다</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 로컬 서버 실행
+</span></span><span class="line"><span class="cl">$ hugo server -D
+</span></span><span class="line"><span class="cl"># http://localhost:1313 접속하여 확인
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>작성을 다 마치고 로컬서버에서 확인 후 배포를 하면 된다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 로컬서버 종료 ctrl + c
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ git add .
+</span></span><span class="line"><span class="cl">$ git push
+</span></span><span class="line"><span class="cl">$ ./deploy.sh
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="포스트에-댓글-추가하기">포스트에 댓글 추가하기</h2>
+<p>참고한 <code>gurumee92</code>님이 하신대로 깃허브에서 <code>blog-comments</code>라는 이름으로 레포지토리를 하나 더 만들고 <a class="link" href="https://utteranc.es/"  target="_blank" rel="noopener"
+    >여기 utterances 사이트</a>로 가서 &lsquo;Blog Post ↔️ Issue Mapping`에서 한가지를 선택 후 바로 위쪽 repo 칸에 자신의 레포지토리 이름(JaeKimDev/blog-comments)을 넣어주고 아래쪽에 보여지는 스크립트를 복사하면 된다.</p>
+<p><img src="/image/220727-1.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;script src=&#34;https://utteranc.es/client.js&#34;
+</span></span><span class="line"><span class="cl">        repo=&#34;JaeKimDev/blog-comments&#34;
+</span></span><span class="line"><span class="cl">        issue-term=&#34;title&#34;
+</span></span><span class="line"><span class="cl">        theme=&#34;github-light&#34;
+</span></span><span class="line"><span class="cl">        crossorigin=&#34;anonymous&#34;
+</span></span><span class="line"><span class="cl">        async&gt;
+</span></span><span class="line"><span class="cl">&lt;/script&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>복사한 스크립트를 blog/themes/hugo-tranquilpeak-theme/layouts/partials/post/comment.html 파일을 열어 하단에 붙여넣어 주고 확인해보면 댓글 추가 폼이 생성되었다.</p>
+<h2 id="포스트에-이미지-추가하기">포스트에 이미지 추가하기</h2>
+<p>어떻게 보면 간단할 수 있는데, md 파일을 수정하면서 어떻게 이미지를 넣어야 할 지 몰라서 고생했다.</p>
+<ol>
+<li>
+<p>static 폴더 안에 image 폴더를 만들고(blog/static/image) 로컬에서 불러오는 방법</p>
+</li>
+<li>
+<p>온라인에 올리고 링크를 이용하여 불러오는 방법</p>
+<p>1번 방법은 blog/static/image 안에 <code>이미지.png</code> 파일을 추가하고 글 작성 시 <code>![img](/image/이미지.png)</code> 라고 적어주면 이미지가 추가된다.</p>
+<ul>
+<li>‼️ 추가 : 경로를 &ldquo;post/review/220727-2.png&rdquo; 로 적어주어도 된다.</li>
+</ul>
+<p>2번 방법은 온라인에 올리고 링크를 이용하여 불러오는 방법이다.<br>
+나는 깃허브 TIL폴더 하단에 <code>etc/images/blog</code>폴더를 만들어서 이미지를 업로드 하고<br>
+<code>![img](이미지 경로)</code> 라고 적어주었다.</p>
+<p>여러번 쓸 수 있을 것 같은 짤방이나 이미지는 한번만 올려두고 링크로 끌고 오는 편이 좋을 것 같다.</p>
+</li>
+</ol>
+<p>만들어진 서비스를 이용하는 것이 더 편리하고 좋겠지만, git과도 좀 더 친해질 수 있고 마크다운 언어도 익숙해질 수 있을 것 같아 일단은 써보려고 한다.</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a class="link" href="https://velog.io/@mellonggo/Github-%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0-with-Hugo"  target="_blank" rel="noopener"
+    >Github 페이지 블로그 만들기 (with Hugo)</a></li>
+<li><a class="link" href="https://gurumee92.github.io/2020/08/%EB%B8%94%EB%A1%9C%EA%B7%B8-%EA%B5%AC%EC%B6%95%EA%B8%B0-1-hugo-github%EC%9C%BC%EB%A1%9C-%EA%B0%9C%EC%9D%B8-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B0/"  target="_blank" rel="noopener"
+    >블로그 구축기 (1) Hugo + Github으로 개인 블로그 만들기</a></li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/hugo/">hugo</a>
+        
+            <a href="/tags/devlog/">devlog</a>
+        
+            <a href="/tags/github.io/">github.io</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/hugo%EB%A1%9C-github.io-%EA%B8%B0%EC%88%A0-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%A7%8C%EB%93%A4%EA%B8%B01/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Hugo로 github.io 기술 블로그 만들기(1)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/hugo-blog-%ED%85%8C%EC%8A%A4%ED%8A%B8/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Hugo Blog 테스트</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/hugo-%ED%85%8C%EB%A7%88-stack%EC%9C%BC%EB%A1%9C-%EB%B3%80%EA%B2%BD%ED%95%98%EA%B8%B0/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://cdn.clien.net/web/api/file/F01/8800574/2dab9ea4a96910.jpg?w=780&amp;h=30000" loading="lazy" data-key="" data-hash="https://cdn.clien.net/web/api/file/F01/8800574/2dab9ea4a96910.jpg?w=780&amp;h=30000"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">hugo 테마 stack으로 변경하기 </h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="JaeKimdev/blog-comments"
+        issue-term="title"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2022 Jae&#39;s Devlog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.13.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#새로운-글-작성하기">새로운 글 작성하기</a></li>
+    <li><a href="#포스트에-댓글-추가하기">포스트에 댓글 추가하기</a></li>
+    <li><a href="#포스트에-이미지-추가하기">포스트에 이미지 추가하기</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

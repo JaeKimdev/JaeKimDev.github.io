@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>UIViewController on Jae&#39;s Devlog</title>
+        <link>https://JaeKimdev.github.io/tags/uiviewcontroller/</link>
+        <description>Recent content in UIViewController on Jae&#39;s Devlog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Wed, 07 Sep 2022 09:32:29 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/tags/uiviewcontroller/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>UIViewController 생명주기(lifecycle methods - View State Method)</title>
+        <link>https://JaeKimdev.github.io/p/uiviewcontroller-%EC%83%9D%EB%AA%85%EC%A3%BC%EA%B8%B0lifecycle-methods-view-state-method/</link>
+        <pubDate>Wed, 07 Sep 2022 09:32:29 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/uiviewcontroller-%EC%83%9D%EB%AA%85%EC%A3%BC%EA%B8%B0lifecycle-methods-view-state-method/</guid>
+        <description>&lt;img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" alt="Featured image of post UIViewController 생명주기(lifecycle methods - View State Method)" /&gt;&lt;p&gt;오늘은 &lt;code&gt;UIViewController&lt;/code&gt;의 생명주기에 대해 알아보자.&lt;/p&gt;
+&lt;p&gt;그러려면 먼저 &lt;code&gt;UIViewController&lt;/code&gt;가 어떤 녀석인지 알아봐야겠지..&lt;/p&gt;
+&lt;h2 id=&#34;uiviewcontroller&#34;&gt;UIViewController&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;An object that manages a view hierarchy for your UIKit app.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;애플 문서에서는 &lt;code&gt;UIKit&lt;/code&gt; 앱에서 계층 구조를 관리하는 객체라고 설명되어 있다.&lt;/p&gt;
+&lt;p&gt;모든 앱에는 적어도 하나의 UIViewController가 있고 UIViewController는 view를 관리하고, 다른 UIViewController로 전환하거나 view와 사용자 상호 작용을 관리한다.&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/index.html#//apple_ref/doc/uid/TP40007457&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;아카이브 된 애플문서&lt;/a&gt;를 보면 UIViewController가 뷰 계층을 어떻게 관리하는지 더 잘 나와있다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220907-1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;handle-view-related-notifications&#34;&gt;Handle view-related notifications&lt;/h2&gt;
+&lt;p&gt;view가 변경되면 ViewController 자동으로 자신의 메소드를 호출하여 하위 클래스가 변경사항에 응답할 수 있도록 하는데, 뷰가 보여지고(Appear), 사라지는(Disappear) 일련의 과정들을 생명주기라고 한다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220907-2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;애플 문서에 나와있는 이 그림에서는 ViewController가 view의 시각적 상태를 어떠한 메소드를 활용하여 관리하는지 보여준다. &lt;code&gt;will&lt;/code&gt;로 시작하는 메소드는 변화가 시작되기 전, &lt;code&gt;did&lt;/code&gt;로 시작하는 메소드는 변화가 끝난 후 라고 이해할 수 있겠다. 애플의 Naming 칭찬해 👏&lt;/p&gt;
+&lt;p&gt;뭔가 순환하는 듯한 애플의 이미지가 잘 이해가 가지 않는다면 이 그림을 보자&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220907-3.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h6 id=&#34;출처-httpssubscriptionpacktpubcombookapplication-development97817835508146ch06lvl1sec60uiviewcontroller-lifecycle-methods&#34;&gt;출처: &lt;a class=&#34;link&#34; href=&#34;https://subscription.packtpub.com/book/application-development/9781783550814/6/ch06lvl1sec60/uiviewcontroller-lifecycle-methods&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://subscription.packtpub.com/book/application-development/9781783550814/6/ch06lvl1sec60/uiviewcontroller-lifecycle-methods&lt;/a&gt;&lt;/h6&gt;
+&lt;h2 id=&#34;loadview&#34;&gt;loadView&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Creates the view that the controller manages.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;컨트롤러가 관리하는 뷰를 만들어주는 메소드이다. view property를 할당하여 뷰를 로드하거나 만들어주는 역할을 한다.&lt;/p&gt;
+&lt;p&gt;스토리보드나 xib와 같은 interfaceBuilder를 사용하는 경우 nib 파일을 로드하여 자동으로 호출되고, 코드로만 뷰를 구성할 경우 오버라이드 하여 사용해야 한다.&lt;/p&gt;
+&lt;h2 id=&#34;viewdidload&#34;&gt;viewDidLoad&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Called after the controller&amp;rsquo;s view is loaded into memory.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;컨트롤러의 뷰가 메모리에 로드되었을때 호출된다고 정의되어 있다.&lt;/p&gt;
+&lt;p&gt;뷰가 프로그래밍 방식으로 생성되었든지, xib 파일에서 로드되었는지 여부와 상관없이 뷰와 뷰 계층이 메모리에 로드되었을 때 호출된다.
+화면에 만들어 질 때 &lt;strong&gt;한번만 호출&lt;/strong&gt;되기 때문에 리소스를 초기화하거나 초기화면을 구성하는 용도로 사용된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220907-4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+새로운 코코아터치 파일을 만들면 보이는 이것! &lt;code&gt;viewDidLoad()&lt;/code&gt;&lt;br&gt;
+&lt;code&gt;Do any additional setup after loading the view.&lt;/code&gt; 부분에 코드를 넣어주면 된다.&lt;/p&gt;
+&lt;h2 id=&#34;viewwillappear&#34;&gt;viewWillAppear&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Notifies the view controller that its view is about to be added to a view hierarchy.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;뷰가 뷰 계층에 추가될 것이라고 뷰 컨트롤러에게 알리고 뷰를 보여주기 위해 화면을 그리는 동작 이전에 호출된다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;For example, you might use this method to change the orientation or style of the status bar to coordinate with the orientation or style of the view being presented.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;화면이 보여지기 전 변경되어야 할 작업들(상태바의 방향(Depth표시 등))을 여기서 먼저 처리하고 뷰를 그려주면 되겠다.&lt;/p&gt;
+&lt;h2 id=&#34;viewdidappear&#34;&gt;viewDidAppear&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Notifies the view controller that its view was added to a view hierarchy.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;뷰 컨트롤러에게 뷰가 추가되었음을 알리는 메소드이다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;If a view controller is presented by a view controller inside of a popover, this method is not invoked on the presenting view controller after the presented controller is dismissed.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;💡
+popover 내부에서 뷰 컨트롤러가 표시되는 경우 표시된 컨트롤러가 해제되고 보여지는 뷰 컨트롤러에서도 호출되지 않는다.&lt;/p&gt;
+&lt;h2 id=&#34;viewwilldisappear&#34;&gt;viewWillDisappear&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Notifies the view controller that its view is about to be removed from a view hierarchy.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;뷰 컨트롤러에게 뷰가 제거될 것임을 알리는 메소드이다. 뷰가 실제로 제거되기 전과 애니메이션이 구성되기 전에 호출된다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;For example, you might use this method to revert changes to the orientation or style of the status bar that were made in the viewDidAppear(_:) method when the view was first presented.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;이 뷰를 처음 표시할 때 &lt;code&gt;viewDidAppear&lt;/code&gt; 메소드에서 처리한 변경된 작업들을 되돌리고 싶은 경우 여기서 처리하면 된다.&lt;/p&gt;
+&lt;h2 id=&#34;viewdiddisappear&#34;&gt;viewDidDisappear&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Notifies the view controller that its view was removed from a view hierarchy.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;뷰 컨트롤러에게 뷰가 제거되었음을 알리는 메소드이다. 뷰가 실제로 제거된 후에 호출된다.&lt;/p&gt;
+&lt;h2 id=&#34;생각해보기&#34;&gt;생각해보기&lt;/h2&gt;
+&lt;p&gt;❓ 만약에 홈화면에서 버튼을 클릭하여 다른 화면으로 이동했다가 다시 홈화면으로 돌아오는 경우에는 이렇게 되는 것일까?&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;//App 실행되고 FirstVC 노출&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;1.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FirstVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;loadView&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;2.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FirstVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewDidLoad&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;3.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FirstVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewWillAppear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;4.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FirstVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewDidAppear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;//push로 SecondVC 호출&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;5.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecondVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;loadView&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;6.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecondVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewDidLoad&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;7.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FirstVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewWillDisappear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;8.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecondVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewWillAppear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;9.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FirstVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewDidDisappear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;10.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecondVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewDidAppear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;//다시 FirstVC로 돌아오는 경우(Pop)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;11.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecondVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewWillDisappear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;12.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FirstVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewWillAppear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;13.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecondVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewDidDisappear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;14.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FirstVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewDidAppear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;15.&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Second&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;해제됨&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// SecondVC deinit 실행&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;10번 이후에 &lt;code&gt;loadView()&lt;/code&gt;와 &lt;code&gt;viewDidLoad()&lt;/code&gt;가 없는 이유는 FirstVC는 현재 네비게이션 컨트롤러의 &lt;code&gt;rootView&lt;/code&gt;이기 때문에 앱 실행 시 한번만 호출된다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;//App 실행되고 FirstVC 노출&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;1.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FirstVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;loadView&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;2.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FirstVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewDidLoad&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;3.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FirstVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewWillAppear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;4.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FirstVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewDidAppear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;//present로 SecondVC 호출&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;5.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecondVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;loadView&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;6.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecondVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewDidLoad&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;7.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecondVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewWillAppear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;8.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecondVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewDidAppear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;//다시 FirstVC로 돌아오는 경우(Dismiss)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;9.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecondVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewWillDisappear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;10.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SecondVC&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;viewDidDisappear&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;mf&#34;&gt;11.&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Second&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;해제됨&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// SecondVC deinit 실행&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;present Modality를 사용해서 뷰 컨트롤러를 호출하는 경우, SecondVC만 로드되어 호출되고 FirstVC는 아래쪽에 남아있어 Dismiss될 때 FirstVC의 &lt;code&gt;viewWillDisappear&lt;/code&gt; &lt;code&gt;viewDidDisappear&lt;/code&gt;가 호출되지 않는다.&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/uiviewcontroller&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple - UIViewController&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/index.html#//apple_ref/doc/uid/TP40007457&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple - View Controller Programming Guide for iOS&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/uiviewcontroller/1621454-loadview&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple - loadView()&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/uiviewcontroller/1621495-viewdidload&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple - viewDidLoad()&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/uiviewcontroller/1621510-viewwillappear&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple - viewWillAppear(_:)&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/uiviewcontroller/1621423-viewdidappear&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple - viewDidAppear(_:)&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/uiviewcontroller/1621485-viewwilldisappear&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple - viewWillDisappear(_:)&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/uiviewcontroller/1621477-viewdiddisappear&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Aplle - viewDidDisappear(_:)&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zeddios.tistory.com/43&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Zedd - View Controller의 생명주기&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://unclean.tistory.com/78&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;ViewController의 LifeCycle&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

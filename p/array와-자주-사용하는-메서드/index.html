@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='배열 생성하기 1 2 3 4 5 6 7 8 9 10 11 12 13 let emptyArray: [Int] = [1, 2, 3] let emptyArray1: [Int] = [] // 빈 배열 생성 let emptyArray2 = Array&amp;lt;Int&amp;gt;() let emptyArray3 = [Int]() let anyArray = [Any] = [1, 2, &amp;#34;three&amp;#34;, 4.0] // Any 타입으로 여러 자료형을 묶을 수도 있다. let nums = Array(1...3) // [1, 2, 3] // 범위 연산자 사용 가능 // (repeating: 배열의 타입과 일치하는 값(1개), count: 값을 반복할 횟수) let emptyArray4 = [Int](repeating: 0, count: 10) // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 배열 갯수 확인 1 2 3 4 5 var numbers = [1, 2, 3] let count: Int = numbers.'><title>Array와 자주 사용하는 메서드</title>
+
+<link rel='canonical' href='https://JaeKimdev.github.io/p/array%EC%99%80-%EC%9E%90%EC%A3%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='Array와 자주 사용하는 메서드'>
+<meta property='og:description' content='배열 생성하기 1 2 3 4 5 6 7 8 9 10 11 12 13 let emptyArray: [Int] = [1, 2, 3] let emptyArray1: [Int] = [] // 빈 배열 생성 let emptyArray2 = Array&amp;lt;Int&amp;gt;() let emptyArray3 = [Int]() let anyArray = [Any] = [1, 2, &amp;#34;three&amp;#34;, 4.0] // Any 타입으로 여러 자료형을 묶을 수도 있다. let nums = Array(1...3) // [1, 2, 3] // 범위 연산자 사용 가능 // (repeating: 배열의 타입과 일치하는 값(1개), count: 값을 반복할 횟수) let emptyArray4 = [Int](repeating: 0, count: 10) // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 배열 갯수 확인 1 2 3 4 5 var numbers = [1, 2, 3] let count: Int = numbers.'>
+<meta property='og:url' content='https://JaeKimdev.github.io/p/array%EC%99%80-%EC%9E%90%EC%A3%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C/'>
+<meta property='og:site_name' content='Jae&#39;s Devlog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='swift' /><meta property='article:tag' content='Array' /><meta property='article:published_time' content='2022-08-09T21:01:24&#43;08:00'/><meta property='article:modified_time' content='2022-08-09T21:01:24&#43;08:00'/><meta property='og:image' content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<meta name="twitter:title" content="Array와 자주 사용하는 메서드">
+<meta name="twitter:description" content="배열 생성하기 1 2 3 4 5 6 7 8 9 10 11 12 13 let emptyArray: [Int] = [1, 2, 3] let emptyArray1: [Int] = [] // 빈 배열 생성 let emptyArray2 = Array&amp;lt;Int&amp;gt;() let emptyArray3 = [Int]() let anyArray = [Any] = [1, 2, &amp;#34;three&amp;#34;, 4.0] // Any 타입으로 여러 자료형을 묶을 수도 있다. let nums = Array(1...3) // [1, 2, 3] // 범위 연산자 사용 가능 // (repeating: 배열의 타입과 일치하는 값(1개), count: 값을 반복할 횟수) let emptyArray4 = [Int](repeating: 0, count: 10) // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 배열 갯수 확인 1 2 3 4 5 var numbers = [1, 2, 3] let count: Int = numbers."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-198007055-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_huda2458f72ce188392d75c5d51cd8e24e_373_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">📱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Jae&#39;s Devlog</a></h1>
+            <h2 class="site-description">iOS, Swift, Etc</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/array%EC%99%80-%EC%9E%90%EC%A3%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C/">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" alt="Featured image of post Array와 자주 사용하는 메서드" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/dev/" >
+                Dev
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/array%EC%99%80-%EC%9E%90%EC%A3%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EB%A9%94%EC%84%9C%EB%93%9C/">Array와 자주 사용하는 메서드</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">09 Aug, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    5 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="배열-생성하기">배열 생성하기</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Swift" data-lang="Swift"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">emptyArray</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">emptyArray1</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span> <span class="p">=</span> <span class="p">[]</span> <span class="c1">// 빈 배열 생성</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">emptyArray2</span> <span class="p">=</span> <span class="nb">Array</span><span class="p">&lt;</span><span class="nb">Int</span><span class="p">&gt;()</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">emptyArray3</span> <span class="p">=</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">anyArray</span> <span class="p">=</span> <span class="p">[</span><span class="nb">Any</span><span class="p">]</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#34;three&#34;</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]</span> <span class="c1">// Any 타입으로 여러 자료형을 묶을 수도 있다.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">nums</span> <span class="p">=</span> <span class="nb">Array</span><span class="p">(</span><span class="mf">1.</span><span class="p">..</span><span class="mi">3</span><span class="p">)</span> <span class="c1">// [1, 2, 3] // 범위 연산자 사용 가능</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// (repeating: 배열의 타입과 일치하는 값(1개), count: 값을 반복할 횟수)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">emptyArray4</span> <span class="p">=</span> <span class="p">[</span><span class="nb">Int</span><span class="p">](</span><span class="n">repeating</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">count</span><span class="p">:</span> <span class="mi">10</span><span class="p">)</span> <span class="c1">// [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="배열-갯수-확인">배열 갯수 확인</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Swift" data-lang="Swift"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">count</span><span class="p">:</span> <span class="nb">Int</span> <span class="p">=</span> <span class="n">numbers</span><span class="p">.</span><span class="bp">count</span> <span class="c1">// 배열 갯수 확인 : 3</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">isEmpty</span><span class="p">:</span> <span class="nb">Bool</span> <span class="p">=</span> <span class="n">numbers</span><span class="p">.</span><span class="bp">isEmpty</span> <span class="c1">// 배열이 비어있는지 확인 : false</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// numbers.count == 0 을 사용할 수도 있지만 numbers.isEmpty도 가능</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="배열-요소-접근">배열 요소 접근</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Swift" data-lang="Swift"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">emptyArray</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">]</span> <span class="p">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Subscript로 접근</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">// 1</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1">// 2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 범위로 접근</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">[</span><span class="mf">0.</span><span class="p">..</span><span class="mi">1</span><span class="p">]</span> <span class="c1">// [1, 2]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 속성으로 접근</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="bp">first</span> <span class="c1">// Optional(1)</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="bp">last</span> <span class="c1">// Optional(3)</span>
+</span></span><span class="line"><span class="cl"><span class="n">emptyArray</span><span class="p">.</span><span class="bp">first</span> <span class="c1">// nil - 배열이 비어있다면 nil을 반환</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">[</span><span class="n">numbers</span><span class="p">.</span><span class="n">startIndex</span><span class="p">]</span> <span class="c1">// 1</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">[</span><span class="n">numbers</span><span class="p">.</span><span class="n">endIndex</span><span class="p">]</span> <span class="c1">// error: Execution was interrupted, reason: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0).</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// endIndex는 배열의 마지막 인덱스가 아님!!</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">[</span><span class="n">numbers</span><span class="p">.</span><span class="n">index</span><span class="p">(</span><span class="n">before</span><span class="p">:</span> <span class="n">numbers</span><span class="p">.</span><span class="n">endIndex</span><span class="p">)]</span> <span class="c1">// 3</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>❓ endIndex</p>
+<blockquote>
+<p>The array’s “past the end” position—that is, the position one greater than the last valid subscript argument.</p>
+</blockquote>
+<p><a class="link" href="https://developer.apple.com/documentation/swift/array/endindex"  target="_blank" rel="noopener"
+    >공식문서</a>에서는 endIndex를 배열의 끝을 지난 인자 라고 정의하고 있다;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Swift" data-lang="Swift"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="kd">let</span> <span class="nv">i</span> <span class="p">=</span> <span class="n">numbers</span><span class="p">.</span><span class="n">firstIndex</span><span class="p">(</span><span class="n">of</span><span class="p">:</span> <span class="mi">30</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">print</span><span class="p">(</span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span> <span class="p">..</span><span class="o">&lt;</span> <span class="n">numbers</span><span class="p">.</span><span class="n">endIndex</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Prints &#34;[30, 40, 50]&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="배열에-요소-추가하기append-insert">배열에 요소 추가하기(append, insert)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Swift" data-lang="Swift"><span class="line"><span class="cl"><span class="c1">// 1. append : 배열 끝에 추가</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1">// [1, 2, 3, 4]</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">contentsOf</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span> <span class="c1">// [1, 2, 3, 4, 5, 6]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 2. insert : 중간에 추가</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="bp">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">at</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">// [0, 1, 2, 3, 4, 5, 6]</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="bp">insert</span><span class="p">(</span><span class="n">contentsOf</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="n">at</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">// [0, 1, 10, 100, 2, 3, 4, 5, 6]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>insert</code>를 사용하는 경우 배열을 재배치 해야 하기 때문에 <code>오버헤드</code>가 발생한다.</p>
+<h3 id="배열-요소-삭제하기remove">배열 요소 삭제하기(remove)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Swift" data-lang="Swift"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">array1</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">array1</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">at</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span>             <span class="c1">// [1, 2, 4, 5, 6, 7, 8, 9]</span>
+</span></span><span class="line"><span class="cl"><span class="n">array1</span><span class="p">.</span><span class="n">removeFirst</span><span class="p">()</span>             <span class="c1">// [2, 4, 5, 6, 7, 8, 9]</span>
+</span></span><span class="line"><span class="cl"><span class="n">array1</span><span class="p">.</span><span class="n">removeFirst</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>            <span class="c1">// [5, 6, 7, 8, 9]</span>
+</span></span><span class="line"><span class="cl"><span class="n">array1</span><span class="p">.</span><span class="bp">removeLast</span><span class="p">()</span>              <span class="c1">// [5, 6, 7, 8]&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="n">array1</span><span class="p">.</span><span class="n">popLast</span><span class="p">()</span>                 <span class="c1">// [5, 6, 7]</span>
+</span></span><span class="line"><span class="cl"><span class="n">array1</span><span class="p">.</span><span class="bp">removeLast</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>             <span class="c1">// [5]</span>
+</span></span><span class="line"><span class="cl"><span class="n">array1</span><span class="p">.</span><span class="bp">removeAll</span><span class="p">()</span>               <span class="c1">// []</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:center">함수 이름</th>
+<th style="text-align:center">용도</th>
+<th style="text-align:center">리턴 타입</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>remove(at:)</code></td>
+<td style="text-align:center">파라미터로 받은 index에 해당하는 값 삭제</td>
+<td style="text-align:center">삭제된 값 리턴, Non-Optional Type</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>removeFirst</code></td>
+<td style="text-align:center">첫 번째 요소 삭제</td>
+<td style="text-align:center">삭제된 값 리턴, Non-Optional Type</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>removeFirst(_:)</code></td>
+<td style="text-align:center">첫 번째 요소부터 파라미터로 받은 갯수 만큼 삭제</td>
+<td style="text-align:center">X</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>removeLast</code></td>
+<td style="text-align:center">마지막 요소 삭제</td>
+<td style="text-align:center">삭제된 값 리턴 , Non-Optional Type</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>popLast</code></td>
+<td style="text-align:center">마지막 요소 삭제</td>
+<td style="text-align:center">삭제된 값 리턴, Optional Type</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>removeLast(_:)</code></td>
+<td style="text-align:center">마지막 요소부터 파라미터로 받은 갯수 만큼 삭제</td>
+<td style="text-align:center">X</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>removeAll</code></td>
+<td style="text-align:center">전체 요소 삭제</td>
+<td style="text-align:center">X</td>
+</tr>
+</tbody>
+</table></div>
+<p>특정 범위 삭제하기</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Swift" data-lang="Swift"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">array2</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">array2</span><span class="p">.</span><span class="n">removeSubrange</span><span class="p">(</span><span class="mf">1.</span><span class="p">..</span><span class="mi">3</span><span class="p">)</span>     <span class="c1">// [1, 5, 6, 7, 8, 9]</span>
+</span></span><span class="line"><span class="cl"><span class="n">array2</span><span class="p">[</span><span class="mf">0.</span><span class="p">.&lt;</span><span class="mi">2</span><span class="p">]</span> <span class="p">=</span> <span class="p">[]</span>               <span class="c1">// [6, 7, 8, 9]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:center">함수 이름</th>
+<th style="text-align:center">용도</th>
+<th style="text-align:center">리턴 타입</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>removeSubrange(_:)</code></td>
+<td style="text-align:center">파라미터로 받은 범위만큼 index 요소 삭제</td>
+<td style="text-align:center">X</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>[n...m] = []</code></td>
+<td style="text-align:center">Subscript 문법으로 n ~ m까지 index 요소 삭제</td>
+<td style="text-align:center">X</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="배열-비교하기elementsequal">배열 비교하기(elementsEqual)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Swift" data-lang="Swift"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">array1</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">array2</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">array3</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">array1</span> <span class="p">==</span> <span class="n">array2</span>                    <span class="c1">//true</span>
+</span></span><span class="line"><span class="cl"><span class="n">array1</span><span class="p">.</span><span class="n">elementsEqual</span><span class="p">(</span><span class="n">array3</span><span class="p">)</span>        <span class="c1">//false</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>elementsEqual</code>은 <strong>모든 요소</strong>가 똑같아야 <code>true</code>를 리턴한다.</p>
+<h3 id="배열-요소-검색contains">배열 요소 검색(contains)</h3>
+<p><code>contains(_:)</code>을 사용하여 특정 값이 포함되어 있는지를 확인할 수 있다. Bool 타입으로 알려준다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Swift" data-lang="Swift"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="nb">Array</span><span class="p">(</span><span class="mf">1.</span><span class="p">..</span><span class="mi">10</span><span class="p">)</span> <span class="c1">// [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="bp">contains</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">// true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="bp">contains</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">number</span> <span class="k">in</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="p">==</span> <span class="mi">0</span> <span class="c1">// true - 짝수가 하나라도 있으면 true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="bp">first</span> <span class="p">{</span> <span class="c1">// 클로저 조건을 만족하는 첫번째 `값`을 리턴, 없으면 nil</span>
+</span></span><span class="line"><span class="cl">   <span class="n">bnumber</span> <span class="k">in</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="p">==</span> <span class="mi">0</span> <span class="c1">// Optional(2)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="n">firstIndex</span> <span class="p">{</span> <span class="c1">// 클로저 조건을 만족하는 첫번째 `인덱스`를 리턴, 없으면 nil</span>
+</span></span><span class="line"><span class="cl">   <span class="n">number</span> <span class="k">in</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="p">==</span> <span class="mi">0</span> <span class="c1">// Optional(1)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="배열-정렬하기-sort-sorted">배열 정렬하기 (sort, sorted)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Swift" data-lang="Swift"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// sort - 배열을 직접 정렬</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="bp">sort</span><span class="p">()</span> <span class="c1">// [1, 3, 5, 6, 8, 10, 14] 오름차순</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="bp">sort</span><span class="p">(</span><span class="n">by</span><span class="p">:</span> <span class="o">&gt;</span><span class="p">)</span> <span class="c1">// [14, 10, 8, 6, 5, 3, 1] 내림차순</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//sorted - 원본은 그대로 두고, 새로우누 배열을 만들어 리턴</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">sortedArray</span> <span class="p">=</span> <span class="n">numbers</span><span class="p">.</span><span class="bp">sorted</span><span class="p">()</span> <span class="c1">// [1, 3, 5, 6, 8, 10, 14] 오름차순</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">sortedArray2</span> <span class="p">=</span> <span class="n">numbers</span><span class="p">.</span><span class="bp">sorted</span><span class="p">(</span><span class="n">by</span><span class="p">:</span> <span class="o">&gt;</span><span class="p">)</span> <span class="c1">// [14, 10, 8, 6, 5, 3, 1] 내림차순</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="배열-요소-섞기shuffle-shuffled">배열 요소 섞기(shuffle, shuffled)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Swift" data-lang="Swift"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="n">shuffle</span><span class="p">()</span> <span class="c1">// [4, 1, 5, 3, 2]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">shuffleNumbers</span> <span class="p">=</span> <span class="n">numbers</span><span class="p">.</span><span class="n">shuffled</span><span class="p">()</span> <span class="c1">// [5, 2, 1, 3, 4]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="배열-요소-위치-바꾸기swapat">배열 요소 위치 바꾸기(swapAt)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Swift" data-lang="Swift"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">numbers</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="p">.</span><span class="n">swapAt</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">// 0과 4 인덱스 변경 [5, 2, 3, 4, 1]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="함수-이름-참고사항--ed--ing">함수 이름 참고사항 (-ed, -ing)</h2>
+<p>Swift에서 보통 함수 이름에 <code>-ed</code>, <code>-ing</code>가 붙는 것들은 원본은 그대로 두고, <strong>새로운 것을 리턴</strong>함!</p>
+<h2 id="reference">Reference</h2>
+<p><a class="link" href="https://developer.apple.com/documentation/swift/array"  target="_blank" rel="noopener"
+    >https://developer.apple.com/documentation/swift/array</a></p>
+<p><a class="link" href="https://developer.apple.com/documentation/swift/array/endindex"  target="_blank" rel="noopener"
+    >https://developer.apple.com/documentation/swift/array/endindex</a></p>
+<p><a class="link" href="https://developer.apple.com/documentation/swift/array/shuffle%28%29"  target="_blank" rel="noopener"
+    >https://developer.apple.com/documentation/swift/array/shuffle()</a></p>
+<p><a class="link" href="https://developer.apple.com/documentation/swift/string/shuffled%28%29"  target="_blank" rel="noopener"
+    >https://developer.apple.com/documentation/swift/string/shuffled()</a></p>
+<p><a class="link" href="https://axe-num1.tistory.com/19"  target="_blank" rel="noopener"
+    >https://axe-num1.tistory.com/19</a></p>
+<p><a class="link" href="https://soooprmx.com/swift-array-01-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%A1%B0%EC%9E%91/"  target="_blank" rel="noopener"
+    >https://soooprmx.com/swift-array-01-%EC%83%9D%EC%84%B1%EA%B3%BC-%EC%A1%B0%EC%9E%91/</a></p>
+<p><a class="link" href="https://babbab2.tistory.com/92?category=828998"  target="_blank" rel="noopener"
+    >https://babbab2.tistory.com/92?category=828998</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/swift/">Swift</a>
+        
+            <a href="/tags/array/">Array</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/auto-layout1/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Auto Layout(1)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/instantiateviewcontroller-/-performsegue-%ED%99%94%EB%A9%B4-%EC%A0%84%ED%99%98-%EB%B0%A9%EB%B2%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">instantiateViewController / performSegue 화면 전환 방법</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/uiviewcontroller-%EC%83%9D%EB%AA%85%EC%A3%BC%EA%B8%B0lifecycle-methods-view-state-method/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">UIViewController 생명주기(lifecycle methods - View State Method)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/alert-actionsheet/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Alert, ActionSheet</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/notification-notificationcenter/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Notification, NotificationCenter</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="JaeKimdev/blog-comments"
+        issue-term="title"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2022 Jae&#39;s Devlog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.13.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#배열-생성하기">배열 생성하기</a>
+      <ol>
+        <li><a href="#배열-갯수-확인">배열 갯수 확인</a></li>
+        <li><a href="#배열-요소-접근">배열 요소 접근</a></li>
+        <li><a href="#배열에-요소-추가하기append-insert">배열에 요소 추가하기(append, insert)</a></li>
+        <li><a href="#배열-요소-삭제하기remove">배열 요소 삭제하기(remove)</a></li>
+        <li><a href="#배열-비교하기elementsequal">배열 비교하기(elementsEqual)</a></li>
+        <li><a href="#배열-요소-검색contains">배열 요소 검색(contains)</a></li>
+        <li><a href="#배열-정렬하기-sort-sorted">배열 정렬하기 (sort, sorted)</a></li>
+        <li><a href="#배열-요소-섞기shuffle-shuffled">배열 요소 섞기(shuffle, shuffled)</a></li>
+        <li><a href="#배열-요소-위치-바꾸기swapat">배열 요소 위치 바꾸기(swapAt)</a></li>
+      </ol>
+    </li>
+    <li><a href="#함수-이름-참고사항--ed--ing">함수 이름 참고사항 (-ed, -ing)</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
