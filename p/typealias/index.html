@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='NameSpace란? 관련 있는 값들을 묶어 놓은 공간을 nameSpace 라고 하는데, swift에서는 namespace를 아직 지원하지 않고 있다. (SwiftUI에서는 nameSpace를 지원하고 있는 듯 하다)
-프로젝트 파일 안에서 사용되고 있는 메시지들을 묶어서 한곳에서 관리하면 나중에 메세지를 변경해야 할 일이 있을 때 일일이 고쳐주지 않고 nameSpace를 수정하고 프로그램 상에서 호출하여 사용하면 유지보수 측면에서 좋을 것 같아 찾아보았다.
-일반적으로 사용되는 방식은 Struct를 사용하거나 Enum을 활용하는 방법으로 해결할 수 있다.
-struct 구조체를 이용하는 방법 1 2 3 4 5 6 struct GameMessages { private init() {} static let inputWrong: String = &amp;#34;잘못된 입력입니다.'><title>Swift에서의 nameSpace</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Type Alias Declaration Type Alias - 이름 그대로 타입에 별명을 붙이는 것 typealias는 이 존재하는 타입의 이름을 다른 이름으로 바꾸는 것이다.
+declarations 1 typealias name = existing type typealias는 새로운 타입을 생성하는 것이 아니라 단순히 이름만 변경하여 사용하는 것이다.
+Built-in Type Alias String, Int, Double 등의 기본 타입에 typealias를 사용할 수 있다.
+1 2 3 4 5 6 7 // 일반적으로 사용하는 방법 let name: String = &amp;#34;Jack&amp;#34; // typealias를 사용한 방법 typealias StudentName = String let name: StudentName = &amp;#34;Jack&amp;#34; User-defined Type Alias 사용자가 정의한 타입(class, struct, enum)에 typealias를 사용할 수 있다.'><title>typealias</title>
 
-<link rel='canonical' href='https://JaeKimdev.github.io/p/swift%EC%97%90%EC%84%9C%EC%9D%98-namespace/'>
+<link rel='canonical' href='https://JaeKimdev.github.io/p/typealias/'>
 
-<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='Swift에서의 nameSpace'>
-<meta property='og:description' content='NameSpace란? 관련 있는 값들을 묶어 놓은 공간을 nameSpace 라고 하는데, swift에서는 namespace를 아직 지원하지 않고 있다. (SwiftUI에서는 nameSpace를 지원하고 있는 듯 하다)
-프로젝트 파일 안에서 사용되고 있는 메시지들을 묶어서 한곳에서 관리하면 나중에 메세지를 변경해야 할 일이 있을 때 일일이 고쳐주지 않고 nameSpace를 수정하고 프로그램 상에서 호출하여 사용하면 유지보수 측면에서 좋을 것 같아 찾아보았다.
-일반적으로 사용되는 방식은 Struct를 사용하거나 Enum을 활용하는 방법으로 해결할 수 있다.
-struct 구조체를 이용하는 방법 1 2 3 4 5 6 struct GameMessages { private init() {} static let inputWrong: String = &amp;#34;잘못된 입력입니다.'>
-<meta property='og:url' content='https://JaeKimdev.github.io/p/swift%EC%97%90%EC%84%9C%EC%9D%98-namespace/'>
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='typealias'>
+<meta property='og:description' content='Type Alias Declaration Type Alias - 이름 그대로 타입에 별명을 붙이는 것 typealias는 이 존재하는 타입의 이름을 다른 이름으로 바꾸는 것이다.
+declarations 1 typealias name = existing type typealias는 새로운 타입을 생성하는 것이 아니라 단순히 이름만 변경하여 사용하는 것이다.
+Built-in Type Alias String, Int, Double 등의 기본 타입에 typealias를 사용할 수 있다.
+1 2 3 4 5 6 7 // 일반적으로 사용하는 방법 let name: String = &amp;#34;Jack&amp;#34; // typealias를 사용한 방법 typealias StudentName = String let name: StudentName = &amp;#34;Jack&amp;#34; User-defined Type Alias 사용자가 정의한 타입(class, struct, enum)에 typealias를 사용할 수 있다.'>
+<meta property='og:url' content='https://JaeKimdev.github.io/p/typealias/'>
 <meta property='og:site_name' content='Jae&#39;s Devlog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='swift' /><meta property='article:tag' content='nameSpace' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2022-08-27T15:01:23&#43;08:00'/><meta property='article:modified_time' content='2022-08-27T15:01:23&#43;08:00'/><meta property='og:image' content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
-<meta name="twitter:title" content="Swift에서의 nameSpace">
-<meta name="twitter:description" content="NameSpace란? 관련 있는 값들을 묶어 놓은 공간을 nameSpace 라고 하는데, swift에서는 namespace를 아직 지원하지 않고 있다. (SwiftUI에서는 nameSpace를 지원하고 있는 듯 하다)
-프로젝트 파일 안에서 사용되고 있는 메시지들을 묶어서 한곳에서 관리하면 나중에 메세지를 변경해야 할 일이 있을 때 일일이 고쳐주지 않고 nameSpace를 수정하고 프로그램 상에서 호출하여 사용하면 유지보수 측면에서 좋을 것 같아 찾아보았다.
-일반적으로 사용되는 방식은 Struct를 사용하거나 Enum을 활용하는 방법으로 해결할 수 있다.
-struct 구조체를 이용하는 방법 1 2 3 4 5 6 struct GameMessages { private init() {} static let inputWrong: String = &amp;#34;잘못된 입력입니다."><meta name="twitter:card" content="summary_large_image">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='swift' /><meta property='article:tag' content='typealias' /><meta property='article:published_time' content='2022-09-15T21:18:04&#43;08:00'/><meta property='article:modified_time' content='2022-09-15T21:18:04&#43;08:00'/><meta property='og:image' content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<meta name="twitter:title" content="typealias">
+<meta name="twitter:description" content="Type Alias Declaration Type Alias - 이름 그대로 타입에 별명을 붙이는 것 typealias는 이 존재하는 타입의 이름을 다른 이름으로 바꾸는 것이다.
+declarations 1 typealias name = existing type typealias는 새로운 타입을 생성하는 것이 아니라 단순히 이름만 변경하여 사용하는 것이다.
+Built-in Type Alias String, Int, Double 등의 기본 타입에 typealias를 사용할 수 있다.
+1 2 3 4 5 6 7 // 일반적으로 사용하는 방법 let name: String = &amp;#34;Jack&amp;#34; // typealias를 사용한 방법 typealias StudentName = String let name: StudentName = &amp;#34;Jack&amp;#34; User-defined Type Alias 사용자가 정의한 타입(class, struct, enum)에 typealias를 사용할 수 있다."><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
 <script type="application/javascript">
 var doNotTrack = false;
@@ -229,9 +229,9 @@ if (!doNotTrack) {
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
-            <a href="/p/swift%EC%97%90%EC%84%9C%EC%9D%98-namespace/">
+            <a href="/p/typealias/">
                 
-                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" alt="Featured image of post Swift에서의 nameSpace" />
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" alt="Featured image of post typealias" />
                 
             </a>
         </div>
@@ -250,7 +250,7 @@ if (!doNotTrack) {
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/swift%EC%97%90%EC%84%9C%EC%9D%98-namespace/">Swift에서의 nameSpace</a>
+            <a href="/p/typealias/">typealias</a>
         </h2>
     
         
@@ -269,7 +269,7 @@ if (!doNotTrack) {
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">27 Aug, 2022</time>
+                <time class="article-time--published">15 Sep, 2022</time>
             </div>
         
 
@@ -298,11 +298,21 @@ if (!doNotTrack) {
     <section class="article-content">
     
     
-    <h2 id="namespace란"><code>NameSpace</code>란?</h2>
-<p>관련 있는 값들을 묶어 놓은 공간을 nameSpace 라고 하는데, swift에서는 namespace를 아직 지원하지 않고 있다. (SwiftUI에서는 nameSpace를 지원하고 있는 듯 하다)</p>
-<p>프로젝트 파일 안에서 사용되고 있는 메시지들을 묶어서 한곳에서 관리하면 나중에 메세지를 변경해야 할 일이 있을 때 일일이 고쳐주지 않고 nameSpace를 수정하고 프로그램 상에서 호출하여 사용하면 유지보수 측면에서 좋을 것 같아 찾아보았다.</p>
-<p>일반적으로 사용되는 방식은 <code>Struct</code>를 사용하거나 <code>Enum</code>을 활용하는 방법으로 해결할 수 있다.</p>
-<h3 id="struct-구조체를-이용하는-방법">struct 구조체를 이용하는 방법</h3>
+    <h2 id="type-alias-declaration">Type Alias Declaration</h2>
+<p>Type Alias - 이름 그대로 타입에 별명을 붙이는 것
+<code>typealias</code>는 이 존재하는 타입의 이름을 다른 이름으로 바꾸는 것이다.</p>
+<h3 id="declarations">declarations</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">typealias</span> <span class="n">name</span> <span class="p">=</span> <span class="n">existing</span> <span class="n">type</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>typealias는 새로운 타입을 생성하는 것이 아니라 단순히 이름만 변경하여 사용하는 것이다.</p>
+<h3 id="built-in-type-alias">Built-in Type Alias</h3>
+<p>String, Int, Double 등의 기본 타입에 typealias를 사용할 수 있다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -311,34 +321,20 @@ if (!doNotTrack) {
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span><span class="lnt">6
+</span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">struct</span> <span class="nc">GameMessages</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">init</span><span class="p">()</span> <span class="p">{}</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">static</span> <span class="kd">let</span> <span class="nv">inputWrong</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;잘못된 입력입니다. 다시 시도해주세요.&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">static</span> <span class="kd">let</span> <span class="nv">endGame</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;게임종료&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="kd">static</span> <span class="kd">let</span> <span class="nv">victory</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;의 승리!&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="c1">// 일반적으로 사용하는 방법</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">name</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;Jack&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// typealias를 사용한 방법</span>
+</span></span><span class="line"><span class="cl"><span class="kd">typealias</span> <span class="n">StudentName</span> <span class="p">=</span> <span class="nb">String</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">name</span><span class="p">:</span> <span class="n">StudentName</span> <span class="p">=</span> <span class="s">&#34;Jack&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>프로그램 안에서 사용되는 텍스트를 묶어서 <code>GameMessages</code>라는 구조체를 만들어 주고 <code>static</code> 키워드를 이용하여 <code>타입 프로퍼티</code>로 생성해 주었다.</p>
-<p>사용할 때에는</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">wrongInput</span> <span class="p">=</span> <span class="n">GameMessages</span><span class="p">.</span><span class="n">inputwrong</span>
-</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nv">gameFinish</span> <span class="p">=</span> <span class="n">GameMessages</span><span class="p">.</span><span class="n">endGame</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>으로 선언하여 사용한다.</p>
-<p>struct로 nameSpace를 사용할 때의 문제점은 다른 개발자가 실수로 인스턴스를 생성할 수 있다는 점이다.
-인스턴스 생성을 막기 위해 <code>private init() {}</code>을 써주어서 인스턴스화 할 수 없도록 만들어준다.</p>
-<h3 id="enum-열거형을-이용하는-방법">enum 열거형을 이용하는 방법</h3>
-<p>다른 방법으로는 enum을 이용하여 nameSpace를 설정해주는 방법이다.<br>
-case를 설정하지 않고 enum을 만들 수 있나요? 네! 방법이 있습니다.</p>
+</div><h3 id="user-defined-type-alias">User-defined Type Alias</h3>
+<p>사용자가 정의한 타입(class, struct, enum)에 typealias를 사용할 수 있다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -346,36 +342,111 @@ case를 설정하지 않고 enum을 만들 수 있나요? 네! 방법이 있습�
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">enum</span> <span class="nc">GameMessages</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">inputWrong</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;잘못된 입력입니다. 다시 시도해주세요.&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">endGame</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;게임종료&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">victory</span><span class="p">:</span> <span class="nb">String</span> <span class="p">=</span> <span class="s">&#34;의 승리!&#34;</span>
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">student</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 일반적으로 사용하는 방법</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">students</span><span class="p">:</span> <span class="p">[</span><span class="n">student</span><span class="p">]</span> <span class="p">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// typealias를 사용한 방법</span>
+</span></span><span class="line"><span class="cl"><span class="kd">typealias</span> <span class="n">Students</span> <span class="p">=</span> <span class="p">[</span><span class="n">Student</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">students</span><span class="p">:</span> <span class="n">Students</span> <span class="p">=</span> <span class="p">[]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="complex-type-alias">Complex Type Alias</h3>
+<p>함수의 매개변수나 반환값에 typealias를 사용할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="c1">// 일반적으로 사용하는 방법</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">someMethod</span><span class="p">(</span><span class="n">oncomp</span><span class="p">:(</span><span class="nb">Int</span><span class="p">)-&gt;(</span><span class="nb">String</span><span class="p">)){</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// typealias를 사용한 방법</span>
+</span></span><span class="line"><span class="cl"><span class="kd">typealias</span> <span class="n">CompletionHandler</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Int</span><span class="p">)-&gt;(</span><span class="nb">String</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">someMethod</span><span class="p">(</span><span class="n">oncomp</span><span class="p">:</span><span class="n">CompletionHandler</span><span class="p">){</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>case가 없는 열거형을 사용하면 실수로 인스턴스화를 할 수 없고 nameSpace의 역할을 할 수 있도록 설정가능하다.</p>
-<p>유지보수의 측면에서는 한 곳에서 여러개의 리터럴을 관리하고 수정할 수 있어서 nameSpace를 사용하는 편이 좋겠지만, 메모리 측면에서는 프로그램이 실행되면 모든 static 상수가 메모리에 탑재되므로 메모리 관리 측면에서는 좋은 방법이 아닐 수도 있다는 생각이 들었다.</p>
-<h2 id="reference">Reference</h2>
-<ul>
-<li>
-<p><strong>nameSpace</strong><br>
-<a class="link" href="https://cocoacasts.com/namespaces-in-swift"  target="_blank" rel="noopener"
-    >https://cocoacasts.com/namespaces-in-swift</a><br>
-<a class="link" href="https://onelife2live.tistory.com/15"  target="_blank" rel="noopener"
-    >https://onelife2live.tistory.com/15</a><br>
-<a class="link" href="https://sujinnaljin.medium.com/namespace-%EC%A7%80%EC%A0%95%ED%95%98%EA%B8%B0-struct-vs-enum-ce86d5717d95"  target="_blank" rel="noopener"
-    >https://sujinnaljin.medium.com/namespace-%EC%A7%80%EC%A0%95%ED%95%98%EA%B8%B0-struct-vs-enum-ce86d5717d95</a><br>
-<a class="link" href="https://zeddios.tistory.com/353"  target="_blank" rel="noopener"
-    >https://zeddios.tistory.com/353</a></p>
-</li>
-<li>
-<p><strong>Type property(static)</strong><br>
-<a class="link" href="https://varyeun.tistory.com/entry/%EC%8A%A4%EC%9C%84%ED%94%84%ED%8A%B8%EC%97%90%EC%84%9C-static-%ED%82%A4%EC%9B%8C%EB%93%9C%EB%9E%80-static-in-swift"  target="_blank" rel="noopener"
-    >https://varyeun.tistory.com/entry/%EC%8A%A4%EC%9C%84%ED%94%84%ED%8A%B8%EC%97%90%EC%84%9C-static-%ED%82%A4%EC%9B%8C%EB%93%9C%EB%9E%80-static-in-swift</a></p>
-</li>
-</ul>
+</div><h3 id="generic-type-alias">Generic Type Alias</h3>
+<p>제네릭 파라미터를 사용 시 typealias를 사용할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">typealias</span> <span class="n">StringDictionary</span><span class="p">&lt;</span><span class="n">Value</span><span class="p">&gt;</span> <span class="p">=</span> <span class="nb">Dictionary</span><span class="p">&lt;</span><span class="nb">String</span><span class="p">,</span> <span class="n">Value</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">typealias</span> <span class="n">StringDictionary2</span><span class="p">&lt;</span><span class="n">Value</span><span class="p">&gt;</span> <span class="p">=</span> <span class="p">[</span><span class="nb">String</span> <span class="p">:</span> <span class="n">Value</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// The following dictionaries have the same type.</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">dictionary1</span><span class="p">:</span> <span class="n">StringDictionary</span><span class="p">&lt;</span><span class="nb">Int</span><span class="p">&gt;</span> <span class="p">=</span> <span class="p">[:]</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nv">dictionary2</span><span class="p">:</span> <span class="nb">Dictionary</span><span class="p">&lt;</span><span class="nb">String</span><span class="p">,</span> <span class="nb">Int</span><span class="p">&gt;</span> <span class="p">=</span> <span class="p">[:]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// generic type으로 선언해줄 때에는 정확한 타입을 명시해주어야 한다.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// typealias와 타입은 서로 바꾸어 사용할 수 없고 typealias는 추가적인 제약조건을 도입할 수 없다.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">typealias</span> <span class="n">DictionaryOfInts</span><span class="p">&lt;</span><span class="n">Key</span><span class="p">:</span> <span class="nb">Hashable</span><span class="p">&gt;</span> <span class="p">=</span> <span class="nb">Dictionary</span><span class="p">&lt;</span><span class="n">Key</span><span class="p">,</span> <span class="nb">Int</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="type-alias-in-protocol">Type Alias in Protocol</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">protocol</span> <span class="nc">Sequence</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">associatedtype</span> <span class="n">Iterator</span><span class="p">:</span> <span class="n">IteratorProtocol</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">typealias</span> <span class="n">Element</span> <span class="p">=</span> <span class="n">Iterator</span><span class="p">.</span><span class="n">Element</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">sum</span><span class="p">&lt;</span><span class="n">T</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">&gt;(</span><span class="kc">_</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Int</span> <span class="k">where</span> <span class="n">T</span><span class="p">.</span><span class="n">Element</span> <span class="p">==</span> <span class="nb">Int</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// typealias를 사용하여 T.Iterator.Element 대신 T.Element를 사용할 수 있다.</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="reference">Reference</h2>
+<p><a class="link" href="https://docs.swift.org/swift-book/ReferenceManual/Declarations.html#grammar_variable-declaration"  target="_blank" rel="noopener"
+    >Swift Doc - Type Alias Declaration</a>
+<a class="link" href="https://www.programiz.com/swift-programming/typealias"  target="_blank" rel="noopener"
+    >Swift Typealias</a></p>
 
 </section>
 
@@ -386,7 +457,7 @@ case를 설정하지 않고 enum을 만들 수 있나요? 네! 방법이 있습�
         
             <a href="/tags/swift/">Swift</a>
         
-            <a href="/tags/namespace/">nameSpace</a>
+            <a href="/tags/typealias/">typealias</a>
         
     </section>
 
@@ -420,82 +491,6 @@ case를 설정하지 않고 enum을 만들 수 있나요? 네! 방법이 있습�
             
                 
 <article class="has-image">
-    <a href="/p/singleton-pattern/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Singleton Pattern</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/attributes-discardableresult%EB%9E%80/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Attributes - @discardableResult란?</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/for-in-/-foreach-%EB%B9%84%EA%B5%90/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">for - in / forEach 비교</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/typealias/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">typealias</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
     <a href="/p/protocols/">
         
         
@@ -508,6 +503,82 @@ case를 설정하지 않고 enum을 만들 수 있나요? 네! 방법이 있습�
 
         <div class="article-details">
             <h2 class="article-title">Protocols</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/auto-layout1/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Auto Layout(1)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/instantiateviewcontroller-/-performsegue-%ED%99%94%EB%A9%B4-%EC%A0%84%ED%99%98-%EB%B0%A9%EB%B2%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">instantiateViewController / performSegue 화면 전환 방법</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/uiviewcontroller-%EC%83%9D%EB%AA%85%EC%A3%BC%EA%B8%B0lifecycle-methods-view-state-method/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">UIViewController 생명주기(lifecycle methods - View State Method)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/alert-actionsheet/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Alert, ActionSheet</h2>
         </div>
     </a>
 </article>
@@ -677,10 +748,14 @@ case를 설정하지 않고 enum을 만들 수 있나요? 네! 방법이 있습�
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#namespace란"><code>NameSpace</code>란?</a>
+    <li><a href="#type-alias-declaration">Type Alias Declaration</a>
       <ol>
-        <li><a href="#struct-구조체를-이용하는-방법">struct 구조체를 이용하는 방법</a></li>
-        <li><a href="#enum-열거형을-이용하는-방법">enum 열거형을 이용하는 방법</a></li>
+        <li><a href="#declarations">declarations</a></li>
+        <li><a href="#built-in-type-alias">Built-in Type Alias</a></li>
+        <li><a href="#user-defined-type-alias">User-defined Type Alias</a></li>
+        <li><a href="#complex-type-alias">Complex Type Alias</a></li>
+        <li><a href="#generic-type-alias">Generic Type Alias</a></li>
+        <li><a href="#type-alias-in-protocol">Type Alias in Protocol</a></li>
       </ol>
     </li>
     <li><a href="#reference">Reference</a></li>
