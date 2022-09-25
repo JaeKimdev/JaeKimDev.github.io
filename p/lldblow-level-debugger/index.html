@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='LLVM(Low-Level-Virtual-Machine) LLDB가 무엇인지 공부하기 위해서, 먼저 LLVM이 무엇인지 알아보자.
+위키에서는
+프로그램을 컴파일 타임, 링크 타임, 런타임 상황에서 프로그램의 작성 언어에 상관없이 최적화를 쉽게 구현할 수 있도록 구성되어 있는 컴파일러 기반 구조
+라고 설명하고 있다.
+LLDB는 LLVM 프로젝트를 통해 개발된 모듈을 디버깅하는 디버거로써 C, C&#43;&#43;, Objective-C, Swift를 지원하고 현재는 Xcode에 내장되어 있는 기본 디버거이다.
+XCode에서는 실행중인 프로세스가 breakpoint에서 멈추거나, pause 버튼을 눌러서 실행이 멈추면(단축키: command &#43; control &#43; y) 하단 Debug Area에 LLDB 콘솔이 노출된다.'><title>LLDB(Low-Level-Debugger)</title>
+
+<link rel='canonical' href='https://JaeKimdev.github.io/p/lldblow-level-debugger/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='LLDB(Low-Level-Debugger)'>
+<meta property='og:description' content='LLVM(Low-Level-Virtual-Machine) LLDB가 무엇인지 공부하기 위해서, 먼저 LLVM이 무엇인지 알아보자.
+위키에서는
+프로그램을 컴파일 타임, 링크 타임, 런타임 상황에서 프로그램의 작성 언어에 상관없이 최적화를 쉽게 구현할 수 있도록 구성되어 있는 컴파일러 기반 구조
+라고 설명하고 있다.
+LLDB는 LLVM 프로젝트를 통해 개발된 모듈을 디버깅하는 디버거로써 C, C&#43;&#43;, Objective-C, Swift를 지원하고 현재는 Xcode에 내장되어 있는 기본 디버거이다.
+XCode에서는 실행중인 프로세스가 breakpoint에서 멈추거나, pause 버튼을 눌러서 실행이 멈추면(단축키: command &#43; control &#43; y) 하단 Debug Area에 LLDB 콘솔이 노출된다.'>
+<meta property='og:url' content='https://JaeKimdev.github.io/p/lldblow-level-debugger/'>
+<meta property='og:site_name' content='Jae&#39;s Devlog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='swift' /><meta property='article:tag' content='LLDB' /><meta property='article:published_time' content='2022-09-25T15:33:11&#43;08:00'/><meta property='article:modified_time' content='2022-09-25T15:33:11&#43;08:00'/><meta property='og:image' content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<meta name="twitter:title" content="LLDB(Low-Level-Debugger)">
+<meta name="twitter:description" content="LLVM(Low-Level-Virtual-Machine) LLDB가 무엇인지 공부하기 위해서, 먼저 LLVM이 무엇인지 알아보자.
+위키에서는
+프로그램을 컴파일 타임, 링크 타임, 런타임 상황에서 프로그램의 작성 언어에 상관없이 최적화를 쉽게 구현할 수 있도록 구성되어 있는 컴파일러 기반 구조
+라고 설명하고 있다.
+LLDB는 LLVM 프로젝트를 통해 개발된 모듈을 디버깅하는 디버거로써 C, C&#43;&#43;, Objective-C, Swift를 지원하고 현재는 Xcode에 내장되어 있는 기본 디버거이다.
+XCode에서는 실행중인 프로세스가 breakpoint에서 멈추거나, pause 버튼을 눌러서 실행이 멈추면(단축키: command &#43; control &#43; y) 하단 Debug Area에 LLDB 콘솔이 노출된다."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png' />
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-198007055-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu094c95371594bcdb2830a4be7ec9dc17_41604_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">📱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Jae&#39;s Devlog</a></h1>
+            <h2 class="site-description">iOS, Swift, Etc</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/lldblow-level-debugger/">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" alt="Featured image of post LLDB(Low-Level-Debugger)" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/dev/" >
+                Dev
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/lldblow-level-debugger/">LLDB(Low-Level-Debugger)</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">25 Sep, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    4 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="llvmlow-level-virtual-machine">LLVM(Low-Level-Virtual-Machine)</h2>
+<p>LLDB가 무엇인지 공부하기 위해서, 먼저 LLVM이 무엇인지 알아보자.</p>
+<p><a class="link" href="https://ko.wikipedia.org/wiki/LLVM"  target="_blank" rel="noopener"
+    >위키</a>에서는</p>
+<blockquote>
+<p>프로그램을 컴파일 타임, 링크 타임, 런타임 상황에서 프로그램의 작성 언어에 상관없이 최적화를 쉽게 구현할 수 있도록 구성되어 있는 컴파일러 기반 구조</p>
+</blockquote>
+<p>라고 설명하고 있다.</p>
+<p><code>LLDB</code>는 LLVM 프로젝트를 통해 개발된 모듈을 디버깅하는 디버거로써 C, C++, Objective-C, Swift를 지원하고 현재는 Xcode에 내장되어 있는 기본 디버거이다.</p>
+<p>XCode에서는 실행중인 프로세스가 breakpoint에서 멈추거나, pause 버튼을 눌러서 실행이 멈추면(단축키: <code>command + control + y</code>) 하단 Debug Area에 LLDB 콘솔이 노출된다.</p>
+<h2 id="lldb-기본-문법">LLDB 기본 문법</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> <span class="nb">command</span> <span class="o">[</span>subcommand<span class="o">]</span> -option <span class="s2">&#34;this is argument&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>command, subcommand, option, argument로 구성되어 있고 띄어쓰기로 구분한다.</p>
+<ul>
+<li><code>command</code>, <code>subcommand</code> : LLDB내의 Object 이름(ex. breakpoint, watchpoint, set, list 등)</li>
+<li><code>option</code> : 명령어에 따른 옵션 하이픈(-)으로 시작한다.</li>
+<li><code>argument</code> : 명령어에 따른 인자, 공백이 포함될 수도 있기 때문에 큰따옴표(&quot; &ldquo;)로 감싸 주어야 한다.</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> breakpoint <span class="nb">set</span> --file test.c --line <span class="s2">&#34;12&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>위 명령어는 test.c 라는 파일의 12번째 라인에 breakpoint를 설정(set)하는 명령어이다.</p>
+<h3 id="help">Help</h3>
+<p>사용 가능한 subcommand나 option을 확인하고 싶을 때는 <code>help</code> 명령어를 사용하면 좋다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> <span class="nb">help</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⬆️ LLDB에서 제공하는 Command 목록을 확인할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> <span class="nb">help</span> breakpoint
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⬆️ breakpoint의 subcommand 에 대한 명령어를 확인할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> <span class="nb">help</span> breakpoint <span class="nb">set</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>⬆️ breakpoint set 의 Option을 확인할 수 있다.</p>
+<h3 id="apropos">Apropos</h3>
+<p>원하는 기능의 명력어가 있는지 확인하고 싶을 때는 <code>apropos</code> 명령어를 사용할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># referent count를 체크할 수 있는 명령어가 있을지 확인하고 싶을 때</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> apropos <span class="s2">&#34;refernce count&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># The following commands may relate to &#39;reference count&#39;:</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#    refcount -- Inspect the reference count data for a Swift object</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="breakpoint">Breakpoint</h2>
+<p>디버깅 시 중단점(breakpoint)을 설정하면 해당 위치에서 프로그램의 실행을 멈출 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> breakpoint <span class="nb">set</span> <span class="o">[</span>option<span class="o">]</span> <span class="s2">&#34;arguments&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 맨 앞 알파벳만 입력해도 명령어를 실행할 수 있다. same as above</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> br s <span class="o">[</span>option<span class="o">]</span> <span class="s2">&#34;arguments&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="function-name">Function name</h3>
+<p>특정 이름을 가진 모든 함수에 <code>-name</code> 옵션을 사용하여 breakpoint를 설정할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># viewDidLoad 함수에 breakpoint를 설정</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> breakpoint <span class="nb">set</span> --name viewDidLoad
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> b -n viewDidLoad
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="file-name">File name</h3>
+<p>파일 이름과 line number를 이용하여 breakpoint를 설정할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># ViewController.swift 파일의 12번째 라인에 breakpoint를 설정</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> breakpoint <span class="nb">set</span> --file ViewController.swift --line <span class="m">12</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> b s -f ViewController.swift -l <span class="m">12</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="condition">Condition</h3>
+<p>조건을 설정하여 breakpoint를 설정할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># viewWillAppear 호출시, animated가 true인 경우에만 break</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> breakpoint <span class="nb">set</span> --name <span class="s2">&#34;viewWillAppear&#34;</span> --condition animated
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> br s -n <span class="s2">&#34;viewWillAppear&#34;</span> -c animated
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ViewControler.swift 파일의 17번째 라인에서 helloWorld가 &#34;abc&#34;인 경우 break</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> breakpoint <span class="nb">set</span> --file ViewController.swift --line <span class="m">17</span> --condition <span class="nv">helloWorld</span> <span class="o">==</span> <span class="s2">&#34;abc&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> br s -f ViewController.swift -l <span class="m">17</span> -c <span class="nv">helloWorld</span> <span class="o">==</span> <span class="s2">&#34;abc&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="break-list">break list</h3>
+<p><code>breakpoint list</code> 명령으로 현재 설정된 breakpoint를 확인할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># breakpoint 목록 전체 출력</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> breakpoint list
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> br list
+</span></span><span class="line"><span class="cl"><span class="c1"># breakpoint 목록 간단하게 출력 (brief)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> br list -b
+</span></span><span class="line"><span class="cl"><span class="c1"># 특정 id를 가진 breakpoint의 정보만 출력</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> br list <span class="m">1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="break-delete--disable">break delete / disable</h3>
+<p><code>breakpoint delete</code> 명령으로 설정된 breakpoint를 삭제할 수 있고, <code>breakpoint disable</code> 명령으로 설정된 breakpoint를 비활성화할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># breakpoint 전체 삭제</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> breakpoint delete
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> br de
+</span></span><span class="line"><span class="cl"><span class="c1"># 특정 breakpoint 삭제</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> br de <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># breakpoint 전체 비할성화</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> breakpoint disable
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> br di
+</span></span><span class="line"><span class="cl"><span class="c1"># 특정 breakpoint 비활성화</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>lldb<span class="o">)</span> br di <span class="m">1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="stepping">Stepping</h2>
+<p>break되어 있는 상태에서 프로그램의 실행을 한 단계씩 진행시키면서 상태 변화를 관찰할 수 있다.</p>
+<h3 id="stepping-over">stepping over</h3>
+<p><code>next</code> 명령어를 사용하여 다음 라인으로 진행시킬 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> next
+</span></span><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> n
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="stepping-in">stepping in</h3>
+<p><code>step</code> 명령어를 사용하여 다음 statement가 함수인경우 함수 내부의 시작시점으로 진행시킬 수 있다. <code>next</code>명령을 사용했다면 함수를 만나도 다음 statement로 진행시킨다는 점이 다르다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> step
+</span></span><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> s
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="stepping-out">stepping out</h3>
+<p><code>finish</code> 명령어를 사용하여면 현재 함수가 return될 때까지 진행하고 break된다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> finish
+</span></span><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> f
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="expression">Expression</h2>
+<h3 id="po">po</h3>
+<p>객체의 값을 출력할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> po helloWorld
+</span></span><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> p helloWorld
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="expression-1">expression</h3>
+<p><code>expression</code> 명령어를 사용하여 정보를 출력하고 값을 변경해서 다시 출력할 수도 있다.</p>
+<p>LLDB에서는 내부적으로 값이 출력되면 <code>$R-</code> 형태로 저장되고, 이 값을 다시 사용할 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># view의 정보를 출력</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> expression self.view
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># $R0이라는 변수에 view의 정보가 저장됨</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># $R0의 백그라운드 컬러를 파란색으로 변경</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> expression <span class="nv">$R0</span>.backgroundColor <span class="o">=</span> UIColor.blue
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Code를 계속 진행</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># view 파란색으로 바뀌어 보여짐</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>변수를 직접 선언해서 사용할 수도 있다. 이때는 사용하려는 변수명 앞에 <code>$</code>를 붙여줘야 한다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> expr <span class="nb">let</span> <span class="nv">$testNumber</span> <span class="o">=</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> expr var <span class="nv">$testString</span> <span class="o">=</span> <span class="s2">&#34;test&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>--ignore-breakpoints</code> 옵션을 사용하면 breakpoint를 무시하고 코드를 계속 진행시킬 수 있다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>lldb<span class="o">)</span> expr --ignore-breakpoints
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="reference">Reference</h2>
+<p><a class="link" href="https://yagom.net/courses/start-lldb/"  target="_blank" rel="noopener"
+    >야곰닷넷 - LLDB 정복</a>
+<a class="link" href="https://www.vadimbulavin.com/xcode-build-system/"  target="_blank" rel="noopener"
+    >Understanding Xcode Build System</a>
+<a class="link" href="https://ko.wikipedia.org/wiki/LLVM"  target="_blank" rel="noopener"
+    >wiki - LLVM</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/swift/">Swift</a>
+        
+            <a href="/tags/lldb/">LLDB</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/auto-layout2/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Auto Layout(2)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/typealias/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">typealias</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/protocols/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Protocols</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/auto-layout1/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/post/swift/220911-1.png" loading="lazy" data-key="" data-hash="/post/swift/220911-1.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Auto Layout(1)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/instantiateviewcontroller-/-performsegue-%ED%99%94%EB%A9%B4-%EC%A0%84%ED%99%98-%EB%B0%A9%EB%B2%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">instantiateViewController / performSegue 화면 전환 방법</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="JaeKimdev/blog-comments"
+        issue-term="title"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2022 Jae&#39;s Devlog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.13.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#llvmlow-level-virtual-machine">LLVM(Low-Level-Virtual-Machine)</a></li>
+    <li><a href="#lldb-기본-문법">LLDB 기본 문법</a>
+      <ol>
+        <li><a href="#help">Help</a></li>
+        <li><a href="#apropos">Apropos</a></li>
+      </ol>
+    </li>
+    <li><a href="#breakpoint">Breakpoint</a>
+      <ol>
+        <li><a href="#function-name">Function name</a></li>
+        <li><a href="#file-name">File name</a></li>
+        <li><a href="#condition">Condition</a></li>
+        <li><a href="#break-list">break list</a></li>
+        <li><a href="#break-delete--disable">break delete / disable</a></li>
+      </ol>
+    </li>
+    <li><a href="#stepping">Stepping</a>
+      <ol>
+        <li><a href="#stepping-over">stepping over</a></li>
+        <li><a href="#stepping-in">stepping in</a></li>
+        <li><a href="#stepping-out">stepping out</a></li>
+      </ol>
+    </li>
+    <li><a href="#expression">Expression</a>
+      <ol>
+        <li><a href="#po">po</a></li>
+        <li><a href="#expression-1">expression</a></li>
+      </ol>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
