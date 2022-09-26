@@ -6,7 +6,248 @@
         <description>Recent content in Posts on Jae&#39;s Devlog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 25 Sep 2022 15:33:11 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 25 Sep 2022 21:03:41 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Auto Layout(3) - Stack View</title>
+        <link>https://JaeKimdev.github.io/p/auto-layout3-stack-view/</link>
+        <pubDate>Sun, 25 Sep 2022 21:03:41 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/auto-layout3-stack-view/</guid>
+        <description>&lt;img src="https://JaeKimdev.github.io/post/swift/220926-14.png" alt="Featured image of post Auto Layout(3) - Stack View" /&gt;&lt;h2 id=&#34;stack-view-properties&#34;&gt;Stack View Properties&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-14.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;axis(UIStackView Only)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;horizontal 가로 스택뷰&lt;/li&gt;
+&lt;li&gt;vertical 세로 스택뷰&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;distribution: UIStackView.Distribution - 뷰의 &lt;code&gt;사이즈&lt;/code&gt;에 관한 방법&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;fill: hugging priority가 낮은 친구들이 늘어나서 스택뷰를 채움
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;li&gt;fillEqually: 모든 뷰가 동일한 크기로 채워짐
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;li&gt;fillProportionally: 컨텐츠 사이즈 비율대로 채워짐(ex&amp;gt; 3:2:4:1)
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;li&gt;equalSpacing: 기본으로 fill로 작동하고 동일한 간격을 유지
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;li&gt;equalCentering: 모든 뷰의 중앙이 동일한 간격을 유지
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;alignment: UIStackViw.Alingment - 뷰의 &lt;code&gt;위치&lt;/code&gt;에 관한 방법&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;fill: 스택뷰의 크기에 맞춰서 뷰의 크기가 늘어남
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;li&gt;leading: 뷰의 leading이 스택뷰의 leading과 일치
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-7.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;li&gt;top: 뷰의 top이 스택뷰의 top과 일치
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;li&gt;firstBaseline: 뷰의 firstBaseline이 스택뷰의 firstBaseline과 일치
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;li&gt;center: 뷰의 center가 스택뷰의 center와 일치
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-10.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;li&gt;trailing: 뷰의 trailing이 스택뷰의 trailing과 일치&lt;br&gt;
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-11.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;li&gt;bottom: 뷰의 bottom이 스택뷰의 bottom과 일치
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-12.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;li&gt;lastBaseline: 뷰의 lastBaseline이 스택뷰의 lastBaseline과 일치
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-13.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;spacing: CGFloat 요소 사이의 간격&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;simple-stack-view&#34;&gt;Simple Stack View&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Label&lt;/code&gt;과 &lt;code&gt;Image View&lt;/code&gt;, &lt;code&gt;Button&lt;/code&gt;으로 이루어진 Stack View를 만들어보자.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;3가지 요소를 선택한 후, &lt;code&gt;Editor&lt;/code&gt; - &lt;code&gt;Embed In&lt;/code&gt; - &lt;code&gt;Stack View&lt;/code&gt;를 선택한다.&lt;/li&gt;
+&lt;li&gt;스택뷰를 선택하고 constraints를 상하좌우 0으로 설정해서 화면에 꽉차게 만든다.&lt;/li&gt;
+&lt;li&gt;이미지가 커지는 것을 원하기 때문에 &lt;code&gt;Image View&lt;/code&gt;의 &lt;code&gt;Hugging Priority&lt;/code&gt;를 낮게 설정한다.(여기서는 &lt;code&gt;1&lt;/code&gt;로 설정했다.)&lt;/li&gt;
+&lt;li&gt;스택뷰의 Allignment를 &lt;code&gt;Fill&lt;/code&gt;로 설정한다.&lt;/li&gt;
+&lt;li&gt;위쪽 레이블을 선택하고 center로 설정해 준다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Simple Stack View&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Nested Stack Views View&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-15.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220926-16.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;nested-stack-views&#34;&gt;Nested Stack Views&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;name과 text field를 선택하고 &lt;code&gt;Editor&lt;/code&gt; - &lt;code&gt;Embed In&lt;/code&gt; - &lt;code&gt;Stack View&lt;/code&gt;를 선택한다.&lt;/li&gt;
+&lt;li&gt;만들어준 first, middle, last 스택뷰를 선택하고 다시 하나의 스택뷰에 담아준다&lt;/li&gt;
+&lt;li&gt;왼쪽의 이미지 뷰와 묶어서 스택뷰를 만들어 준다.&lt;/li&gt;
+&lt;li&gt;하단 3개의 버튼을 묶어서 스택뷰를 만들고 , 모든 스택뷰를 하나의 스택뷰에 담아준다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/AutoLayoutWithoutConstraints.html#//apple_ref/doc/uid/TP40010853-CH8-SW1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Auto Layout Without Constraints&lt;/a&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/uistackview&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple Developer Documentation - UIStackView&lt;/a&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/videos/play/wwdc2015/218/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;WWDC - Mysteries of Auto Layout, Part 1&lt;/a&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/LayoutUsingStackViews.html#//apple_ref/doc/uid/TP40010853-CH11-SW1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Auto Layout Cookbook - StackView&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>LLDB(Low-Level-Debugger)</title>
         <link>https://JaeKimdev.github.io/p/lldblow-level-debugger/</link>
         <pubDate>Sun, 25 Sep 2022 15:33:11 +0800</pubDate>
