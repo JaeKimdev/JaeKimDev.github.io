@@ -6,7 +6,157 @@
         <description>Recent content in Posts on Jae&#39;s Devlog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 25 Sep 2022 21:03:41 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 03 Oct 2022 20:33:16 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>WWDC21 - ARC in Swift: Basics and beyond</title>
+        <link>https://JaeKimdev.github.io/p/wwdc21-arc-in-swift-basics-and-beyond/</link>
+        <pubDate>Mon, 03 Oct 2022 20:33:16 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/wwdc21-arc-in-swift-basics-and-beyond/</guid>
+        <description>&lt;img src="https://res.cloudinary.com/dwrejmale/image/upload/v1664800896/960x0_gtyc2h.png" alt="Featured image of post WWDC21 - ARC in Swift: Basics and beyond" /&gt;&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;스위프트는 ARC(Automatic Reference Counting)를 사용하여 앱의 메모리 사용량을 관리하고 추적한다. Swift를 효율적으로 사용하기 위해서 ARC가 동작하는 방식을 이해 해보자.&lt;/p&gt;
+&lt;h2 id=&#34;object-lifetimes-and-arc&#34;&gt;Object lifetimes and ARC&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Object lifetime&lt;/code&gt;은 &lt;code&gt;init()&lt;/code&gt;에서 시작되고 마지막으로 사용되면 끝난다.&lt;/li&gt;
+&lt;li&gt;ARC는 lifetime이 끝난 객체를 deallocate(할당 해제)한다.&lt;/li&gt;
+&lt;li&gt;ARC는 참조 카운트(reference count)를 사용하여 객체의 lifetime을 추적한다.&lt;/li&gt;
+&lt;li&gt;Swift 컴파일러가 &lt;code&gt;retain&lt;/code&gt;과 &lt;code&gt;release&lt;/code&gt;를 자동으로 삽입한다.&lt;/li&gt;
+&lt;li&gt;reference count가 0이 되면 객체는 deallocate된다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;위의 예제코드에서 &lt;code&gt;Traveler&lt;/code&gt;의 참조가 시작되고 끝나는 지점을 확인할 수 있다.
+&lt;code&gt;traveler1&lt;/code&gt;이 &lt;code&gt;Traveler&lt;/code&gt;의 인스턴스를 생성하는 시점에 참조가 시작되고, &lt;code&gt;traveler2&lt;/code&gt;가 &lt;code&gt;traveler1&lt;/code&gt;을 참조하는 시점에 &lt;code&gt;traveler1&lt;/code&gt;에 대한 사용이 종료되어 참조가 종료된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Swift 컴파일러는 init()되는 시점에 reference count가 1 올라가고(&lt;code&gt;retain&lt;/code&gt; 생략),
+&lt;code&gt;traveler1&lt;/code&gt;에 대한 사용이 끝난 지점에 &lt;code&gt;release&lt;/code&gt;를 자동으로 삽입해 준다.&lt;/p&gt;
+&lt;p&gt;그렇다면 &lt;code&gt;traveler2&lt;/code&gt; 인스턴스에 대한 참조는 어떻게 될까?&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;traveler2&lt;/code&gt;가 &lt;code&gt;traveler1&lt;/code&gt;을 참조하는 시점에 &lt;code&gt;traveler1&lt;/code&gt;에 대한 참조가 시작되고, &lt;code&gt;traveler2&lt;/code&gt;의 destination에 &amp;ldquo;Big Sur&amp;quot;를 할당하는 시점에 &lt;code&gt;traveler1&lt;/code&gt;에 대한 참조가 종료된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Swift 컴파일러가 시작 전 &lt;code&gt;retain&lt;/code&gt;을 삽입하고, &lt;code&gt;traveler2&lt;/code&gt;의 마지막 사용(destination에 &amp;ldquo;Big Sur&amp;quot;를 할당)후에 &lt;code&gt;release&lt;/code&gt;를 삽입해 준다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;런타임에서 무슨 일이 일어나고 있는지 그림으로 다시 확인해 보자.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Traveler&lt;/code&gt; 객체는 초기화되면서 &lt;code&gt;Heap&lt;/code&gt;영역에 생성되고, reference count가 1로 증가한다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-7.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;traveler1&lt;/code&gt;을 &lt;code&gt;traveler2&lt;/code&gt;에 할당하면서 &lt;code&gt;traveler1&lt;/code&gt;의 reference count가 2로 증가한다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;treveler1&lt;/code&gt;의 사용이 완료되어 &lt;code&gt;release&lt;/code&gt;가 호출되면서 reference count가 1로 감소한다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;traveler2&lt;/code&gt;의 &lt;code&gt;destination&lt;/code&gt;에 &amp;ldquo;Big Sur&amp;quot;를 할당되어 계속해서 &lt;code&gt;treveler2&lt;/code&gt;가 사용되고 있으므로 reference count는 1로 유지된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-10.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;traveler2&lt;/code&gt;의 사용이 완료되어 &lt;code&gt;release&lt;/code&gt;가 호출되면서 reference count가 0이 되고 메모리에서 해제된다.&lt;/p&gt;
+&lt;h2 id=&#34;object-lifetime-in-swift&#34;&gt;object lifetime in Swift&lt;/h2&gt;
+&lt;p&gt;스위프트에서 객체의 lifetime은 사용기반(use-based)으로 결정된다. 객체의 lifetime은 초기화되는 시점부터 마지막 사용까지 보장된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-11.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;실제 수명 주기는 컴파일러가 자동으로 삽입해주는 &lt;code&gt;retain&lt;/code&gt;과 &lt;code&gt;release&lt;/code&gt;에 의해 결정되므로, 최소한으로 보장된 수명주기와 달라질 수 있다. 대부분의 경우에서는 정확한 수명주기가 중요하지 않다.&lt;/p&gt;
+&lt;h2 id=&#34;observable-object-lifetimes&#34;&gt;Observable object lifetimes&lt;/h2&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/videos/play/wwdc2021/10216/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;WWDC21 - ARC in Swift: Basics and beyond&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Swift Doc - Automatic Reference Counting
+&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Auto Layout(3) - Stack View</title>
         <link>https://JaeKimdev.github.io/p/auto-layout3-stack-view/</link>
         <pubDate>Sun, 25 Sep 2022 21:03:41 +0800</pubDate>

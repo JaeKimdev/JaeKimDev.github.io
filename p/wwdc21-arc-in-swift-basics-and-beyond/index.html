@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='스위프트는 ARC(Automatic Reference Counting)를 사용하여 앱의 메모리 사용량을 관리하고 추적한다. Swift를 효율적으로 사용하기 위해서 ARC가 동작하는 방식을 이해 해보자.
+Object lifetimes and ARC Object lifetime은 init()에서 시작되고 마지막으로 사용되면 끝난다. ARC는 lifetime이 끝난 객체를 deallocate(할당 해제)한다. ARC는 참조 카운트(reference count)를 사용하여 객체의 lifetime을 추적한다. Swift 컴파일러가 retain과 release를 자동으로 삽입한다. reference count가 0이 되면 객체는 deallocate된다. 위의 예제코드에서 Traveler의 참조가 시작되고 끝나는 지점을 확인할 수 있다. traveler1이 Traveler의 인스턴스를 생성하는 시점에 참조가 시작되고, traveler2가 traveler1을 참조하는 시점에 traveler1에 대한 사용이 종료되어 참조가 종료된다.'><title>WWDC21 - ARC in Swift: Basics and beyond</title>
+
+<link rel='canonical' href='https://JaeKimdev.github.io/p/wwdc21-arc-in-swift-basics-and-beyond/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='WWDC21 - ARC in Swift: Basics and beyond'>
+<meta property='og:description' content='스위프트는 ARC(Automatic Reference Counting)를 사용하여 앱의 메모리 사용량을 관리하고 추적한다. Swift를 효율적으로 사용하기 위해서 ARC가 동작하는 방식을 이해 해보자.
+Object lifetimes and ARC Object lifetime은 init()에서 시작되고 마지막으로 사용되면 끝난다. ARC는 lifetime이 끝난 객체를 deallocate(할당 해제)한다. ARC는 참조 카운트(reference count)를 사용하여 객체의 lifetime을 추적한다. Swift 컴파일러가 retain과 release를 자동으로 삽입한다. reference count가 0이 되면 객체는 deallocate된다. 위의 예제코드에서 Traveler의 참조가 시작되고 끝나는 지점을 확인할 수 있다. traveler1이 Traveler의 인스턴스를 생성하는 시점에 참조가 시작되고, traveler2가 traveler1을 참조하는 시점에 traveler1에 대한 사용이 종료되어 참조가 종료된다.'>
+<meta property='og:url' content='https://JaeKimdev.github.io/p/wwdc21-arc-in-swift-basics-and-beyond/'>
+<meta property='og:site_name' content='Jae&#39;s Devlog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='swift' /><meta property='article:tag' content='ARC' /><meta property='article:published_time' content='2022-10-03T20:33:16&#43;08:00'/><meta property='article:modified_time' content='2022-10-03T20:33:16&#43;08:00'/><meta property='og:image' content='https://res.cloudinary.com/dwrejmale/image/upload/v1664800896/960x0_gtyc2h.png' />
+<meta name="twitter:title" content="WWDC21 - ARC in Swift: Basics and beyond">
+<meta name="twitter:description" content="스위프트는 ARC(Automatic Reference Counting)를 사용하여 앱의 메모리 사용량을 관리하고 추적한다. Swift를 효율적으로 사용하기 위해서 ARC가 동작하는 방식을 이해 해보자.
+Object lifetimes and ARC Object lifetime은 init()에서 시작되고 마지막으로 사용되면 끝난다. ARC는 lifetime이 끝난 객체를 deallocate(할당 해제)한다. ARC는 참조 카운트(reference count)를 사용하여 객체의 lifetime을 추적한다. Swift 컴파일러가 retain과 release를 자동으로 삽입한다. reference count가 0이 되면 객체는 deallocate된다. 위의 예제코드에서 Traveler의 참조가 시작되고 끝나는 지점을 확인할 수 있다. traveler1이 Traveler의 인스턴스를 생성하는 시점에 참조가 시작되고, traveler2가 traveler1을 참조하는 시점에 traveler1에 대한 사용이 종료되어 참조가 종료된다."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://res.cloudinary.com/dwrejmale/image/upload/v1664800896/960x0_gtyc2h.png' />
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-198007055-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu094c95371594bcdb2830a4be7ec9dc17_41604_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">📱</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Jae&#39;s Devlog</a></h1>
+            <h2 class="site-description">iOS, Swift, Etc</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/wwdc21-arc-in-swift-basics-and-beyond/">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1664800896/960x0_gtyc2h.png" loading="lazy" alt="Featured image of post WWDC21 - ARC in Swift: Basics and beyond" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/wwdc/" >
+                WWDC
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/wwdc21-arc-in-swift-basics-and-beyond/">WWDC21 - ARC in Swift: Basics and beyond</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">03 Oct, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    2 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><img src="/post/swift/221003-1.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>스위프트는 ARC(Automatic Reference Counting)를 사용하여 앱의 메모리 사용량을 관리하고 추적한다. Swift를 효율적으로 사용하기 위해서 ARC가 동작하는 방식을 이해 해보자.</p>
+<h2 id="object-lifetimes-and-arc">Object lifetimes and ARC</h2>
+<ul>
+<li><code>Object lifetime</code>은 <code>init()</code>에서 시작되고 마지막으로 사용되면 끝난다.</li>
+<li>ARC는 lifetime이 끝난 객체를 deallocate(할당 해제)한다.</li>
+<li>ARC는 참조 카운트(reference count)를 사용하여 객체의 lifetime을 추적한다.</li>
+<li>Swift 컴파일러가 <code>retain</code>과 <code>release</code>를 자동으로 삽입한다.</li>
+<li>reference count가 0이 되면 객체는 deallocate된다.</li>
+</ul>
+<p><img src="/post/swift/221003-2.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>위의 예제코드에서 <code>Traveler</code>의 참조가 시작되고 끝나는 지점을 확인할 수 있다.
+<code>traveler1</code>이 <code>Traveler</code>의 인스턴스를 생성하는 시점에 참조가 시작되고, <code>traveler2</code>가 <code>traveler1</code>을 참조하는 시점에 <code>traveler1</code>에 대한 사용이 종료되어 참조가 종료된다.</p>
+<p><img src="/post/swift/221003-3.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>Swift 컴파일러는 init()되는 시점에 reference count가 1 올라가고(<code>retain</code> 생략),
+<code>traveler1</code>에 대한 사용이 끝난 지점에 <code>release</code>를 자동으로 삽입해 준다.</p>
+<p>그렇다면 <code>traveler2</code> 인스턴스에 대한 참조는 어떻게 될까?</p>
+<p><img src="/post/swift/221003-4.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p><code>traveler2</code>가 <code>traveler1</code>을 참조하는 시점에 <code>traveler1</code>에 대한 참조가 시작되고, <code>traveler2</code>의 destination에 &ldquo;Big Sur&quot;를 할당하는 시점에 <code>traveler1</code>에 대한 참조가 종료된다.</p>
+<p><img src="/post/swift/221003-5.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>Swift 컴파일러가 시작 전 <code>retain</code>을 삽입하고, <code>traveler2</code>의 마지막 사용(destination에 &ldquo;Big Sur&quot;를 할당)후에 <code>release</code>를 삽입해 준다.</p>
+<p><strong>런타임에서 무슨 일이 일어나고 있는지 그림으로 다시 확인해 보자.</strong></p>
+<p><img src="/post/swift/221003-6.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p><code>Traveler</code> 객체는 초기화되면서 <code>Heap</code>영역에 생성되고, reference count가 1로 증가한다.</p>
+<p><img src="/post/swift/221003-7.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p><code>traveler1</code>을 <code>traveler2</code>에 할당하면서 <code>traveler1</code>의 reference count가 2로 증가한다.</p>
+<p><img src="/post/swift/221003-8.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p><code>treveler1</code>의 사용이 완료되어 <code>release</code>가 호출되면서 reference count가 1로 감소한다.</p>
+<p><img src="/post/swift/221003-9.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p><code>traveler2</code>의 <code>destination</code>에 &ldquo;Big Sur&quot;를 할당되어 계속해서 <code>treveler2</code>가 사용되고 있으므로 reference count는 1로 유지된다.</p>
+<p><img src="/post/swift/221003-10.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p><code>traveler2</code>의 사용이 완료되어 <code>release</code>가 호출되면서 reference count가 0이 되고 메모리에서 해제된다.</p>
+<h2 id="object-lifetime-in-swift">object lifetime in Swift</h2>
+<p>스위프트에서 객체의 lifetime은 사용기반(use-based)으로 결정된다. 객체의 lifetime은 초기화되는 시점부터 마지막 사용까지 보장된다.</p>
+<p><img src="/post/swift/221003-11.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>실제 수명 주기는 컴파일러가 자동으로 삽입해주는 <code>retain</code>과 <code>release</code>에 의해 결정되므로, 최소한으로 보장된 수명주기와 달라질 수 있다. 대부분의 경우에서는 정확한 수명주기가 중요하지 않다.</p>
+<h2 id="observable-object-lifetimes">Observable object lifetimes</h2>
+<h2 id="reference">Reference</h2>
+<p><a class="link" href="https://developer.apple.com/videos/play/wwdc2021/10216/"  target="_blank" rel="noopener"
+    >WWDC21 - ARC in Swift: Basics and beyond</a><br>
+<a class="link" href="https://docs.swift.org/swift-book/LanguageGuide/AutomaticReferenceCounting.html"  target="_blank" rel="noopener"
+    >Swift Doc - Automatic Reference Counting
+</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/swift/">Swift</a>
+        
+            <a href="/tags/arc/">ARC</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="JaeKimdev/blog-comments"
+        issue-term="title"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2022 Jae&#39;s Devlog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.13.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#object-lifetimes-and-arc">Object lifetimes and ARC</a></li>
+    <li><a href="#object-lifetime-in-swift">object lifetime in Swift</a></li>
+    <li><a href="#observable-object-lifetimes">Observable object lifetimes</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
