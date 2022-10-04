@@ -146,8 +146,121 @@
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;실제 수명 주기는 컴파일러가 자동으로 삽입해주는 &lt;code&gt;retain&lt;/code&gt;과 &lt;code&gt;release&lt;/code&gt;에 의해 결정되므로, 최소한으로 보장된 수명주기와 달라질 수 있다. 대부분의 경우에서는 정확한 수명주기가 중요하지 않다.&lt;/p&gt;
+&lt;p&gt;실제 수명 주기는 컴파일러가 자동으로 삽입해주는 &lt;code&gt;retain&lt;/code&gt;과 &lt;code&gt;release&lt;/code&gt;에 의해 결정되므로, 최소한으로 보장된 수명주기와 달라질 수 있다.&lt;/p&gt;
 &lt;h2 id=&#34;observable-object-lifetimes&#34;&gt;Observable object lifetimes&lt;/h2&gt;
+&lt;p&gt;대부분의 경우 객체의 정확한 수명은 중요하지 않을 수 있다.&lt;br&gt;
+하지만 &lt;code&gt;weak&lt;/code&gt;, &lt;code&gt;unowned&lt;/code&gt;를 사용하거나 &lt;code&gt;Deinitializer side effects&lt;/code&gt;와 같은 기능을 사용하는 경우 객체의 수명을 관찰해야 할 필요가 있다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-12.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;생성된 객체가 해제되지 않고 오랫동안 남아있을 가능성도 있고, 컴파일러가 업데이트 되거나 소스코드가 변경되면서 문제가 발생할 가능성이 있다.&lt;/p&gt;
+&lt;h3 id=&#34;weak-and-unowned-references&#34;&gt;weak and unowned references&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;weak&lt;/code&gt;와 &lt;code&gt;unowned&lt;/code&gt; 참조는 reference count를 증가시키지 않는다. 따라서 보통 reference cycle을 방지하기 위해 사용한다.&lt;/p&gt;
+&lt;h3 id=&#34;reference-cycle-참조-사이클&#34;&gt;reference cycle 참조 사이클?&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-13.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;위의 &lt;code&gt;Traveler&lt;/code&gt;와 &lt;code&gt;Account&lt;/code&gt; 클라스를 살펴보자,
+&lt;code&gt;Traveler&lt;/code&gt;는 account 프로퍼티를 통해 &lt;code&gt;Account&lt;/code&gt;를 가지고 있고, &lt;code&gt;Account&lt;/code&gt;는 traveler 프로퍼티에서 &lt;code&gt;Traveler&lt;/code&gt;를 가지고 있다. 서로가 서로를 참조하고 있기 때문에 reference cycle이 발생한다.&lt;/p&gt;
+&lt;p&gt;아래 그림과 같이 &lt;code&gt;test&lt;/code&gt;함수를 통해 &lt;code&gt;Traveler&lt;/code&gt; 타입과 &lt;code&gt;Account&lt;/code&gt; 타입의 인스턴스를 생성하고 lifetime을 살펴보자.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-14.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Heap 영역에 &lt;code&gt;Traveler&lt;/code&gt; 타입 인스턴스가 생성되며 reference count는 1로 올라간다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-15.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;다음으로 account 프로퍼티를 통해 &lt;code&gt;Account&lt;/code&gt; 타입 인스턴스가 생성되며 reference count는 1로 올라간다. account는 &lt;code&gt;Traveler&lt;/code&gt;타입을 참조하으로 &lt;code&gt;Traveler&lt;/code&gt; 인스턴스의 reference count는 2로 증가한다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-16.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+test함수의 3번째 라인을 통해 Traveler 타입의 account 프로퍼티에 &lt;code&gt;Account&lt;/code&gt; 인스턴스를 할당한다. 이때 &lt;code&gt;Account&lt;/code&gt; 인스턴스의 reference count는 2로 증가한다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-17.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+&lt;code&gt;Account&lt;/code&gt; 타입의 마지막 사용이 끝났기 때문에 &lt;code&gt;Account&lt;/code&gt; 인스턴스의 reference count는 1로 감소한다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-18.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+test함수의 4번째 라인을 통해 &lt;code&gt;Traveler&lt;/code&gt; 타입의 마지막 사용이 끝났기 때문에 &lt;code&gt;Traveler&lt;/code&gt; 인스턴스의 reference count 역시 1로 감소한다.&lt;/p&gt;
+&lt;p&gt;모든 사용이 다 종료 되었지만, &lt;code&gt;Traveler&lt;/code&gt; 인스턴스와 &lt;code&gt;Account&lt;/code&gt; 인스턴스는 reference count가 0이 되지 않고 계속해서 1로 남아있기 때문에 메모리에서 해제되지 않고 계속해서 남아있으면서 메모리 누수(memory leak)을 발생시킨다. 이러한 상황을 &lt;code&gt;reference cycle&lt;/code&gt; 이라고 한다.&lt;/p&gt;
+&lt;h2 id=&#34;weak-unowned-references&#34;&gt;weak, unowned references&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;reference cycle&lt;/code&gt;을 해결하기 위해 &lt;code&gt;weak&lt;/code&gt;와 &lt;code&gt;unowned&lt;/code&gt; 참조를 사용할 수 있다.
+메모리에서 해제된 인스턴스를 참조하려고 하면 &lt;code&gt;weak&lt;/code&gt; reference 로 선언된 객체는 &lt;code&gt;nil&lt;/code&gt;을, &lt;code&gt;unownded&lt;/code&gt; reference로 선언된 객체는 &lt;code&gt;trap&lt;/code&gt;을 반환한다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-19.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+위의 예제에서 &lt;code&gt;Account&lt;/code&gt; 타입의 traveler 프로퍼티를 &lt;code&gt;weak&lt;/code&gt;로 선언하면 &lt;code&gt;Traveler&lt;/code&gt; 인스턴스의 reference count는 0이 되어 메모리에서 해제된다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Traveler&lt;/code&gt; 인스턴스가 해제되면서 acount 프로퍼티에 할당된 reference도 해제되기 때문에 &lt;code&gt;Account&lt;/code&gt; 인스턴스의 reference count는 0이 되어 메모리에서 해제된다.&lt;/p&gt;
+&lt;p&gt;지금까지는 &lt;code&gt;weak&lt;/code&gt;를 참조를 끊어주는데(break) 사용했지만, 만약 &lt;code&gt;weak&lt;/code&gt;를 객체에 접근할 때 사용한다면 오류를 발생시킬 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-20.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;printSummary&lt;/code&gt; 메서드는 Account로 이동하였다.
+&lt;code&gt;test()&lt;/code&gt;에서 &lt;code&gt;traveler.account = account&lt;/code&gt;에서&lt;/p&gt;
 &lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/videos/play/wwdc2021/10216/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;WWDC21 - ARC in Swift: Basics and beyond&lt;/a&gt;&lt;br&gt;

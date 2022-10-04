@@ -278,7 +278,7 @@ if (!doNotTrack) {
 
 
                 <time class="article-time--reading">
-                    2 minute read
+                    3 minute read
                 </time>
             </div>
         
@@ -426,8 +426,121 @@ if (!doNotTrack) {
 	
 	
 ></p>
-<p>실제 수명 주기는 컴파일러가 자동으로 삽입해주는 <code>retain</code>과 <code>release</code>에 의해 결정되므로, 최소한으로 보장된 수명주기와 달라질 수 있다. 대부분의 경우에서는 정확한 수명주기가 중요하지 않다.</p>
+<p>실제 수명 주기는 컴파일러가 자동으로 삽입해주는 <code>retain</code>과 <code>release</code>에 의해 결정되므로, 최소한으로 보장된 수명주기와 달라질 수 있다.</p>
 <h2 id="observable-object-lifetimes">Observable object lifetimes</h2>
+<p>대부분의 경우 객체의 정확한 수명은 중요하지 않을 수 있다.<br>
+하지만 <code>weak</code>, <code>unowned</code>를 사용하거나 <code>Deinitializer side effects</code>와 같은 기능을 사용하는 경우 객체의 수명을 관찰해야 할 필요가 있다.</p>
+<p><img src="/post/swift/221003-12.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>생성된 객체가 해제되지 않고 오랫동안 남아있을 가능성도 있고, 컴파일러가 업데이트 되거나 소스코드가 변경되면서 문제가 발생할 가능성이 있다.</p>
+<h3 id="weak-and-unowned-references">weak and unowned references</h3>
+<p><code>weak</code>와 <code>unowned</code> 참조는 reference count를 증가시키지 않는다. 따라서 보통 reference cycle을 방지하기 위해 사용한다.</p>
+<h3 id="reference-cycle-참조-사이클">reference cycle 참조 사이클?</h3>
+<p><img src="/post/swift/221003-13.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>위의 <code>Traveler</code>와 <code>Account</code> 클라스를 살펴보자,
+<code>Traveler</code>는 account 프로퍼티를 통해 <code>Account</code>를 가지고 있고, <code>Account</code>는 traveler 프로퍼티에서 <code>Traveler</code>를 가지고 있다. 서로가 서로를 참조하고 있기 때문에 reference cycle이 발생한다.</p>
+<p>아래 그림과 같이 <code>test</code>함수를 통해 <code>Traveler</code> 타입과 <code>Account</code> 타입의 인스턴스를 생성하고 lifetime을 살펴보자.</p>
+<p><img src="/post/swift/221003-14.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>Heap 영역에 <code>Traveler</code> 타입 인스턴스가 생성되며 reference count는 1로 올라간다.</p>
+<p><img src="/post/swift/221003-15.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>다음으로 account 프로퍼티를 통해 <code>Account</code> 타입 인스턴스가 생성되며 reference count는 1로 올라간다. account는 <code>Traveler</code>타입을 참조하으로 <code>Traveler</code> 인스턴스의 reference count는 2로 증가한다.</p>
+<p><img src="/post/swift/221003-16.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+>
+test함수의 3번째 라인을 통해 Traveler 타입의 account 프로퍼티에 <code>Account</code> 인스턴스를 할당한다. 이때 <code>Account</code> 인스턴스의 reference count는 2로 증가한다.</p>
+<p><img src="/post/swift/221003-17.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+>
+<code>Account</code> 타입의 마지막 사용이 끝났기 때문에 <code>Account</code> 인스턴스의 reference count는 1로 감소한다.</p>
+<p><img src="/post/swift/221003-18.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+>
+test함수의 4번째 라인을 통해 <code>Traveler</code> 타입의 마지막 사용이 끝났기 때문에 <code>Traveler</code> 인스턴스의 reference count 역시 1로 감소한다.</p>
+<p>모든 사용이 다 종료 되었지만, <code>Traveler</code> 인스턴스와 <code>Account</code> 인스턴스는 reference count가 0이 되지 않고 계속해서 1로 남아있기 때문에 메모리에서 해제되지 않고 계속해서 남아있으면서 메모리 누수(memory leak)을 발생시킨다. 이러한 상황을 <code>reference cycle</code> 이라고 한다.</p>
+<h2 id="weak-unowned-references">weak, unowned references</h2>
+<p><code>reference cycle</code>을 해결하기 위해 <code>weak</code>와 <code>unowned</code> 참조를 사용할 수 있다.
+메모리에서 해제된 인스턴스를 참조하려고 하면 <code>weak</code> reference 로 선언된 객체는 <code>nil</code>을, <code>unownded</code> reference로 선언된 객체는 <code>trap</code>을 반환한다.</p>
+<p><img src="/post/swift/221003-19.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+>
+위의 예제에서 <code>Account</code> 타입의 traveler 프로퍼티를 <code>weak</code>로 선언하면 <code>Traveler</code> 인스턴스의 reference count는 0이 되어 메모리에서 해제된다.</p>
+<p><code>Traveler</code> 인스턴스가 해제되면서 acount 프로퍼티에 할당된 reference도 해제되기 때문에 <code>Account</code> 인스턴스의 reference count는 0이 되어 메모리에서 해제된다.</p>
+<p>지금까지는 <code>weak</code>를 참조를 끊어주는데(break) 사용했지만, 만약 <code>weak</code>를 객체에 접근할 때 사용한다면 오류를 발생시킬 수 있다.</p>
+<p><img src="/post/swift/221003-20.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p><code>printSummary</code> 메서드는 Account로 이동하였다.
+<code>test()</code>에서 <code>traveler.account = account</code>에서</p>
 <h2 id="reference">Reference</h2>
 <p><a class="link" href="https://developer.apple.com/videos/play/wwdc2021/10216/"  target="_blank" rel="noopener"
     >WWDC21 - ARC in Swift: Basics and beyond</a><br>
@@ -633,7 +746,13 @@ if (!doNotTrack) {
   <ol>
     <li><a href="#object-lifetimes-and-arc">Object lifetimes and ARC</a></li>
     <li><a href="#object-lifetime-in-swift">object lifetime in Swift</a></li>
-    <li><a href="#observable-object-lifetimes">Observable object lifetimes</a></li>
+    <li><a href="#observable-object-lifetimes">Observable object lifetimes</a>
+      <ol>
+        <li><a href="#weak-and-unowned-references">weak and unowned references</a></li>
+        <li><a href="#reference-cycle-참조-사이클">reference cycle 참조 사이클?</a></li>
+      </ol>
+    </li>
+    <li><a href="#weak-unowned-references">weak, unowned references</a></li>
     <li><a href="#reference">Reference</a></li>
   </ol>
 </nav>
