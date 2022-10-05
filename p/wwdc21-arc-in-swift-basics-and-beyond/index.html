@@ -540,7 +540,27 @@ test함수의 4번째 라인을 통해 <code>Traveler</code> 타입의 마지막
 	
 ></p>
 <p><code>printSummary</code> 메서드는 Account로 이동하였다.
-<code>test()</code>에서 <code>traveler.account = account</code>에서</p>
+<code>test()</code>함수의 <code>traveler.account = account</code>에서 traveler 인스턴스가 마지막으로 사용되고 메모리에서 해제되면 account 인스턴스는 traveler 인스턴스에 접근할 수 없게 된다.</p>
+<p><img src="/post/swift/221003-21.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p><img src="/post/swift/221003-22.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
 <h2 id="reference">Reference</h2>
 <p><a class="link" href="https://developer.apple.com/videos/play/wwdc2021/10216/"  target="_blank" rel="noopener"
     >WWDC21 - ARC in Swift: Basics and beyond</a><br>

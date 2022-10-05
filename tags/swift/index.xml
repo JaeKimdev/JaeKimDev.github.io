@@ -260,7 +260,27 @@ test함수의 4번째 라인을 통해 &lt;code&gt;Traveler&lt;/code&gt; 타입�
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;printSummary&lt;/code&gt; 메서드는 Account로 이동하였다.
-&lt;code&gt;test()&lt;/code&gt;에서 &lt;code&gt;traveler.account = account&lt;/code&gt;에서&lt;/p&gt;
+&lt;code&gt;test()&lt;/code&gt;함수의 &lt;code&gt;traveler.account = account&lt;/code&gt;에서 traveler 인스턴스가 마지막으로 사용되고 메모리에서 해제되면 account 인스턴스는 traveler 인스턴스에 접근할 수 없게 된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-21.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221003-22.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/videos/play/wwdc2021/10216/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;WWDC21 - ARC in Swift: Basics and beyond&lt;/a&gt;&lt;br&gt;
