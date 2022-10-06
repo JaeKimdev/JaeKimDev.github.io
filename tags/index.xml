@@ -6,20 +6,28 @@
         <description>Recent content in Tags on Jae&#39;s Devlog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Mon, 03 Oct 2022 20:33:16 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>ARC</title>
-        <link>https://JaeKimdev.github.io/tags/arc/</link>
-        <pubDate>Mon, 03 Oct 2022 20:33:16 +0800</pubDate>
+        <lastBuildDate>Thu, 06 Oct 2022 19:14:20 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>NumberFormatter</title>
+        <link>https://JaeKimdev.github.io/tags/numberformatter/</link>
+        <pubDate>Thu, 06 Oct 2022 19:14:20 +0800</pubDate>
         
-        <guid>https://JaeKimdev.github.io/tags/arc/</guid>
+        <guid>https://JaeKimdev.github.io/tags/numberformatter/</guid>
         <description></description>
         </item>
         <item>
         <title>Swift</title>
         <link>https://JaeKimdev.github.io/tags/swift/</link>
-        <pubDate>Mon, 03 Oct 2022 20:33:16 +0800</pubDate>
+        <pubDate>Thu, 06 Oct 2022 19:14:20 +0800</pubDate>
         
         <guid>https://JaeKimdev.github.io/tags/swift/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>ARC</title>
+        <link>https://JaeKimdev.github.io/tags/arc/</link>
+        <pubDate>Mon, 03 Oct 2022 20:33:16 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/tags/arc/</guid>
         <description></description>
         </item>
         <item>
