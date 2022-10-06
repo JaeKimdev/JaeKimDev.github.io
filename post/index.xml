@@ -521,11 +521,11 @@ test함수의 4번째 라인을 통해 &lt;code&gt;Traveler&lt;/code&gt; 타입�
 &lt;/ol&gt;
 &lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/AutoLayoutWithoutConstraints.html#//apple_ref/doc/uid/TP40010853-CH8-SW1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Auto Layout Without Constraints&lt;/a&gt;
+    &gt;Auto Layout Without Constraints&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/uistackview&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Apple Developer Documentation - UIStackView&lt;/a&gt;
+    &gt;Apple Developer Documentation - UIStackView&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/videos/play/wwdc2015/218/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;WWDC - Mysteries of Auto Layout, Part 1&lt;/a&gt;
+    &gt;WWDC - Mysteries of Auto Layout, Part 1&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/LayoutUsingStackViews.html#//apple_ref/doc/uid/TP40010853-CH11-SW1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Auto Layout Cookbook - StackView&lt;/a&gt;&lt;/p&gt;
 </description>
