@@ -6,7 +6,193 @@
         <description>Recent content in Posts on Jae&#39;s Devlog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Thu, 06 Oct 2022 19:14:20 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 08 Oct 2022 13:23:50 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Auto Layout(4) - Debugging Auto Layout</title>
+        <link>https://JaeKimdev.github.io/p/auto-layout4-debugging-auto-layout/</link>
+        <pubDate>Sat, 08 Oct 2022 13:23:50 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/auto-layout4-debugging-auto-layout/</guid>
+        <description>&lt;img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" alt="Featured image of post Auto Layout(4) - Debugging Auto Layout" /&gt;&lt;h2 id=&#34;type-of-errors&#34;&gt;Type of Errors&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;충족되지 않은 레이아웃 - constrain만으로 충분하지 않은 경우&lt;/li&gt;
+&lt;li&gt;애매한 레이아웃 - 제약이 많아서(중복된 제약이 있어서) 어떤 것을 선택해야 할 지 모르는 경우&lt;/li&gt;
+&lt;li&gt;논리적 오류 - (사람의) 논리적 오류&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;unsatisfiable-layouts-충족되지-않은-레이아웃&#34;&gt;Unsatisfiable Layouts 충족되지 않은 레이아웃&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221008-1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;붉은색 화살표를 따라가면 어떤 제약이 충족되지 않는지 알 수 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;시스템이 런타임중에 충족되지 않은 레이아웃이 감지하면 아래 세가지를 진행한다.&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;충돌이 일어난 제약을 알아내고&lt;/li&gt;
+&lt;li&gt;유효한 레이아웃을 찾을 때까지, 충돌이 일어난 제약을 하나씩 파괴해 보고&lt;/li&gt;
+&lt;li&gt;콘솔창에 충돌 및 깨진 제약에 대한 로그를 남긴다&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;충족되지 않은 제약조건을 예방하는 방법은 다음과 같다.&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;뷰 계층 구조에 프로그래밍 방식으로 뷰를 추가할 때 만족할 수 없는 제약 조건이 자주 발생한다.
+&lt;ul&gt;
+&lt;li&gt;코드로 뷰를 그릴 때에 &lt;code&gt;translatesAutoresizingMaskIntoConstraints&lt;/code&gt; 메서드를 &lt;code&gt;false&lt;/code&gt;로 설정해야 하는데, 이를 놓치는 경우가 많다.&lt;/li&gt;
+&lt;li&gt;보여주고 싶은 뷰가 너무 작은 공간에 표시될 때, 자주 발생할 수 있다.&lt;br&gt;
+➡️ 최소 공간을 예측해서 만들거나, 그렇게 할 수 없는 경우에는 필수 제약 조건을 높은 proirity로 설정해서 방지할 수 있다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;ambiguous-layouts-애매한-레이아웃&#34;&gt;Ambiguous Layouts 애매한 레이아웃&lt;/h3&gt;
+&lt;p&gt;두 개 이상의 가능성을 가지고 있을 때 애매한 레이아웃이라고 한다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;애매한 레이아웃을 발견할 수 있는 방법&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;breakpoint를 걸고 lldb 디버깅 메서드를 이용해서 확인할 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;hasAmbiguousLayout&lt;/code&gt; - 애매한 레이아웃을 가지고 있는지 확인하고 true/false를 반환한다.&lt;br&gt;
+&lt;code&gt;exerciseAmbiguityInLayout&lt;/code&gt; - 애매한 레이아웃이 해결된 화면으로 바꾼다.
+&lt;code&gt;constraintsAffectingLayoutForAxis&lt;/code&gt; - 지정된 축을 따라 레이아웃에 영향을 주는 제약의 배열을 반환한다.
+&lt;code&gt;_autolayoutTrace&lt;/code&gt; - 해당 보기를 포함하는 전체 보기 계층 구조에 대한 진단 정보가 포함된 문자열을 반환한다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;logical-errors-논리적-오류&#34;&gt;Logical Errors 논리적 오류&lt;/h3&gt;
+&lt;p&gt;사람의 실수로 인해 발생하는 오류이다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;기존에 걸려있는 제약을 검토하여 빠지거나 중복되는 제약이 있는지 확인&lt;/li&gt;
+&lt;li&gt;컨텐츠 크기가 중요한 경우 CH, CR 우선순위를 높게 설정&lt;/li&gt;
+&lt;li&gt;충돌이 날 때까지 명시젝 제약 조건을 추가하여 명확하게 만든다&lt;/li&gt;
+&lt;li&gt;문제 발생 시 다른 대체 제약 조건을 추가하여 해결&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;debugging-tricks-and-tips&#34;&gt;Debugging Tricks and Tips&lt;/h2&gt;
+&lt;h3 id=&#34;log-이해&#34;&gt;Log 이해&lt;/h3&gt;
+&lt;p&gt;로그를 이해하면 디버깅을 더 쉽게 할 수 있다.
+로그 해석이 어려운 경우 로그를 복사하여 &lt;a class=&#34;link&#34; href=&#34;https://www.wtfautolayout.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Why The Failure, Auto Layout&lt;/a&gt;에 븉여 넣어보자&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;2015-08-26 14:27:54.790 Auto Layout Cookbook[10040:1906606] Unable to simultaneously satisfy constraints.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    Probably at least one of the constraints in the following list is one you don&amp;#39;t want. Try this: (1) look at each constraint and try to figure out which you don&amp;#39;t expect; (2) find the code that added the unwanted constraint or constraints and fix it. (Note: If you&amp;#39;re seeing NSAutoresizingMaskLayoutConstraints that you don&amp;#39;t understand, refer to the documentation for the UIView property translatesAutoresizingMaskIntoConstraints)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;&amp;lt;NSLayoutConstraint:0x7a87b000 H:[UILabel:0x7a8724b0&amp;#39;Name&amp;#39;(&amp;gt;=400)]&amp;gt;&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;&amp;lt;NSLayoutConstraint:0x7a895e30 UILabel:0x7a8724b0&amp;#39;Name&amp;#39;.leading == UIView:0x7a887ee0.leadingMargin&amp;gt;&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;&amp;lt;NSLayoutConstraint:0x7a886d20 H:[UILabel:0x7a8724b0&amp;#39;Name&amp;#39;]-(NSSpace(8))-[UITextField:0x7a88cff0]&amp;gt;&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;&amp;lt;NSLayoutConstraint:0x7a87b2e0 UITextField:0x7a88cff0.trailing == UIView:0x7a887ee0.trailingMargin&amp;gt;&amp;#34;,
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;#34;&amp;lt;NSLayoutConstraint:0x7ac7c430 &amp;#39;UIView-Encapsulated-Layout-Width&amp;#39; H:[UIView:0x7a887ee0(320)]&amp;gt;&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Will attempt to recover by breaking constraint
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;NSLayoutConstraint:0x7a87b000 H:[UILabel:0x7a8724b0&amp;#39;Name&amp;#39;(&amp;gt;=400)]&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Make a symbolic breakpoint at UIViewAlertForUnsatisfiableConstraints to catch this in the debugger.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in &amp;lt;UIKit/UIView.h&amp;gt; may also be helpful.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221008-2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+&lt;code&gt;( )&lt;/code&gt;에 있는 메세지를 복사해서 wtf 사이트에 붙여넣기 하고 &lt;code&gt;Go&lt;/code&gt; 버튼을 누르면 로그를 해석해준다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221008-3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+어떤 제약조건이 있는지 도식화해서 보여주기 때문에 디버깅을 수월하게 할 수 있다.&lt;/p&gt;
+&lt;h3 id=&#34;log에-식별자-추가&#34;&gt;Log에 식별자 추가&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;UILabel:0x7b58b040&#39;Name&#39;.leading&lt;/code&gt;과 같이 identifier(&lt;code&gt;Name&lt;/code&gt;)를 추가하여 로그를 보기 쉽게 만들 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221008-4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;br&gt;
+UIView 요소에 identifier를 추가하려면
+identity inspector &amp;gt; Accessibility &amp;gt; identifier에 이름을 넣어주면 된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221008-5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;br&gt;
+제약에 identifier를 추가하려면
+스토리보드에서 제약을 클릭하고 attributes inspector &amp;gt; identifier에 이름을 넣어주면 된다.&lt;/p&gt;
+&lt;h3 id=&#34;시뮬레이터에서-뷰와-제약-시각화하기&#34;&gt;시뮬레이터에서 뷰와 제약 시각화하기&lt;/h3&gt;
+&lt;p&gt;XCode메뉴 &amp;gt; Debug &amp;gt; View Debugging &amp;gt; show Alignment Rectangles 체크하면
+시뮬레이터 상에서 뷰 가장자리와 제약을 시각화 할 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221008-6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Xcode Debug bar에서 Debug View Hierarchy button을 클릭하면 뷰 계층을 볼 수 있다.
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221008-7.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/TypesofErrors.html#//apple_ref/doc/uid/TP40010853-CH17-SW1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Auto Layout Guide&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://yagom.net/courses/autolayout/lessons/debugging-auto-layout/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;야곰닷넷 - 오토레이아웃 정복하기&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>NumberFormatter</title>
         <link>https://JaeKimdev.github.io/p/numberformatter/</link>
         <pubDate>Thu, 06 Oct 2022 19:14:20 +0800</pubDate>
@@ -635,7 +821,7 @@ test함수의 4번째 라인을 통해 &lt;code&gt;Traveler&lt;/code&gt; 타입�
 &lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/uistackview&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Apple Developer Documentation - UIStackView&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/videos/play/wwdc2015/218/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;WWDC - Mysteries of Auto Layout, Part 1&lt;/a&gt;&lt;br&gt;
+    &gt;WWDC18 - Mysteries of Auto Layout, Part 1&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/LayoutUsingStackViews.html#//apple_ref/doc/uid/TP40010853-CH11-SW1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Auto Layout Cookbook - StackView&lt;/a&gt;&lt;/p&gt;
 </description>
