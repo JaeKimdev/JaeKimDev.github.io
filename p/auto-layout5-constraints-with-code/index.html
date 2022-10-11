@@ -287,7 +287,7 @@ if (!doNotTrack) {
 
 
                 <time class="article-time--reading">
-                    2 minute read
+                    4 minute read
                 </time>
             </div>
         
@@ -355,7 +355,7 @@ Button의 bottom을 SafeArea의 bottom과 같게 지정해 주면 된다.</p>
 우리는 20만큼 떨어트리고 싶기 때문에, button의 bottom 제약의 priority를 20만큼의 간격을 갖는 제약보다 낮게 지정해 주면 된다.</p>
 <h2 id="layout-anchors">Layout Anchors</h2>
 <p>각각의 attribute에 앵커를 건다. 가장 간단하고 안전한 방법이다.<br>
-약간의 한계가 존재하기 때문에 NSLayoutConstraint Class를 이용할 수도 있지만 대부분의 경우에는 Layout Anchors를 이용하면 된다.</p>
+약간의 한계가 존재하기 때문에 <code>NSLayoutConstraint Class</code>를 이용할 수도 있지만 대부분의 경우에는 <code>Layout Anchors</code>를 이용하면 된다.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -448,12 +448,194 @@ Button의 bottom을 SafeArea의 bottom과 같게 지정해 주면 된다.</p>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>주의사항으로는</p>
+</div><h3 id="pros-and-cons">Pros and Cons</h3>
+<p>앵커를 사용하면 좋은 점은</p>
+<ul>
+<li>코드가 간결해지고 어떠한 제약이 걸려있는지 코드를 읽으면서 확인할 수 있다.</li>
+<li>컴파일 타임에 오류를 확인할 수 있다.(버튼의 leading과 SafeArea의 bottom을 연결한다거나..)</li>
+</ul>
+<p>주의사항으로는</p>
 <ul>
 <li><code>.isActive = true</code> 를 해주지 않으면 제약조건이 적용되지 않는다.</li>
 <li>조건의 음수, 양수를 잘 생각해야 한다. (안쪽으로 들어와야 하면 음수, 밖으로 나와야 하면 양수)</li>
 <li>제약의 first, second Item의 관계를 잘 생각해야 한다.</li>
 </ul>
+<h2 id="nslayoutconstraint-class">NSLayoutConstraint Class</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-swift" data-lang="swift"><span class="line"><span class="cl"><span class="kd">import</span> <span class="nc">UIKit</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">ConstraintViewController</span><span class="p">:</span> <span class="n">UIViewController</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kr">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kc">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">//버튼 생성</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nv">button</span> <span class="p">=</span> <span class="n">UIButton</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">button</span><span class="p">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s">&#34;button&#34;</span><span class="p">,</span> <span class="k">for</span><span class="p">:</span> <span class="p">.</span><span class="n">normal</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">button</span><span class="p">.</span><span class="n">setTitleColor</span><span class="p">(.</span><span class="n">white</span><span class="p">,</span> <span class="k">for</span><span class="p">:</span> <span class="p">.</span><span class="n">normal</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">button</span><span class="p">.</span><span class="n">backgroundColor</span> <span class="p">=</span> <span class="p">.</span><span class="n">systemGreen</span>
+</span></span><span class="line"><span class="cl">        <span class="n">view</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">button</span><span class="p">.</span><span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="p">=</span> <span class="kc">false</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nv">safeArea</span> <span class="p">=</span> <span class="n">view</span><span class="p">.</span><span class="n">safeAreaLayoutGuide</span> <span class="c1">//safeArea의 영역을 나타내주는 가이드</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">//버튼 왼쪽이 safeArea 가이드라인 왼쪽과 20만큼 떨어져있다.</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nv">leading</span> <span class="p">=</span> <span class="n">NSLayoutConstraint</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">button</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">attribute</span><span class="p">:</span> <span class="p">.</span><span class="n">leading</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">relatedBy</span><span class="p">:</span> <span class="p">.</span><span class="bp">equal</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">toItem</span><span class="p">:</span> <span class="n">safeArea</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">attribute</span><span class="p">:</span> <span class="p">.</span><span class="n">leading</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">multiplier</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                         <span class="n">constant</span><span class="p">:</span> <span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">leading</span><span class="p">.</span><span class="n">isActive</span> <span class="p">=</span> <span class="kc">true</span>  <span class="c1">//이렇게 활성화해줘도 되고 맨 아래에서 한꺼번에 활성화할 수도 있다.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">//버튼 오른쪽 safeArea 가이드라인 오른쪽과 20만큼 떨어져있다(안으로 들어와야 하기 때문에 음수)</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nv">trailing</span> <span class="p">=</span> <span class="n">NSLayoutConstraint</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">button</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">attribute</span><span class="p">:</span> <span class="p">.</span><span class="n">trailing</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">relatedBy</span><span class="p">:</span> <span class="p">.</span><span class="bp">equal</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">toItem</span><span class="p">:</span> <span class="n">safeArea</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">attribute</span><span class="p">:</span> <span class="p">.</span><span class="n">trailing</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">multiplier</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">constant</span><span class="p">:</span> <span class="o">-</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">//버텀 앵커 제약 1 = 버튼바닥이 safeArea 가이드라인 바닥과 같다.</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nv">bottomSafeArea</span> <span class="p">=</span> <span class="n">NSLayoutConstraint</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">button</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                <span class="n">attribute</span><span class="p">:</span> <span class="p">.</span><span class="n">bottom</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                <span class="n">relatedBy</span><span class="p">:</span> <span class="p">.</span><span class="bp">equal</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                <span class="n">toItem</span><span class="p">:</span> <span class="n">safeArea</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                <span class="n">attribute</span><span class="p">:</span> <span class="p">.</span><span class="n">bottom</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                <span class="n">multiplier</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                <span class="n">constant</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bottomSafeArea</span><span class="p">.</span><span class="n">priority</span> <span class="p">=</span> <span class="p">.</span><span class="n">defaultHigh</span> <span class="c1">// Priority 750으로 낮춰주기</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 버텀 앵커 제약 2 = view의 바닥면에서 안쪽으로 20 보다 같더나 더 멀리 떨어져있다 (안쪽으로 와야 하기 때문에 -이고)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 20과 같거나 안쪽으로 더 많이 떨어져야 하기 때문에 greaterThan을 하면 0쪽으로 이동하고, lessThan을 써야함</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nv">bottomView</span> <span class="p">=</span> <span class="n">NSLayoutConstraint</span><span class="p">(</span><span class="n">item</span><span class="p">:</span> <span class="n">button</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                            <span class="n">attribute</span><span class="p">:</span> <span class="p">.</span><span class="n">bottom</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                            <span class="n">relatedBy</span><span class="p">:</span> <span class="p">.</span><span class="n">lessThanOrEqual</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                            <span class="n">toItem</span><span class="p">:</span> <span class="n">view</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                            <span class="n">attribute</span><span class="p">:</span> <span class="p">.</span><span class="n">bottom</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                            <span class="n">multiplier</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                            <span class="n">constant</span><span class="p">:</span> <span class="o">-</span><span class="mi">20</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">NSLayoutConstraint</span><span class="p">.</span><span class="n">activate</span><span class="p">([</span><span class="n">trailing</span><span class="p">,</span> <span class="n">bottomSafeArea</span><span class="p">,</span> <span class="n">bottomView</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>앵커를 사용하다 보면 가끔 안되는 경우가 있는데, 그러한 앵커의 한계점이 있을 때 <code>NSLayoutConstraint</code>을 사용하면 된다.</li>
+<li>앵커를 사용할 때와 달리, 컴파일러가 오류를 잡아주지 않기 때문에 주의해야 한다.</li>
+</ul>
+<h2 id="outro">Outro</h2>
+<p>스토리 보드에 뷰 컨트롤러를 추가하고 각각의 ViewContrller를 할당하여 확인해 보면 동일한 제약조건이 적용된 것을 볼 수 있다.</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:center"><img src="/post/swift/221009-5.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></th>
+<th style="text-align:center"><img src="/post/swift/221009-6.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></th>
+<th style="text-align:center"><img src="/post/swift/221009-7.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">StroyBoard</td>
+<td style="text-align:center">Layout Anchors</td>
+<td style="text-align:center">NSLayoutConstraint</td>
+</tr>
+</tbody>
+</table></div>
 <h2 id="reference">Reference</h2>
 <p><a class="link" href="https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/ProgrammaticallyCreatingConstraints.html#//apple_ref/doc/uid/TP40010853-CH16-SW1"  target="_blank" rel="noopener"
     >Auto Layout Guide- Programmatically Creating Constraints</a><br>
@@ -500,6 +682,25 @@ Button의 bottom을 SafeArea의 bottom과 같게 지정해 주면 된다.</p>
     <h2 class="section-title">Related content</h2>
     <div class="related-content">
         <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/auto-layout6-dynamic-stackview/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Auto Layout(6) - Dynamic StackView </h2>
+        </div>
+    </a>
+</article>
+
             
                 
 <article class="has-image">
@@ -572,25 +773,6 @@ Button의 bottom을 SafeArea의 bottom과 같게 지정해 주면 된다.</p>
 
         <div class="article-details">
             <h2 class="article-title">Auto Layout(1)</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/p/numberformatter/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" loading="lazy" data-key="" data-hash="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">NumberFormatter</h2>
         </div>
     </a>
 </article>
@@ -761,7 +943,13 @@ Button의 bottom을 SafeArea의 bottom과 같게 지정해 주면 된다.</p>
             <nav id="TableOfContents">
   <ol>
     <li><a href="#preview---스토리-보드를-이용하는-방법">Preview - 스토리 보드를 이용하는 방법</a></li>
-    <li><a href="#layout-anchors">Layout Anchors</a></li>
+    <li><a href="#layout-anchors">Layout Anchors</a>
+      <ol>
+        <li><a href="#pros-and-cons">Pros and Cons</a></li>
+      </ol>
+    </li>
+    <li><a href="#nslayoutconstraint-class">NSLayoutConstraint Class</a></li>
+    <li><a href="#outro">Outro</a></li>
     <li><a href="#reference">Reference</a></li>
   </ol>
 </nav>
