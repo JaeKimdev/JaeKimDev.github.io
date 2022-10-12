@@ -6,7 +6,162 @@
         <description>Recent content on Jae&#39;s Devlog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Mon, 10 Oct 2022 16:30:52 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 11 Oct 2022 21:29:28 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Auto Layout(7) - Size Class / Safe Area / Layout Margins</title>
+        <link>https://JaeKimdev.github.io/p/auto-layout7-size-class-/-safe-area-/-layout-margins/</link>
+        <pubDate>Tue, 11 Oct 2022 21:29:28 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/auto-layout7-size-class-/-safe-area-/-layout-margins/</guid>
+        <description>&lt;img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" alt="Featured image of post Auto Layout(7) - Size Class / Safe Area / Layout Margins" /&gt;&lt;h2 id=&#34;size-class&#34;&gt;Size Class&lt;/h2&gt;
+&lt;p&gt;사이즈 클래스는 대강의 사이즈를 나타낸다. &lt;code&gt;Regular&lt;/code&gt;, &lt;code&gt;Compact&lt;/code&gt;로 표현.
+화면의 특정 길이에 따라서 제약을 추가하거나 무력화 할 수 있다.&lt;/p&gt;
+&lt;p&gt;아이패드와 iOS를 함께 사용하는 유니버셜 앱을 만들 때 하나의 스토리 보드로 구현하는 경우, 혹은 아이패드에서 split view를 대응하는 경우에 유용하다. (보통은 아이패드는 다른 스토리보드로 작업하는 경우가 더 많다.)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221012-1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+제약이나 요소를 선택 한 후 &lt;code&gt;+&lt;/code&gt; 버튼을 눌러서 확인/설정이 가능하다.&lt;/p&gt;
+&lt;p&gt;Regular와 Compact에 대한 자세한 내용은 &lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/design/human-interface-guidelines/foundations/layout/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple Developer Degisn - Layout&lt;/a&gt;페이지 하단에서 확인할 수 있다. 각각의 기기가 가로/세모 모드에서 어떤 사이즈를 갖는지 나와있다.&lt;/p&gt;
+&lt;h2 id=&#34;safe-area--layout-margins&#34;&gt;Safe Area &amp;amp; Layout Margins&lt;/h2&gt;
+&lt;h3 id=&#34;safe-area&#34;&gt;Safe Area&lt;/h3&gt;
+&lt;p&gt;컨텐츠를 안전하게 보여줄 수 있는 영역&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221012-2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+기기 별로 서로다른 safe area를 가지고 있다.&lt;br&gt;
+기기 크기 / 홈버튼 / 홈바 / 노치 등에 따라서 잘리지 않고 안전하게 보여줄 수 있는 영역을 나타낸다.&lt;/p&gt;
+&lt;p&gt;필요에 따라 Safe Area 변경도 가능하다.
+가령 앱 안에 사이드 바나 툴바를 사용한다고 하면 &lt;code&gt;additionalSafeAreaInsets&lt;/code&gt; 프로퍼티를 수정해서 safe area를 변경할 수 있다.
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221012-3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;layout-margins&#34;&gt;Layout Margins&lt;/h3&gt;
+&lt;p&gt;컨텐츠와 뷰의 경계 사이의 간격을 나타낸다.
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221012-4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+왼쪽은 margin을 동일하게 6으로 설정한 경우, 오른쪽은 각각 다른 값으로 설정한 경우이다.&lt;/p&gt;
+&lt;p&gt;제약을 추가할 때 &lt;code&gt;Constrain to margins&lt;/code&gt;를 체크하면 margin을 기준으로 제약을 추가할 수 있다.&lt;/p&gt;
+&lt;p&gt;기본적으로 margin의 방향은 top, bottom, left, right로 설정되어 있지만, 언어의 방향을 따라(아랍어는 오른쪽에서 왼쪽으로 읽는다) &lt;code&gt;directionalLayoutMargins&lt;/code&gt; 프로퍼티를 사용해서 top, bottom, leading, trailing로 설정할 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221012-5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+MapView를 하나 올려두고 제약을 걸어보도록 하자. 맵킷이 올라갈 부모뷰와 관계를 맺어야 하기 때문에 SafeArea가 아닌 View를 기준으로 제약을 설정해야 한다.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221012-6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221012-8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221012-7.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221012-9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;동일하게 제약을 걸어주었지만, 왼쪽은 &lt;code&gt;Constrain to margins&lt;/code&gt;를 체크하지 않았고, 오른쪽은 체크했다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221012-10.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;br&gt;
+View에 기본적으로 margin이 걸려있다고 볼 수 있는데 뷰를 선택하고 size inspector를 보면 &lt;code&gt;Default&lt;/code&gt;로 margin이 설정되어 있고, &lt;code&gt;Language directional&lt;/code&gt;을 선택하여 보면 20씩 걸려 있는 것을 확인할 수 있다.&lt;/p&gt;
+&lt;p&gt;Safe Area &amp;amp; Layout Margins에 대해 조금 더 알아보고 싶다면 &lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/videos/play/wwdc2018/235/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;WWDC2018 - UIKit: Apps for Every Size and Shape&lt;/a&gt;을 참고해봐도 좋겠다.&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/Size-ClassSpecificLayout.html#//apple_ref/doc/uid/TP40010853-CH26-SW1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Auto Layout Guide - Size Class Specific Layout&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/design/human-interface-guidelines/foundations/layout/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple Developer Degisn - Layout&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/uiview/positioning_content_relative_to_the_safe_area&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple Developer - Positioning content relative to the safe area&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/documentation/uikit/uiview/positioning_content_within_layout_margins&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple Developer - Positioning content within layout margins&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/videos/play/wwdc2018/235/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;WWDC2018 - UIKit: Apps for Every Size and Shape&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://yagom.net/courses/autolayout/lessons/debugging-auto-layout/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;야곰닷넷 - 오토레이아웃 정복하기&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Auto Layout(6) - Dynamic StackView </title>
         <link>https://JaeKimdev.github.io/p/auto-layout6-dynamic-stackview/</link>
         <pubDate>Mon, 10 Oct 2022 16:30:52 +0800</pubDate>
