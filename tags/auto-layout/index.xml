@@ -82,8 +82,8 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;ul&gt;
-&lt;li&gt;가로 스크롤을 하고 싶다면 스크롤 뷰와 컨텐츠 뷰의 너비를 동일하게 설정&lt;/li&gt;
-&lt;li&gt;세로 스크롤을 하고 싶다면 스크롤 뷰와 컨텐츠 뷰의 높이를 동일하게 설정&lt;/li&gt;
+&lt;li&gt;가로 스크롤을 하고 싶다면 스크롤 뷰와 컨텐츠 뷰의 높이를 동일하게 설정&lt;/li&gt;
+&lt;li&gt;세로 스크롤을 하고 싶다면 스크롤 뷰와 컨텐츠 뷰의 너비를 동일하게 설정&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221013-4.png&#34;
 	
