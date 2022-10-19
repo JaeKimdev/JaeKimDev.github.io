@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Dev, HIG on Jae&#39;s Devlog</title>
+        <link>https://JaeKimdev.github.io/categories/dev-hig/</link>
+        <description>Recent content in Dev, HIG on Jae&#39;s Devlog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 04 Sep 2022 16:02:57 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/categories/dev-hig/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Alert, ActionSheet</title>
+        <link>https://JaeKimdev.github.io/p/alert-actionsheet/</link>
+        <pubDate>Sun, 04 Sep 2022 16:02:57 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/alert-actionsheet/</guid>
+        <description>&lt;img src="https://res.cloudinary.com/dwrejmale/image/upload/v1658929900/swift_dpaoqx.png" alt="Featured image of post Alert, ActionSheet" /&gt;&lt;p&gt;Foundation 프레임워크에서 Swift 문법 공부만 하다가 이제 드디어 UIKit을 사용해보게 되었다.&lt;/p&gt;
+&lt;p&gt;Alert을 구현해보고 싶었는데 어떻게 할지 몰라서 찾아보고 미래의 나를 위해 포스팅한다.&lt;/p&gt;
+&lt;h2 id=&#34;alert---human-interface-guidelines&#34;&gt;Alert - Human Interface Guidelines&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220904-1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;An alert gives people critical information they need right away.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;HIG 문서에서는 &lt;code&gt;Alert&lt;/code&gt;을 사람들에게 필요한 정보를 즉시 제공하는 컴포넌트라고 정의되어 있다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;alerts display a title, optional informative text, and up to three buttons&lt;/code&gt;&lt;br&gt;
+➡️ 제목과 선택적 정보 텍스트, 최대 3개의 버튼을 표시할 수 있다. (하지만 얼럿에서 3개의 버튼은 보지 못한거 같다.)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Place buttons where people expect. In general, place the button people are most likely to choose on the trailing side in a row of buttons or at the top in a stack of buttons. Always place the default button on the trailing side of a row or at the top of a stack. Cancel buttons are typically on the leading side of a row or at the bottom of a stack.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;✅ 사람들이 기대하는 곳에 버튼을 놓고 - 일반적으로 &lt;code&gt;사용자가 선택할 가능성이 가장 높은 버튼&lt;/code&gt;을 &lt;strong&gt;제일 뒤&lt;/strong&gt;에 위치시키고, &lt;code&gt;취소 버튼&lt;/code&gt;은 일반적으로 &lt;strong&gt;맨 앞&lt;/strong&gt;에 위치.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Identify destructive buttons. If an alert button results in a destructive action, like deleting content, specify the destructive button style to help people recognize it.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;✅ 얼럿 버튼이 내용 삭제와 같은 파괴적인 결과를 나타낸다면 &lt;code&gt;destructive&lt;/code&gt; 스타일로 지정하여 사람들이 인지할 수 있도록 한다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Always use “Cancel” to title a button that cancels the alert’s action.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;✅ 얼럿을 취소하는 버튼의 이름은 항상 &lt;code&gt;Cancel(취소)&lt;/code&gt;로 한다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;you can use “OK” for acceptance, avoiding “Yes” and “No”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;✅ 간단한 승인을 위해서 &lt;code&gt;OK&lt;/code&gt;를 사용해도 되지만 &lt;code&gt;Yes(예)&lt;/code&gt;와 &lt;code&gt;No(아니오)&lt;/code&gt;를 사용하지 않는다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Enable alternative ways to cancel an alert when it makes sense.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;✅ 경고를 취소하는 다른 방법을 활성화한다. iOS에서는 홈 화면으로 이동하거나 연결된 키보드의 &lt;code&gt;esc&lt;/code&gt;키를 누르는 방법으로도 취소할 수 있어야 한다.&lt;/p&gt;
+&lt;h2 id=&#34;alert-만들기&#34;&gt;Alert 만들기&lt;/h2&gt;
+&lt;h3 id=&#34;ibaction-만들기&#34;&gt;IBAction 만들기&lt;/h3&gt;
+&lt;p&gt;StoryBoard에서 버튼을 하나 생성해주고 &lt;code&gt;Ctrl&lt;/code&gt;버튼을 누른채로 코드쪽으로 드래그 하면 IBAction이 생성된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220904-2.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220904-3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;IBAction 함수가 생기는데 이 함수 내부에 코드를 작성해줄 것이다.&lt;/p&gt;
+&lt;h3 id=&#34;alert-설정&#34;&gt;Alert 설정&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;alret&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UIAlertController&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;알림 제목&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;알림창 내용&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;preferredStyle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;alert&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;preferredStyle&lt;/code&gt;에 &lt;code&gt;.alert&lt;/code&gt;를 사용하면 알림창이 나오고, &lt;code&gt;.actionSheet&lt;/code&gt;을 사용하면 액션시트가 나온다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220904-4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+아래에서 위로 올라오는 이렇게 생긴 녀석이 &lt;code&gt;actionSheet&lt;/code&gt;이다.&lt;/p&gt;
+&lt;h3 id=&#34;alert에-들어갈-action-버튼-설정&#34;&gt;Alert에 들어갈 Action 버튼 설정&lt;/h3&gt;
+&lt;p&gt;얼럿에서 노출되는 버튼을 따로 구현해 주어야 한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;ok&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UIAlertAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;OK&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;style&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;handler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;cancel&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UIAlertAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Cancel&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;style&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;destructive&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;handler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;style&lt;/strong&gt;에서 &lt;code&gt;cancel&lt;/code&gt;이 &lt;code&gt;default&lt;/code&gt;보다 굵은 글씨로 노출되고, &lt;code&gt;destructive&lt;/code&gt;는 빨간색으로 노출된다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;handler&lt;/strong&gt;에서는 사용자가 버튼을 누르면 어떤 일이 일어날지 정의해준다. 클로저를 열어서 버튼 클릭 시 작동할 코드를 적어주면 된다. &lt;code&gt;nil&lt;/code&gt; 작성 시 얼럿만 닫히고 아무 일도 일어나지 않는다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;something&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UIAlertAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;DoSomthing&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                              &lt;span class=&#34;n&#34;&gt;style&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                              &lt;span class=&#34;n&#34;&gt;handler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;action&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;bp&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;DoSomthing&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;alert에-액션-버튼을-추가해주기&#34;&gt;Alert에 액션 버튼을 추가해주기&lt;/h3&gt;
+&lt;p&gt;얼럿의 제목과 메세지를 보여주는 얼럿 프레임(?)과 얼럿의 버튼이 될 액션 버튼을 정의해 주었으니, 이제 얼럿에 추가해주는 작업을 해 주어야 한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;alret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;addAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cancel&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;alret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;addAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ok&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;❗️ 추가하는 순서대로 얼럿 버튼이 노출된다. 처음 읽었던 HIG에 따르면 취소 버튼은 제일 앞에 위치해야 하기 때문에 제일 먼저 추가해주어야 한다.&lt;br&gt;
+액션버튼을 정의해 줄 때 cancel 버튼의 스타일을 &lt;code&gt;destructive&lt;/code&gt;로 설정했기 때문에 빨간색으로 노출된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220904-5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;alret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;addAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cancel&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;alret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;addAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ok&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;alret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;addAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;something&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;handler&lt;/code&gt;에 클로저를 적용한 &lt;code&gt;something&lt;/code&gt;도 추가해 보았다. HIG에 버튼은 최대 3개까지 추가할 수 있다고 해서 어떻게 노출되는지 궁금했다. &lt;code&gt;DoSomething&lt;/code&gt;을 선택하면 클로저에 작성한 print문이 실행된다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220904-6.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;alert-view-화면에-뜰-수-있게-설정&#34;&gt;Alert view 화면에 뜰 수 있게 설정&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;present&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;alret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;animated&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;completion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;present&lt;/code&gt;메소드를 사용해서 얼럿을 뜨게 만들어 준다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;animated&lt;/strong&gt;는 얼럿이 노출될 때 어떤 애니메이션을 적용할지 설정한다.
+&lt;code&gt;true&lt;/code&gt;로 설정하면 부드럽게 뜨고, &lt;code&gt;false&lt;/code&gt;로 설정하면 바로 뜨게 된다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;completion&lt;/strong&gt;은 &lt;code&gt;completion: { })&lt;/code&gt; 형태로 클로저 안에 코드를 작성해 줄 수 있다.
+해당 얼럿이 노출되고 추가로 할 일을 지정해 줄 수 있겠다.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;animated-&lt;code&gt;true&lt;/code&gt;&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;animated-&lt;code&gt;false&lt;/code&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220904-7.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/220904-8.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;요약&#34;&gt;요약&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;얼럿 Frame을 만들어 준다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;alret&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UIAlertController&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;알림 제목&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;알림창 내용&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;preferredStyle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;alert&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;​&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;액션 버튼을 정의해준다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;ok&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UIAlertAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;OK&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;style&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;handler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;cancel&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UIAlertAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Cancel&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;style&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cancel&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;handler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;얼럿 frame과 버튼을 addAction 메서드를 이용해서 바인딩해 준다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;alret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;addAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cancel&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;alret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;addAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ok&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;&lt;code&gt;present&lt;/code&gt;메소드를 사용해서 얼럿을 뜨게 만들어 준다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;present&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;alret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;animated&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;completion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;full-code&#34;&gt;Full Code&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-swift&#34; data-lang=&#34;swift&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kr&#34;&gt;@IBAction&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;showAlert&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sender&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UIButton&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;alret&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UIAlertController&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;알림제목&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;알림창 내용&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;preferredStyle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;alert&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;ok&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UIAlertAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;OK&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;style&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;handler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;cancel&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UIAlertAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Cancel&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;style&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cancel&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;handler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;alret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;addAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cancel&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;alret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;addAction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ok&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;present&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;alret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;animated&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;completion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/design/human-interface-guidelines/components/presentation/alerts/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple HIG - Alerts&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/design/human-interface-guidelines/components/presentation/action-sheets&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Apple HIG - Action sheets&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zeddios.tistory.com/111?category=682195&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Zedd - 왕초보를 위한 Alert View사용해보기&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://leeari95.tistory.com/53&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Ari - Alert 알림창을 만들어보자&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
