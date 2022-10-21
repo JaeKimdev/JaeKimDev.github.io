@@ -6,20 +6,28 @@
         <description>Recent content in Tags on Jae&#39;s Devlog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Thu, 13 Oct 2022 11:15:46 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 19 Oct 2022 20:19:54 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Swift</title>
+        <link>https://JaeKimdev.github.io/tags/swift/</link>
+        <pubDate>Wed, 19 Oct 2022 20:19:54 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/tags/swift/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>tableView</title>
+        <link>https://JaeKimdev.github.io/tags/tableview/</link>
+        <pubDate>Wed, 19 Oct 2022 20:19:54 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/tags/tableview/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Auto Layout</title>
         <link>https://JaeKimdev.github.io/tags/auto-layout/</link>
         <pubDate>Thu, 13 Oct 2022 11:15:46 +0800</pubDate>
         
         <guid>https://JaeKimdev.github.io/tags/auto-layout/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Swift</title>
-        <link>https://JaeKimdev.github.io/tags/swift/</link>
-        <pubDate>Thu, 13 Oct 2022 11:15:46 +0800</pubDate>
-        
-        <guid>https://JaeKimdev.github.io/tags/swift/</guid>
         <description></description>
         </item>
         <item>
