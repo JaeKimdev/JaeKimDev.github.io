@@ -6,7 +6,62 @@
         <description>Recent content in Swift on Jae&#39;s Devlog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Wed, 19 Oct 2022 20:19:54 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/tags/swift/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 24 Oct 2022 08:23:40 +0800</lastBuildDate><atom:link href="https://JaeKimdev.github.io/tags/swift/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Xcode PlayGround가 실행되지 않을 때</title>
+        <link>https://JaeKimdev.github.io/p/xcode-playground%EA%B0%80-%EC%8B%A4%ED%96%89%EB%90%98%EC%A7%80-%EC%95%8A%EC%9D%84-%EB%95%8C/</link>
+        <pubDate>Mon, 24 Oct 2022 08:23:40 +0800</pubDate>
+        
+        <guid>https://JaeKimdev.github.io/p/xcode-playground%EA%B0%80-%EC%8B%A4%ED%96%89%EB%90%98%EC%A7%80-%EC%95%8A%EC%9D%84-%EB%95%8C/</guid>
+        <description>&lt;img src="https://res.cloudinary.com/dwrejmale/image/upload/v1659796501/img1.daumcdn_yg7bkm.png" alt="Featured image of post Xcode PlayGround가 실행되지 않을 때" /&gt;&lt;p&gt;Xcode에서 Playground를 이용하여 코드를 실행하려고 하면 아무것도 출력이 되지 않고 계속해서 빙글빙글 돌고 있는 현상이 나타났다.&lt;/p&gt;
+&lt;p&gt;여러번 재실행을 하고 몇분 동안 기다려 보아도 잘 실행이 되지 않아 그 동안 플레이그라운드를 쓰지 않고 있었는데
+concurrent programing 공부를 하면서 플레이그라운드를 찍어볼 일이 있어 구글링해 보았더니 다른 사람들에게도 비슷한 문제가 있었다.&lt;/p&gt;
+&lt;h2 id=&#34;intel-mac&#34;&gt;intel Mac&lt;/h2&gt;
+&lt;p&gt;해결방법은 &lt;code&gt;Apple&#39;s tutorial playground&lt;/code&gt;에 올라와있는 파일을 다운로드 해서 사용하면 된다.&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/sample-code/swift/downloads/Start-Dev-iOS-Apps-01.zip&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;💾 developer.apple.com에서 파일 다운로드&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221024-1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+위에 작성되어 있는 내용을 지우고 실행해보면 된다!!&lt;/p&gt;
+&lt;h2 id=&#34;m1-mac&#34;&gt;M1 Mac&lt;/h2&gt;
+&lt;p&gt;인텔 맥 만의 문제라고 생각했는데 m1 맥에서도 같은 문제가 발생하는 것 같다.&lt;/p&gt;
+&lt;p&gt;m1에서는 Rosseta를 사용하지 않도록 하면 해결할 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221024-2.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;
+&lt;img src=&#34;https://JaeKimdev.github.io/post/swift/221024-3.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;응용프로그램 ➡️ Xcode 우클릭 ➡️ 정보 가져오기 ➡️ &lt;code&gt;Open using Rosetta&lt;/code&gt; 체크 해제&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/forums/thread/3672&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://developer.apple.com/forums/thread/3672&lt;/a&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/68063484/xcode-12-5-playgrounds-not-displaying-any-outputs-or-running-code&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://stackoverflow.com/questions/68063484/xcode-12-5-playgrounds-not-displaying-any-outputs-or-running-code&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Table View</title>
         <link>https://JaeKimdev.github.io/p/table-view/</link>
         <pubDate>Wed, 19 Oct 2022 20:19:54 +0800</pubDate>
